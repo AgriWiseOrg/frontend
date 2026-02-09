@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, TrendingUp, MapPin, Calendar, CheckCircle, Loader2, BarChart2, Zap } from 'lucide-react';
+import { ArrowLeft, TrendingUp, MapPin, Calendar, CheckCircle, Loader2, BarChart2, Zap, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
+import QualityPriceCalculator from './QualityPriceCalculator';
 
 const PRODUCTS = [
   'Wheat', 'Rice', 'Corn', 'Potato', 'Tomato', 'Onion', 'Soybean',
@@ -16,7 +17,7 @@ const REGIONS = ['North India', 'South India', 'East India', 'West India', 'Cent
 
 const MarketPrices = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('live'); // 'live', 'trends', 'demand', 'predict'
+  const [activeTab, setActiveTab] = useState('live'); // 'live', 'trends', 'demand', 'predict', 'quality'
 
   // Data States
   const [marketPrices, setMarketPrices] = useState([]);
@@ -56,6 +57,9 @@ const MarketPrices = () => {
       }
     } catch (err) {
       console.error("Failed to fetch crops list", err);
+      // Fallback on error to prevent infinite loading
+      fetchHistory('Wheat');
+      fetchForecast('Wheat');
     }
   };
 
@@ -161,6 +165,7 @@ const MarketPrices = () => {
               {activeTab === 'trends' && 'Price Trends 📊'}
               {activeTab === 'demand' && 'Demand Forecasts ⚡'}
               {activeTab === 'predict' && 'AI Price Predictor 🤖'}
+              {activeTab === 'quality' && 'Quality Price Calculator ✨'}
             </h1>
           </div>
 
@@ -170,7 +175,8 @@ const MarketPrices = () => {
               { id: 'live', label: 'Live Rates', icon: Zap },
               { id: 'trends', label: 'Trends', icon: BarChart2 },
               { id: 'demand', label: 'Demand', icon: TrendingUp },
-              { id: 'predict', label: 'AI Predictor', icon: CheckCircle }
+              { id: 'predict', label: 'AI Predictor', icon: CheckCircle },
+              { id: 'quality', label: 'Quality Check', icon: Award }
             ].map(tab => (
               <button
                 key={tab.id}
@@ -253,7 +259,8 @@ const MarketPrices = () => {
                   </div>
                   {(() => {
                     const data = historyData.data;
-                    const maxPrice = 7000;
+                    const prices = data.map(d => d.price || 0);
+                    const maxPrice = Math.max(...prices, 1000) * 1.1; // Dynamic max price with 10% buffer
                     const width = 100; // viewbox units
                     const height = 100; // viewbox units
                     const padding = 5;
@@ -431,9 +438,6 @@ const MarketPrices = () => {
                   </div>
                 )}
               </div>
-
-
-
             </div>
           )}
 
@@ -566,6 +570,16 @@ const MarketPrices = () => {
                   <p className="text-xs text-orange-700">Predictions are based on market history and logic. Actual market prices may vary due to unforeseen circumstances like weather disasters.</p>
                 </div>
               </div>
+            </motion.div>
+          )}
+
+          {/* 5. QUALITY PRICE CALCULATOR */}
+          {activeTab === 'quality' && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <QualityPriceCalculator />
             </motion.div>
           )}
 
