@@ -45,11 +45,16 @@ const MarketPrices = () => {
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) {
         setAvailableCrops(data);
-        setSelectedCrop(data[0]);
-        setSelectedDemandCrop(data[0]);
-        fetchHistory(data[0]);
-        fetchForecast(data[0]);
-        fetchDemand(data[0]);
+        // Do not force select first crop if already selected by user or restored
+        if (!selectedCrop || !data.includes(selectedCrop)) {
+          setSelectedCrop(data[0]);
+          fetchHistory(data[0]);
+        }
+        if (!selectedDemandCrop || !data.includes(selectedDemandCrop)) {
+          setSelectedDemandCrop(data[0]);
+          fetchForecast(data[0]);
+          fetchDemand(data[0]);
+        }
       } else {
         // Fallback if empty
         fetchHistory('Wheat');
