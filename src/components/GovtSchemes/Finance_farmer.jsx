@@ -26,7 +26,7 @@ const FinanceFarmer = ({ user }) => {
       try {
         setLoading(true);
         // 1. Fetch Schemes
-        const schemesRes = await axios.get('http://localhost:5001/api/schemes');
+        const schemesRes = await axios.get('http://localhost:5001/api/finance');
         setProviders(Array.isArray(schemesRes.data) ? schemesRes.data : []);
 
         // 2. Fetch User's Applications (if user is logged in)
@@ -109,12 +109,12 @@ const FinanceFarmer = ({ user }) => {
         {/* Navigation */}
         <div className="flex items-center mb-8">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/govt-schemes')}
             className="flex items-center justify-center w-10 h-10 bg-white rounded-xl shadow-sm border border-slate-100 text-slate-600 hover:text-indigo-600 transition-all active:scale-90"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <span className="ml-4 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Back to Dashboard</span>
+          <span className="ml-4 font-bold text-slate-400 uppercase tracking-widest text-[10px]">Back to Hub</span>
         </div>
 
         {/* Header */}
@@ -176,8 +176,8 @@ const FinanceFarmer = ({ user }) => {
                       onClick={() => !isApplied && !isSubmitting && handleApply(p)}
                       disabled={isApplied || isSubmitting}
                       className={`w-full p-5 rounded-[1.5rem] font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${isApplied
-                          ? "bg-emerald-100 text-emerald-600 cursor-default"
-                          : "bg-slate-900 text-white hover:bg-indigo-600 shadow-lg shadow-slate-200"
+                        ? "bg-emerald-100 text-emerald-600 cursor-default"
+                        : "bg-slate-900 text-white hover:bg-indigo-600 shadow-lg shadow-slate-200"
                         } ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
                     >
                       {isSubmitting ? (

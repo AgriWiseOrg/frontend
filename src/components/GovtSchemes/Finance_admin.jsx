@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { 
-  ChevronLeft, Plus, Trash2, X, LayoutDashboard, Settings, Mail, Clock, Download 
+import {
+  ChevronLeft, Plus, Trash2, X, LayoutDashboard, Settings, Mail, Clock, Download, ArrowLeft
 } from 'lucide-react';
 
 const FinanceAdmin = () => {
   const navigate = useNavigate();
   const [schemes, setSchemes] = useState([]);
-  const [requests, setRequests] = useState([]); 
-  const [activeTab, setActiveTab] = useState('manager'); 
+  const [requests, setRequests] = useState([]);
+  const [activeTab, setActiveTab] = useState('manager');
   const [showAddForm, setShowAddForm] = useState(false);
   const [newScheme, setNewScheme] = useState({ name: '', type: '', interest: '', color: 'indigo' });
 
@@ -20,7 +20,7 @@ const FinanceAdmin = () => {
 
   const fetchSchemes = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/schemes');
+      const res = await axios.get('http://localhost:5001/api/finance');
       setSchemes(res.data);
     } catch (err) { console.error(err); }
   };
@@ -41,7 +41,7 @@ const FinanceAdmin = () => {
 
     // Define CSV Headers
     const headers = ["Farmer Email", "Scheme Name", "Interest Rate", "Applied Date"];
-    
+
     // Map data to CSV rows
     const rows = requests.map(req => [
       req.farmerEmail,
@@ -71,7 +71,7 @@ const FinanceAdmin = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/schemes/add', newScheme);
+      const res = await axios.post('http://localhost:5001/api/finance/add', newScheme);
       setSchemes([...schemes, res.data]);
       setShowAddForm(false);
       setNewScheme({ name: '', type: '', interest: '', color: 'indigo' });
@@ -80,7 +80,7 @@ const FinanceAdmin = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm("Delete this scheme?")) {
-      await axios.delete(`http://localhost:5001/api/schemes/${id}`);
+      await axios.delete(`http://localhost:5001/api/finance/${id}`);
       setSchemes(schemes.filter(s => s._id !== id));
     }
   };
@@ -91,6 +91,9 @@ const FinanceAdmin = () => {
         {/* Header with Tab Switcher */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div>
+            <button onClick={() => navigate('/govt-schemes')} className="flex items-center gap-2 mb-2 text-indigo-700 font-bold">
+              <ArrowLeft size={20} /> Back to Hub
+            </button>
             <h1 className="text-4xl font-black tracking-tight text-slate-900">
               Finance <span className="text-indigo-600 uppercase tracking-tighter">{activeTab}</span>
             </h1>
@@ -147,7 +150,7 @@ const FinanceAdmin = () => {
           /* APPLICATIONS DASHBOARD VIEW */
           <div className="space-y-6">
             <div className="flex justify-end">
-              <button 
+              <button
                 onClick={downloadCSV}
                 className="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
               >
@@ -193,15 +196,15 @@ const FinanceAdmin = () => {
             <div className="bg-white rounded-[2.5rem] p-8 w-full max-w-md shadow-2xl">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight">Add New Scheme</h2>
-                <button onClick={() => setShowAddForm(false)} className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={20}/></button>
+                <button onClick={() => setShowAddForm(false)} className="p-2 bg-slate-100 rounded-full hover:bg-slate-200 transition-all"><X size={20} /></button>
               </div>
               <form onSubmit={handleAdd} className="space-y-4">
-                <input required placeholder="Scheme Name" className="w-full p-4 bg-slate-50 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all" 
-                  onChange={e => setNewScheme({...newScheme, name: e.target.value})} />
-                <input required placeholder="Category (e.g. Loan, Subsidy)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none ring-1 ring-slate-200" 
-                  onChange={e => setNewScheme({...newScheme, type: e.target.value})} />
-                <input required placeholder="Interest (e.g. 4.5% p.a.)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none ring-1 ring-slate-200" 
-                  onChange={e => setNewScheme({...newScheme, interest: e.target.value})} />
+                <input required placeholder="Scheme Name" className="w-full p-4 bg-slate-50 rounded-2xl outline-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 transition-all"
+                  onChange={e => setNewScheme({ ...newScheme, name: e.target.value })} />
+                <input required placeholder="Category (e.g. Loan, Subsidy)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none ring-1 ring-slate-200"
+                  onChange={e => setNewScheme({ ...newScheme, type: e.target.value })} />
+                <input required placeholder="Interest (e.g. 4.5% p.a.)" className="w-full p-4 bg-slate-50 rounded-2xl outline-none ring-1 ring-slate-200"
+                  onChange={e => setNewScheme({ ...newScheme, interest: e.target.value })} />
                 <button type="submit" className="w-full bg-indigo-600 text-white p-4 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100">Save Product</button>
               </form>
             </div>
