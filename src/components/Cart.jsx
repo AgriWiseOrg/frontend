@@ -77,7 +77,7 @@ const Cart = () => {
                             <h3 className="font-bold text-slate-800 text-lg capitalize">{item.crop}</h3>
                             <p className="font-black text-lg text-slate-900">₹{item.price * item.quantity}</p>
                           </div>
-                          <p className="text-sm text-emerald-600 font-medium">Farmer: {item.farmer}</p>
+                          <p className="text-sm text-emerald-600 font-medium">Farmer: {item.farmer || item.farmerName || "Verified Local Farmer"}</p>
                           <p className="text-xs text-slate-400 mt-1">Unit Price: ₹{item.price}</p>
                         </div>
 
