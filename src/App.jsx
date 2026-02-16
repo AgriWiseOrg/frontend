@@ -1,7 +1,7 @@
 // AgriWise App - Support System Updated [v2]
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
+//This is app.jsx file
 // General Components
 import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
