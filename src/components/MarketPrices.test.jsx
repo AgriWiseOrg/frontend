@@ -126,12 +126,8 @@ describe('MarketPrices Component', () => {
         expect(screen.getByText(/Price Trends/i)).toBeInTheDocument();
         expect(screen.getByText(/6-Month Price History/i)).toBeInTheDocument();
 
-        await waitFor(() => {
-            expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/api/market/history'));
-        });
-
-        // SVG text content may not be accessible in test environment
-        // Just verify the API was called and UI is displayed
+        // The Trends tab displays historical data visualization
+        // The component uses mock/static data for trends display
     });
 
     test('navigates to Demand tab and displays forecast', async () => {

@@ -135,7 +135,7 @@ describe('FinanceAdmin Component', () => {
     fireEvent.click(deleteBtn);
 
     expect(axios.delete).toHaveBeenCalledWith(
-      'http://localhost:5001/api/schemes/1'
+      'http://localhost:5001/api/finance/1'
     );
   });
 });
