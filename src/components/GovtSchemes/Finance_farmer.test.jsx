@@ -1,3 +1,11 @@
+/*
+Unit Tests for FinanceFarmer:
+- Checks if schemes load correctly
+- Verifies Apply button appears
+- Tests apply API call on click
+- Confirms UI updates to "Applied"
+*/
+
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import FinanceFarmer from './Finance_farmer';

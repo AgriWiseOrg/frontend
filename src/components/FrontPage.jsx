@@ -30,7 +30,7 @@ const FrontPage = ({ onLogout }) => {
   useEffect(() => {
     const fetchMarketTicker = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/market/prices');
+        const response = await fetch('http://localhost:5001/api/market/prices');    
         const data = await response.json();
         
         if (data && data.length > 0) {
@@ -80,7 +80,7 @@ const FrontPage = ({ onLogout }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const fetchLiveWeather = useCallback(async (lat, lon) => {
+  const fetchLiveWeather = useCallback(async (lat, lon) => {                        //WEATHER DATA
     setLoadingWeather(true);
     try {
       const response = await fetch(
@@ -129,7 +129,7 @@ const FrontPage = ({ onLogout }) => {
     { title: 'Support', icon: <LifeBuoy />, desc: 'Expert help', color: 'bg-rose-600', path: '/support' },
   ];
 
-  const filteredItems = menuItems.filter(item => 
+  const filteredItems = menuItems.filter(item =>          //This is for Search Functionality
     item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.desc.toLowerCase().includes(searchQuery.toLowerCase())
   );

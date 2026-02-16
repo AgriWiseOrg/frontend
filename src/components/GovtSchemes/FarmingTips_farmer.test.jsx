@@ -1,3 +1,9 @@
+/*
+Unit Tests for FarmingTips Farmer:
+- Loads and displays tips
+- Verifies back navigation to hub
+*/
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FarmingTips from './FarmingTips_farmer';

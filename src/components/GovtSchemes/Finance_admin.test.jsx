@@ -1,3 +1,12 @@
+/*
+Unit Tests for FinanceAdmin:
+- Loads and displays schemes
+- Switches to farmer requests tab
+- Opens add scheme modal
+- Adds a new scheme
+- Deletes an existing scheme
+*/
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FinanceAdmin from './Finance_admin';

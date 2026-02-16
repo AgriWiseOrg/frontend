@@ -1,3 +1,11 @@
+/*
+Unit Tests for FarmingTips Admin:
+- Loads tips from API
+- Opens add tip form
+- Adds new tip successfully
+- Deletes existing tip
+*/
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FarmingTips from './FarmingTips_admin';
