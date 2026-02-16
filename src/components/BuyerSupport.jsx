@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from './LanguageContext';
 
-const BuyerSupport = () => {
+const BuyerSupport = ({ user }) => {
     const navigate = useNavigate();
-    const [lang, setLang] = useState('en');
+    const { language: lang, setLanguage: setLang } = useLanguage();
     const [showDisputeForm, setShowDisputeForm] = useState(false);
     const [formStatus, setFormStatus] = useState('');
+    const [myReports, setMyReports] = useState([]);
+    const [showMyReports, setShowMyReports] = useState(false);
+    const [formType, setFormType] = useState('query');
+
+    React.useEffect(() => {
+        if (user?.email) {
+            fetch(`http://localhost:5001/api/support/my-reports?email=${user.email}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) setMyReports(data.data);
+                })
+                .catch(err => console.error("Failed to fetch reports:", err));
+        }
+    }, [user?.email]);
 
     const translations = {
         en: {
@@ -17,6 +32,7 @@ const BuyerSupport = () => {
             faqs: 'Buyer Resources',
             dispute: 'Report a Transaction Issue',
             back: 'Back to Marketplace',
+            myReports: 'My Reports',
             selectLang: 'Select Language',
             procurementTitle: 'Procurement & Bidding',
             procurementDesc: 'Advanced rules for bulk bidding and e-auctions.',
@@ -29,7 +45,50 @@ const BuyerSupport = () => {
             paymentFull: 'AgriWise employs a secure multi-signature escrow mechanism to provide absolute financial security for both parties. When you finalize a deal, your funds are securely held in an interest-free escrow account and are only released to the farmer after you digitially sign off on the "Quality Received" certificate at the destination. We support a wide array of payment methods, including Corporate Net Banking, UPI, and dedicated buyer wallets for instant settlement. To simplify compliance, our system generates automated, GST-compliant invoices that are available for instant download. Our clear settlement cycles and structured late-payment penalties ensure that the supply chain remains liquid and reliable.',
             qualityTitle: 'Quality Standards',
             qualityDesc: 'Detailed grading charts and lab certification protocols.',
-            qualityFull: 'Quality assurance is the cornerstone of our marketplace. Every agricultural lot listed on AgriWise is graded against our proprietary "AgriWise Standard v2.0" framework. This involves rigorous testing for key parameters such as Moisture Content (MC%), Foreign Matter (FM%), and Grain Uniformity. Buyers can opt for on-site laboratory testing at the loading point, conducted by certified third-party inspectors. We categorize produce into three distinct grades: A+ (Premium Export Grade with 0% impurities), A (Standard Trading Grade for domestic markets), and B (Industrial Processing Grade). This granular level of transparency allows you to buy with confidence, knowing exactly what will arrive at your factory gate.'
+            qualityFull: 'Quality assurance is the cornerstone of our marketplace. Every agricultural lot listed on AgriWise is graded against our proprietary "AgriWise Standard v2.0" framework. This involves rigorous testing for key parameters such as Moisture Content (MC%), Foreign Matter (FM%), and Grain Uniformity. Buyers can opt for on-site laboratory testing at the loading point, conducted by certified third-party inspectors. We categorize produce into three distinct grades: A+ (Premium Export Grade with 0% impurities), A (Standard Trading Grade for domestic markets), and B (Industrial Processing Grade). This granular level of transparency allows you to buy with confidence, knowing exactly what will arrive at your factory gate.',
+            enterpriseSupport: 'Enterprise Support 2.0',
+            heroTitlePrefix: 'Optimize your',
+            heroTitleHighlight: 'procurement',
+            heroDesc: 'Streamline bidding, logistics, and quality assurance through our advanced buyer assistance portal.',
+            opsLine: 'Direct Ops Line',
+            logisticsHelp: '24/7 Logistics Help',
+            queryStatus: 'Query Status',
+            openHub: 'Open Procurement Hub →',
+            logisticsDash: 'Logistics Dashboard →',
+            gradingProto: 'Grading Protocols →',
+            escrowSet: 'Escrow Settings →',
+            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
+            raiseDispute: 'Raise Dispute Now',
+            cancelDispute: 'Cancel Dispute',
+            farmerNameLabel: 'Farmer Name / ID',
+            farmerNamePlaceholder: 'Seller Details',
+            orderIdLabel: 'Order/Lot ID',
+            orderIdPlaceholder: 'Transaction ID',
+            issueTypeLabel: 'Type of Issue',
+            selectCategory: 'Select category...',
+            issueQuality: 'Quality Mismatch',
+            issueWeight: 'Weight/Quantity Shortage',
+            issueDelivery: 'Late Delivery',
+            issueInvoice: 'Invoice/GST Error',
+            messageLabel: 'Detailed Message',
+            messagePlaceholder: 'Briefly describe the issue for our verification team...',
+            submitInvest: 'Submit for Investigation',
+            registering: 'Registering...',
+            disputeRaised: 'Dispute Raised! ✅',
+            backDashboard: 'Back to Dashboard',
+            auctionRules: 'E-Auction Rules',
+            tenderTracker: 'Tender Tracker',
+            liveTracking: 'Live Tracking Feature',
+            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
+            gradeAplus: 'Grade A+',
+            gradeA: 'Grade A',
+            gradeB: 'Grade B',
+            exportGrade: 'Export Grade',
+            domesticStd: 'Domestic Std',
+            industrial: 'Industrial',
+            downloadGst: 'Download GST Helper',
+            walletSettings: 'Wallet Settings',
+            footerText: 'AgriWise Enterprise — Securing the Supply Chain'
         },
         hi: {
             title: 'खरीददार सहायता और सहायता',
@@ -52,7 +111,50 @@ const BuyerSupport = () => {
             paymentFull: 'एग्रीवाइज़ दोनों पक्षों के लिए पूर्ण वित्तीय सुरक्षा प्रदान करने के लिए एक सुरक्षित मल्टी-सिग्नेचर एस्क्रो तंत्र का उपयोग करता है। जब आप एक सौदे को अंतिम रूप देते हैं, तो आपका फंड सुरक्षित रूप से रखा जाता है।',
             qualityTitle: 'गुणवत्ता मानक',
             qualityDesc: 'विस्तृत ग्रेडिंग चार्ट और लैब प्रमाणन प्रोटोकॉल।',
-            qualityFull: 'गुणवत्ता आश्वासन हमारे बाजार की आधारशिला है। एग्रीवाइज पर सूचीबद्ध प्रत्येक कृषि लॉट को हमारे मालिकाना "एग्रीवाइज स्टैंडर्ड v2.0" ढांचे के खिलाफ ग्रेड किया गया है।'
+            qualityFull: 'गुणवत्ता आश्वासन हमारे बाजार की आधारशिला है। एग्रीवाइज पर सूचीबद्ध प्रत्येक कृषि लॉट को हमारे मालिकाना "एग्रीवाइज स्टैंडर्ड v2.0" ढांचे के खिलाफ ग्रेड किया गया है।',
+            enterpriseSupport: 'एंटरप्राइज सपोर्ट 2.0',
+            heroTitlePrefix: 'अपनी खरीद को',
+            heroTitleHighlight: 'अनुकूलित करें',
+            heroDesc: 'हमारे उन्नत खरीदार सहायता पोर्टल के माध्यम से बोली, रसद और गुणवत्ता आश्वासन को सुव्यवस्थित करें।',
+            opsLine: 'सीधी परिचालन लाइन',
+            logisticsHelp: '24/7 रसद सहायता',
+            queryStatus: 'क्वेरी स्थिति',
+            openHub: 'खरीद हब खोलें →',
+            logisticsDash: 'लॉजिस्टिक्स डैशबोर्ड →',
+            gradingProto: 'ग्रेडिंग प्रोटोकॉल →',
+            escrowSet: 'एस्क्रो सेटिंग्स →',
+            disputeDesc: 'गुणवत्ता, वजन के बेमेल या डिलीवरी में देरी की समस्याओं को रिपोर्ट करें। हमारी समर्पित ऑडिटिंग टीम 48 घंटों के भीतर निष्पक्ष समाधान सुनिश्चित करेगी।',
+            raiseDispute: 'अभी विवाद उठाएं',
+            cancelDispute: 'विवाद रद्द करें',
+            farmerNameLabel: 'किसान का नाम / आईडी',
+            farmerNamePlaceholder: 'विक्रेता विवरण',
+            orderIdLabel: 'ऑर्डर/लॉट आईडी',
+            orderIdPlaceholder: 'लेनदेन आईडी',
+            issueTypeLabel: 'समस्या का प्रकार',
+            selectCategory: 'श्रेणी चुनें...',
+            issueQuality: 'गुणवत्ता बेमेल',
+            issueWeight: 'वजन/मात्रा की कमी',
+            issueDelivery: 'देर से डिलीवरी',
+            issueInvoice: 'चालान/जीएसटी त्रुटि',
+            messageLabel: 'विस्तृत संदेश',
+            messagePlaceholder: 'हमारी सत्यापन टीम के लिए समस्या का संक्षेप में वर्णन करें...',
+            submitInvest: 'जांच के लिए सबमिट करें',
+            registering: 'पंजीकरण कर रहा है...',
+            disputeRaised: 'विवाद उठाया गया! ✅',
+            backDashboard: 'डैशबोर्ड पर वापस',
+            auctionRules: 'ई-नीलामी नियम',
+            tenderTracker: 'निविदा ट्रैकर',
+            liveTracking: 'लाइव ट्रैकिंग सुविधा',
+            trackingDesc: '"बाज़ार > ऑर्डर" टैब का उपयोग करके अपने वर्तमान शिपमेंट के लिए रीयल-टाइम जीपीएस स्थिति और तापमान लॉग देखें।',
+            gradeAplus: 'ग्रेड A+',
+            gradeA: 'ग्रेड A',
+            gradeB: 'ग्रेड B',
+            exportGrade: 'निर्यात ग्रेड',
+            domesticStd: 'घरेलू मानक',
+            industrial: 'औद्योगिक',
+            downloadGst: 'जीएसटी हेल्पर डाउनलोड करें',
+            walletSettings: 'वॉलेट सेटिंग्स',
+            footerText: 'एग्रीवाइज एंटरप्राइज — आपूर्ति श्रृंखला को सुरक्षित करना'
         },
         te: {
             title: 'కొనుగోలుదారు మద్దతు & సహాయం',
@@ -75,7 +177,60 @@ const BuyerSupport = () => {
             paymentFull: 'రెండు పార్టీలకు పూర్తి ఆర్థిక భద్రతను అందించడానికి అగ్రివైజ్ సురక్షితమైన మల్టీ-సిగ్నేచర్ ఎస్క్రో మెకానిజంను ఉపయోగిస్తుంది.',
             qualityTitle: 'నాణ్యత ప్రమాణాలు',
             qualityDesc: 'వివరణాత్మక గ్రేడింగ్ చార్ట్‌లు మరియు ల్యాబ్ సర్టిఫికేషన్ ప్రోటోకాల్స్.',
-            qualityFull: 'నాణ్యత హామీ మా మార్కెట్‌ప్లేస్‌కు పునాది. అగ్రివైజ్‌లో జాబితా చేయబడిన ప్రతి వ్యవసాయ లాట్ మా "అగ్రివైజ్ స్టాండర్డ్ v2.0" ఫ్రేమ్‌వర్క్ ప్రకారం గ్రేడ్ చేయబడింది.'
+            qualityFull: 'నాణ్యత హామీ మా మార్కెట్‌ప్లేస్‌కు పునాది. అగ్రివైజ్‌లో జాబితా చేయబడిన ప్రతి వ్యవసాయ లాట్ మా "అగ్రివైజ్ స్టాండర్డ్ v2.0" ఫ్రేమ్‌వర్క్ ప్రకారం గ్రేడ్ చేయబడింది.',
+            enterpriseSupport: 'Enterprise Support 2.0',
+            heroTitlePrefix: 'Optimize your',
+            heroTitleHighlight: 'procurement',
+            heroDesc: 'Streamline bidding, logistics, and quality assurance through our advanced buyer assistance portal.',
+            opsLine: 'Direct Ops Line',
+            logisticsHelp: '24/7 Logistics Help',
+            queryStatus: 'Query Status',
+            openHub: 'Open Procurement Hub →',
+            logisticsDash: 'Logistics Dashboard →',
+            gradingProto: 'Grading Protocols →',
+            escrowSet: 'Escrow Settings →',
+            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
+            raiseDispute: 'Raise Dispute Now',
+            cancelDispute: 'Cancel Dispute',
+            farmerNameLabel: 'Farmer Name / ID',
+            farmerNamePlaceholder: 'Seller Details',
+            orderIdLabel: 'Order/Lot ID',
+            orderIdPlaceholder: 'Transaction ID',
+            issueTypeLabel: 'Type of Issue',
+            selectCategory: 'Select category...',
+            issueQuality: 'Quality Mismatch',
+            issueWeight: 'Weight/Quantity Shortage',
+            issueDelivery: 'Late Delivery',
+            issueInvoice: 'Invoice/GST Error',
+            messageLabel: 'Detailed Message',
+            messagePlaceholder: 'Briefly describe the issue for our verification team...',
+            submitInvest: 'Submit for Investigation',
+            registering: 'Registering...',
+            disputeRaised: 'Dispute Raised! ✅',
+            backDashboard: 'Back to Dashboard',
+            auctionRules: 'E-Auction Rules',
+            tenderTracker: 'Tender Tracker',
+            liveTracking: 'Live Tracking Feature',
+            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
+            gradeAplus: 'Grade A+',
+            gradeA: 'Grade A',
+            gradeB: 'Grade B',
+            exportGrade: 'Export Grade',
+            domesticStd: 'Domestic Std',
+            industrial: 'Industrial',
+            downloadGst: 'Download GST Helper',
+            walletSettings: 'Wallet Settings',
+            footerText: 'AgriWise Enterprise — Securing the Supply Chain',
+            queryOptions: {
+                kyc_help: 'Registration / KYC',
+                logistics_help: 'Logistics Request',
+                payment_issue: 'Payment / Wallet',
+                other: 'Other Inquiry'
+            },
+            formTabs: {
+                query: 'General Inquiry',
+                dispute: 'Raise Dispute'
+            }
         },
         ta: {
             title: 'வாங்குபவர் ஆதரவு & உதவி',
@@ -98,7 +253,50 @@ const BuyerSupport = () => {
             paymentFull: 'AgriWise இரு தரப்பினருக்கும் முழுமையான நிதிப் பாதுகாப்பை வழங்க பாதுகாப்பான மல்டி-சிக்னேச்சர் எஸ்க்ரோ பொறிமுறையைப் பயன்படுத்துகிறது.',
             qualityTitle: 'தரநிலைகள்',
             qualityDesc: 'விரிவான தரப்படுத்தல் விளக்கப்படங்கள் மற்றும் ஆய்வக சான்றிதழ் நெறிமுறைகள்.',
-            qualityFull: 'தர உறுதிப்பாடு என்பது எங்கள் சந்தையின் மூலக்கல்லாகும். AgriWise இல் பட்டியலிடப்பட்டுள்ள ஒவ்வொரு விவசாய தொகுதியும் எங்களின் "AgriWise Standard v2.0" கட்டமைப்பிற்கு எதிராக தரப்படுத்தப்பட்டுள்ளது.'
+            qualityFull: 'தர உறுதிப்பாடு என்பது எங்கள் சந்தையின் மூலக்கல்லாகும். AgriWise இல் பட்டியலிடப்பட்டுள்ள ஒவ்வொரு விவசாய தொகுதியும் எங்களின் "AgriWise Standard v2.0" கட்டமைப்பிற்கு எதிராக தரப்படுத்தப்பட்டுள்ளது.',
+            enterpriseSupport: 'Enterprise Support 2.0',
+            heroTitlePrefix: 'Optimize your',
+            heroTitleHighlight: 'procurement',
+            heroDesc: 'Streamline bidding, logistics, and quality assurance through our advanced buyer assistance portal.',
+            opsLine: 'Direct Ops Line',
+            logisticsHelp: '24/7 Logistics Help',
+            queryStatus: 'Query Status',
+            openHub: 'Open Procurement Hub →',
+            logisticsDash: 'Logistics Dashboard →',
+            gradingProto: 'Grading Protocols →',
+            escrowSet: 'Escrow Settings →',
+            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
+            raiseDispute: 'Raise Dispute Now',
+            cancelDispute: 'Cancel Dispute',
+            farmerNameLabel: 'Farmer Name / ID',
+            farmerNamePlaceholder: 'Seller Details',
+            orderIdLabel: 'Order/Lot ID',
+            orderIdPlaceholder: 'Transaction ID',
+            issueTypeLabel: 'Type of Issue',
+            selectCategory: 'Select category...',
+            issueQuality: 'Quality Mismatch',
+            issueWeight: 'Weight/Quantity Shortage',
+            issueDelivery: 'Late Delivery',
+            issueInvoice: 'Invoice/GST Error',
+            messageLabel: 'Detailed Message',
+            messagePlaceholder: 'Briefly describe the issue for our verification team...',
+            submitInvest: 'Submit for Investigation',
+            registering: 'Registering...',
+            disputeRaised: 'Dispute Raised! ✅',
+            backDashboard: 'Back to Dashboard',
+            auctionRules: 'E-Auction Rules',
+            tenderTracker: 'Tender Tracker',
+            liveTracking: 'Live Tracking Feature',
+            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
+            gradeAplus: 'Grade A+',
+            gradeA: 'Grade A',
+            gradeB: 'Grade B',
+            exportGrade: 'Export Grade',
+            domesticStd: 'Domestic Std',
+            industrial: 'Industrial',
+            downloadGst: 'Download GST Helper',
+            walletSettings: 'Wallet Settings',
+            footerText: 'AgriWise Enterprise — Securing the Supply Chain'
         },
         ml: {
             title: 'വാങ്ങുന്നവർക്കുള്ള പിന്തുണയും സഹായവും',
@@ -121,7 +319,50 @@ const BuyerSupport = () => {
             paymentFull: 'രണ്ട് കക്ഷികൾക്കും പൂർണ്ണമായ സാമ്പത്തിക സുരക്ഷ നൽകുന്നതിന് AgriWise സുരക്ഷിതമായ ഒരു മൾട്ടി-സിഗ്നേച്ചർ എസ്‌ക്രോ സംവിധാനം ഉപയോഗിക്കുന്നു.',
             qualityTitle: 'ഗുണനിലവാര മാനദണ്ഡങ്ങൾ',
             qualityDesc: 'വിശദമായ ഗ്രേഡിംഗ് ചാർട്ടുകളും ലാബ് സർട്ടിഫിക്കേഷൻ പ്രോട്ടോക്കോളുകളും.',
-            qualityFull: 'ഗുണമേന്മ ഉറപ്പാക്കൽ ഞങ്ങളുടെ വിപണിയുടെ ആണിക്കല്ലാണ്. AgriWise-ൽ ലിസ്റ്റ് ചെയ്തിട്ടുള്ള ഓരോ കാർഷിക ലോട്ടും ഞങ്ങളുടെ "AgriWise Standard v2.0" ചട്ടക്കൂടിന് അനുസൃതമായി ഗ്രേഡ് ചെയ്തിരിക്കുന്നു.'
+            qualityFull: 'ഗുണമേന്മ ഉറപ്പാക്കൽ ഞങ്ങളുടെ വിപണിയുടെ ആണിക്കല്ലാണ്. AgriWise-ൽ ലിസ്റ്റ് ചെയ്തിട്ടുള്ള ഓരോ കാർഷിക ലോട്ടും ഞങ്ങളുടെ "AgriWise Standard v2.0" ചട്ടക്കൂടിന് അനുസൃതമായി ഗ്രേഡ് ചെയ്തിരിക്കുന്നു.',
+            enterpriseSupport: 'Enterprise Support 2.0',
+            heroTitlePrefix: 'Optimize your',
+            heroTitleHighlight: 'procurement',
+            heroDesc: 'Streamline bidding, logistics, and quality assurance through our advanced buyer assistance portal.',
+            opsLine: 'Direct Ops Line',
+            logisticsHelp: '24/7 Logistics Help',
+            queryStatus: 'Query Status',
+            openHub: 'Open Procurement Hub →',
+            logisticsDash: 'Logistics Dashboard →',
+            gradingProto: 'Grading Protocols →',
+            escrowSet: 'Escrow Settings →',
+            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
+            raiseDispute: 'Raise Dispute Now',
+            cancelDispute: 'Cancel Dispute',
+            farmerNameLabel: 'Farmer Name / ID',
+            farmerNamePlaceholder: 'Seller Details',
+            orderIdLabel: 'Order/Lot ID',
+            orderIdPlaceholder: 'Transaction ID',
+            issueTypeLabel: 'Type of Issue',
+            selectCategory: 'Select category...',
+            issueQuality: 'Quality Mismatch',
+            issueWeight: 'Weight/Quantity Shortage',
+            issueDelivery: 'Late Delivery',
+            issueInvoice: 'Invoice/GST Error',
+            messageLabel: 'Detailed Message',
+            messagePlaceholder: 'Briefly describe the issue for our verification team...',
+            submitInvest: 'Submit for Investigation',
+            registering: 'Registering...',
+            disputeRaised: 'Dispute Raised! ✅',
+            backDashboard: 'Back to Dashboard',
+            auctionRules: 'E-Auction Rules',
+            tenderTracker: 'Tender Tracker',
+            liveTracking: 'Live Tracking Feature',
+            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
+            gradeAplus: 'Grade A+',
+            gradeA: 'Grade A',
+            gradeB: 'Grade B',
+            exportGrade: 'Export Grade',
+            domesticStd: 'Domestic Std',
+            industrial: 'Industrial',
+            downloadGst: 'Download GST Helper',
+            walletSettings: 'Wallet Settings',
+            footerText: 'AgriWise Enterprise — Securing the Supply Chain'
         },
         kn: {
             title: 'ಖರೀದಿದಾರರ ಬೆಂಬಲ ಮತ್ತು ಸಹಾಯ',
@@ -144,7 +385,50 @@ const BuyerSupport = () => {
             paymentFull: 'ಎರಡೂ ಪಕ್ಷಗಳಿಗೆ ಸಂಪೂರ್ಣ ಆರ್ಥಿಕ ಭದ್ರತೆಯನ್ನು ಒದಗಿಸಲು AgriWise ಸುರಕ್ಷಿತ ಮಲ್ಟಿ-ಸಿಗ್ನೇಚರ್ ಎಸ್ಕ್ರೊ ಕಾರ್ಯವಿಧಾನವನ್ನು ಬಳಸುತ್ತದೆ.',
             qualityTitle: 'ಗುಣಮಟ್ಟದ ಮಾನದಂಡಗಳು',
             qualityDesc: 'ವಿವರವಾದ ಗ್ರೇಡಿಂಗ್ ಚಾರ್ಟ್‌ಗಳು ಮತ್ತು ಲ್ಯಾಬ್ ಪ್ರಮಾಣೀಕರಣ ಪ್ರೋಟೋಕಾಲ್‌ಗಳು.',
-            qualityFull: 'ಗುಣಮಟ್ಟದ ಭರವಸೆಯು ನಮ್ಮ ಮಾರುಕಟ್ಟೆಯ ಮೂಲಾಧಾರವಾಗಿದೆ. AgriWise ನಲ್ಲಿ ಪಟ್ಟಿ ಮಾಡಲಾದ ಪ್ರತಿಯೊಂದು ಕೃಷಿ ಲಾಟ್ ಅನ್ನು ನಮ್ಮ "AgriWise Standard v2.0" ಚೌಕಟ್ಟಿನ ವಿರುದ್ಧ ಗ್ರೇಡ್ ಮಾಡಲಾಗಿದೆ.'
+            qualityFull: 'ಗುಣಮಟ್ಟದ ಭರವಸೆಯು ನಮ್ಮ ಮಾರುಕಟ್ಟೆಯ ಮೂಲಾಧಾರವಾಗಿದೆ. AgriWise ನಲ್ಲಿ ಪಟ್ಟಿ ಮಾಡಲಾದ ಪ್ರತಿಯೊಂದು ಕೃಷಿ ಲಾಟ್ ಅನ್ನು ನಮ್ಮ "AgriWise Standard v2.0" ಚೌಕಟ್ಟಿನ ವಿರುದ್ಧ ಗ್ರೇಡ್ ಮಾಡಲಾಗಿದೆ.',
+            enterpriseSupport: 'Enterprise Support 2.0',
+            heroTitlePrefix: 'Optimize your',
+            heroTitleHighlight: 'procurement',
+            heroDesc: 'Streamline bidding, logistics, and quality assurance through our advanced buyer assistance portal.',
+            opsLine: 'Direct Ops Line',
+            logisticsHelp: '24/7 Logistics Help',
+            queryStatus: 'Query Status',
+            openHub: 'Open Procurement Hub →',
+            logisticsDash: 'Logistics Dashboard →',
+            gradingProto: 'Grading Protocols →',
+            escrowSet: 'Escrow Settings →',
+            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
+            raiseDispute: 'Raise Dispute Now',
+            cancelDispute: 'Cancel Dispute',
+            farmerNameLabel: 'Farmer Name / ID',
+            farmerNamePlaceholder: 'Seller Details',
+            orderIdLabel: 'Order/Lot ID',
+            orderIdPlaceholder: 'Transaction ID',
+            issueTypeLabel: 'Type of Issue',
+            selectCategory: 'Select category...',
+            issueQuality: 'Quality Mismatch',
+            issueWeight: 'Weight/Quantity Shortage',
+            issueDelivery: 'Late Delivery',
+            issueInvoice: 'Invoice/GST Error',
+            messageLabel: 'Detailed Message',
+            messagePlaceholder: 'Briefly describe the issue for our verification team...',
+            submitInvest: 'Submit for Investigation',
+            registering: 'Registering...',
+            disputeRaised: 'Dispute Raised! ✅',
+            backDashboard: 'Back to Dashboard',
+            auctionRules: 'E-Auction Rules',
+            tenderTracker: 'Tender Tracker',
+            liveTracking: 'Live Tracking Feature',
+            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
+            gradeAplus: 'Grade A+',
+            gradeA: 'Grade A',
+            gradeB: 'Grade B',
+            exportGrade: 'Export Grade',
+            domesticStd: 'Domestic Std',
+            industrial: 'Industrial',
+            downloadGst: 'Download GST Helper',
+            walletSettings: 'Wallet Settings',
+            footerText: 'AgriWise Enterprise — Securing the Supply Chain'
         },
         pa: {
             title: 'ਖਰੀਦਦਾਰ ਸਹਾਇਤਾ ਅਤੇ ਮਦਦ',
@@ -167,7 +451,50 @@ const BuyerSupport = () => {
             paymentFull: 'AgriWise ਦੋਵਾਂ ਧਿਰਾਂ ਲਈ ਪੂਰੀ ਵਿੱਤੀ ਸੁਰੱਖਿਆ ਪ੍ਰਦਾਨ ਕਰਨ ਲਈ ਇੱਕ ਸੁਰੱਖਿਅਤ ਮਲਟੀ-ਸਿਗਨੇਚਰ ਐਸਕਰੋ ਵਿਧੀ ਦੀ ਵਰਤੋਂ ਕਰਦਾ ਹੈ।',
             qualityTitle: 'ਗੁਣਵੱਤਾ ਦੇ ਮਿਆਰ',
             qualityDesc: 'ਵਿਸਤ੍ਰਿਤ ਗ੍ਰੇਡਿੰਗ ਚਾਰਟ ਅਤੇ ਲੈਬ ਪ੍ਰਮਾਣੀਕਰਣ ਪ੍ਰੋਟੋਕੋਲ।',
-            qualityFull: 'ਗੁਣਵੱਤਾ ਦਾ ਭਰੋਸਾ ਸਾਡੇ ਬਾਜ਼ਾਰ ਦੀ ਨੀਂਹ ਹੈ। AgriWise ਤੇ ਸੂਚੀਬੱਧ ਹਰੇਕ ਖੇਤੀਬਾੜੀ ਲਾਟ ਨੂੰ ਸਾਡੇ "AgriWise Standard v2.0" ਫਰੇਮਵਰਕ ਦੇ ਵਿਰੁੱਧ ਗ੍ਰੇਡ ਕੀਤਾ ਗਿਆ ਹੈ।'
+            qualityFull: 'ਗੁਣਵੱਤਾ ਦਾ ਭਰੋਸਾ ਸਾਡੇ ਬਾਜ਼ਾਰ ਦੀ ਨੀਂਹ ਹੈ। AgriWise ਤੇ ਸੂਚੀਬੱਧ ਹਰੇਕ ਖੇਤੀਬਾੜੀ ਲਾਟ ਨੂੰ ਸਾਡੇ "AgriWise Standard v2.0" ਫਰੇਮਵਰਕ ਦੇ ਵਿਰੁੱਧ ਗ੍ਰੇਡ ਕੀਤਾ ਗਿਆ ਹੈ।',
+            enterpriseSupport: 'Enterprise Support 2.0',
+            heroTitlePrefix: 'Optimize your',
+            heroTitleHighlight: 'procurement',
+            heroDesc: 'Streamline bidding, logistics, and quality assurance through our advanced buyer assistance portal.',
+            opsLine: 'Direct Ops Line',
+            logisticsHelp: '24/7 Logistics Help',
+            queryStatus: 'Query Status',
+            openHub: 'Open Procurement Hub →',
+            logisticsDash: 'Logistics Dashboard →',
+            gradingProto: 'Grading Protocols →',
+            escrowSet: 'Escrow Settings →',
+            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
+            raiseDispute: 'Raise Dispute Now',
+            cancelDispute: 'Cancel Dispute',
+            farmerNameLabel: 'Farmer Name / ID',
+            farmerNamePlaceholder: 'Seller Details',
+            orderIdLabel: 'Order/Lot ID',
+            orderIdPlaceholder: 'Transaction ID',
+            issueTypeLabel: 'Type of Issue',
+            selectCategory: 'Select category...',
+            issueQuality: 'Quality Mismatch',
+            issueWeight: 'Weight/Quantity Shortage',
+            issueDelivery: 'Late Delivery',
+            issueInvoice: 'Invoice/GST Error',
+            messageLabel: 'Detailed Message',
+            messagePlaceholder: 'Briefly describe the issue for our verification team...',
+            submitInvest: 'Submit for Investigation',
+            registering: 'Registering...',
+            disputeRaised: 'Dispute Raised! ✅',
+            backDashboard: 'Back to Dashboard',
+            auctionRules: 'E-Auction Rules',
+            tenderTracker: 'Tender Tracker',
+            liveTracking: 'Live Tracking Feature',
+            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
+            gradeAplus: 'Grade A+',
+            gradeA: 'Grade A',
+            gradeB: 'Grade B',
+            exportGrade: 'Export Grade',
+            domesticStd: 'Domestic Std',
+            industrial: 'Industrial',
+            downloadGst: 'Download GST Helper',
+            walletSettings: 'Wallet Settings',
+            footerText: 'AgriWise Enterprise — Securing the Supply Chain'
         },
         mr: {
             title: 'खरेदीदार समर्थन आणि मदत',
@@ -190,235 +517,436 @@ const BuyerSupport = () => {
             paymentFull: 'एग्रीवाइझ दोन्ही पक्षांसाठी पूर्ण आर्थिक सुरक्षा प्रदान करण्यासाठी सुरक्षित मल्टी-सिग्नेचर एस्क्रो यंत्रणेचा वापर करते।',
             qualityTitle: 'गुणवत्ता मानके',
             qualityDesc: 'तपशीलवार ग्रेडिंग चार्ट आणि लॅब प्रमाणन प्रोटोकॉल।',
-            qualityFull: 'गुणवत्ता हमी हा आमच्या बाजारपेठेचा आधारस्तंभ आहे। एग्रीवाइजवर सूचीबद्ध केलेल्या प्रत्येक कृषी लॉटला आमच्या "एग्रीवाइज स्टँडर्ड v2.0" फ्रेमवर्कनुसार ग्रेड दिले जाते।'
+            qualityFull: 'गुणवत्ता हमी हा आमच्या बाजारपेठेचा आधारस्तंभ आहे। एग्रीवाइजवर सूचीबद्ध केलेल्या प्रत्येक कृषी लॉटला आमच्या "एग्रीवाइज स्टँडर्ड v2.0" फ्रेमवर्कनुसार ग्रेड दिले जाते।',
+            enterpriseSupport: 'Enterprise Support 2.0',
+            heroTitlePrefix: 'Optimize your',
+            heroTitleHighlight: 'procurement',
+            heroDesc: 'Streamline bidding, logistics, and quality assurance through our advanced buyer assistance portal.',
+            opsLine: 'Direct Ops Line',
+            logisticsHelp: '24/7 Logistics Help',
+            queryStatus: 'Query Status',
+            openHub: 'Open Procurement Hub →',
+            logisticsDash: 'Logistics Dashboard →',
+            gradingProto: 'Grading Protocols →',
+            escrowSet: 'Escrow Settings →',
+            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
+            raiseDispute: 'Raise Dispute Now',
+            cancelDispute: 'Cancel Dispute',
+            farmerNameLabel: 'Farmer Name / ID',
+            farmerNamePlaceholder: 'Seller Details',
+            orderIdLabel: 'Order/Lot ID',
+            orderIdPlaceholder: 'Transaction ID',
+            issueTypeLabel: 'Type of Issue',
+            selectCategory: 'Select category...',
+            issueQuality: 'Quality Mismatch',
+            issueWeight: 'Weight/Quantity Shortage',
+            issueDelivery: 'Late Delivery',
+            issueInvoice: 'Invoice/GST Error',
+            messageLabel: 'Detailed Message',
+            messagePlaceholder: 'Briefly describe the issue for our verification team...',
+            submitInvest: 'Submit for Investigation',
+            registering: 'Registering...',
+            disputeRaised: 'Dispute Raised! ✅',
+            backDashboard: 'Back to Dashboard',
+            auctionRules: 'E-Auction Rules',
+            tenderTracker: 'Tender Tracker',
+            liveTracking: 'Live Tracking Feature',
+            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
+            gradeAplus: 'Grade A+',
+            gradeA: 'Grade A',
+            gradeB: 'Grade B',
+            exportGrade: 'Export Grade',
+            domesticStd: 'Domestic Std',
+            industrial: 'Industrial',
+            downloadGst: 'Download GST Helper',
+            walletSettings: 'Wallet Settings',
+            footerText: 'AgriWise Enterprise — Securing the Supply Chain'
         }
     };
 
     const t = translations[lang] || translations['en'];
 
-    const handleQuerySubmit = (e) => {
+    const handleQuerySubmit = async (e, type) => {
         e.preventDefault();
         setFormStatus('sending');
-        setTimeout(() => {
-            setFormStatus('success');
-            setTimeout(() => setFormStatus(''), 3000);
-        }, 1500);
+
+        const formData = new FormData(e.target);
+        const payload = {
+            name: formData.get('farmerName') || 'Buyer',
+            email: user?.email,
+            buyerName: 'Current Buyer',
+            orderId: formData.get('orderId'),
+            issue: formData.get('issue'),
+            details: formData.get('details'),
+            subject: type === 'dispute' ? 'Dispute: ' + formData.get('issue') : 'General Query',
+            message: formData.get('details'),
+            language: lang,
+            type: type
+        };
+
+        try {
+            const endpoint = type === 'dispute' ? 'dispute' : 'query';
+            const res = await fetch(`http://localhost:5001/api/support/${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (data.success) {
+                setFormStatus('success');
+                setTimeout(() => setFormStatus(''), 3000);
+                // Refresh reports
+                if (user?.email) {
+                    fetch(`http://localhost:5001/api/support/my-reports?email=${user.email}`)
+                        .then(r => r.json())
+                        .then(d => d.success && setMyReports(d.data));
+                }
+            } else {
+                setFormStatus('error');
+            }
+        } catch (err) {
+            console.error("Submission error:", err);
+            setFormStatus('error');
+        }
     };
 
-    const [expandedFaq, setExpandedFaq] = useState(null);
+    const [activeView, setActiveView] = useState('main');
 
-    const faqDetails = [
-        {
-            title: t.procurementTitle,
-            desc: t.procurementDesc,
-            icon: '📦',
-            color: 'border-blue-300',
-            details: t.procurementFull,
-            links: [
-                { label: 'E-Auction Rules', url: '#' },
-                { label: 'Tender Tracker', url: '#' },
-                { label: 'Bulk Buy Guide', url: '#' }
-            ]
-        },
-        {
-            title: t.logisticsTitle,
-            desc: t.logisticsDesc,
-            icon: '🚚',
-            color: 'border-indigo-300',
-            details: t.logisticsFull,
-            links: [
-                { label: 'Book a Vehicle', url: '#' },
-                { label: 'Track My Fleet', url: '#' },
-                { label: 'Carrier Partners', url: '#' }
-            ]
-        },
-        {
-            title: t.paymentTitle,
-            desc: t.paymentDesc,
-            icon: '💳',
-            color: 'border-emerald-300',
-            details: t.paymentFull,
-            links: [
-                { label: 'Settlement Cycles', url: '#' },
-                { label: 'GST Invoice Help', url: '#' },
-                { label: 'Wallet Settings', url: '#' }
-            ]
-        },
-        {
-            title: t.qualityTitle,
-            desc: t.qualityDesc,
-            icon: '🔬',
-            color: 'border-amber-300',
-            details: t.qualityFull,
-            links: [
-                { label: 'Grading Standards', url: '#' },
-                { label: 'Lab Test Report', url: '#' },
-                { label: 'Dispute a Grade', url: '#' }
-            ]
-        }
-    ];
-
-    return (
-        <div className="min-h-screen bg-slate-50 pb-20">
-            {/* Header */}
-            <div className="bg-white border-b border-slate-200 sticky top-0 z-40">
-                <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <button onClick={() => navigate('/marketplace')} className="flex items-center gap-2 text-indigo-600 font-bold">
-                        <span>←</span> {t.back}
-                    </button>
-                    <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-black uppercase text-slate-400 hidden md:block">{t.selectLang}</span>
-                        <select
-                            value={lang}
-                            onChange={(e) => setLang(e.target.value)}
-                            className="bg-slate-100 border-none rounded-xl px-4 py-2 text-xs font-black uppercase tracking-widest text-indigo-700 outline-none cursor-pointer hover:bg-indigo-50 transition-all shadow-sm"
-                        >
-                            <option value="en">English (EN)</option>
-                            <option value="hi">हिंदी (HI)</option>
-                            <option value="te">తెలుగు (TE)</option>
-                            <option value="ta">தமிழ் (TA)</option>
-                            <option value="ml">മലയാളം (ML)</option>
-                            <option value="kn">ಕನ್ನಡ (KN)</option>
-                            <option value="pa">ਪੰਜਾਬੀ (PA)</option>
-                            <option value="mr">मराठी (MR)</option>
-                        </select>
-                    </div>
+    const MainView = () => (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-12">
+            {/* Hero Section */}
+            <div className="bg-white rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-2 border-slate-50 relative overflow-hidden group">
+                <div className="relative z-10">
+                    <span className="inline-block bg-blue-100 text-blue-700 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6">{t.enterpriseSupport}</span>
+                    <h1 className="text-4xl md:text-7xl font-black text-slate-900 mb-6 tracking-tight leading-none">
+                        {t.heroTitlePrefix} <br /><span className="text-blue-600">{t.heroTitleHighlight}</span>
+                    </h1>
+                    <p className="text-slate-500 text-lg md:text-xl font-bold max-w-xl leading-relaxed">
+                        {t.heroDesc}
+                    </p>
                 </div>
+                <div className="absolute right-[-50px] top-[-50px] w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50 group-hover:bg-blue-100 transition-colors duration-700"></div>
             </div>
 
-            <div className="max-w-4xl mx-auto p-6 space-y-8">
-                {/* Title Section */}
-                <section className="text-center space-y-2">
-                    <h1 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight">{t.title} 🏢</h1>
-                    <p className="text-slate-500 font-medium">{t.subtitle}</p>
-                </section>
+            {/* Multimodal Action Bar */}
+            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="tel:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-[2.5rem] shadow-2xl shadow-blue-200 hover:scale-105 transition-all group text-center">
+                    <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📞</span>
+                    <span className="font-black text-xl tracking-tight">{t.voiceCall}</span>
+                    <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{t.opsLine}</span>
+                </a>
+                <a href="https://wa.me/916301230747" target="_blank" rel="noreferrer" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-[2.5rem] shadow-2xl shadow-emerald-200 hover:scale-105 transition-all group text-center">
+                    <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">💬</span>
+                    <span className="font-black text-xl tracking-tight">{t.whatsapp}</span>
+                    <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{t.logisticsHelp}</span>
+                </a>
+                <a href="sms:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-[2.5rem] shadow-2xl shadow-slate-300 hover:scale-105 transition-all group text-center">
+                    <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📱</span>
+                    <span className="font-black text-xl tracking-tight">{t.smsIvr}</span>
+                    <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{t.queryStatus}</span>
+                </a>
+            </section>
 
-                {/* Multimodal Action Bar */}
-                <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <a href="tel:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-indigo-600 to-blue-700 text-white rounded-[2.5rem] shadow-2xl shadow-indigo-200 hover:scale-105 transition-all group">
-                        <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📞</span>
-                        <span className="font-black text-xl tracking-tight">{t.voiceCall}</span>
-                        <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">Direct Ops Line</span>
-                    </a>
-                    <a href="https://wa.me/916301230747" target="_blank" rel="noreferrer" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-[2.5rem] shadow-2xl shadow-emerald-200 hover:scale-105 transition-all group">
-                        <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">💬</span>
-                        <span className="font-black text-xl tracking-tight">{t.whatsapp}</span>
-                        <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">24/7 Logistics Help</span>
-                    </a>
-                    <a href="sms:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-[2.5rem] shadow-2xl shadow-slate-300 hover:scale-105 transition-all group">
-                        <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📱</span>
-                        <span className="font-black text-xl tracking-tight">{t.smsIvr}</span>
-                        <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">Query Status</span>
-                    </a>
-                </section>
+            <hr className="border-slate-200" />
 
-                <hr className="border-slate-200" />
+            {/* Interactive Feature Cards */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <FeatureCard
+                    icon="📦"
+                    title={t.procurementTitle}
+                    desc={t.procurementDesc}
+                    color="blue"
+                    onClick={() => setActiveView('procurement')}
+                    footer={t.openHub}
+                    bgIcon="🏢"
+                />
+                <FeatureCard
+                    icon="🚚"
+                    title={t.logisticsTitle}
+                    desc={t.logisticsDesc}
+                    color="indigo"
+                    onClick={() => setActiveView('logistics')}
+                    footer={t.logisticsDash}
+                    bgIcon="🛣️"
+                />
+                <FeatureCard
+                    icon="🔬"
+                    title={t.qualityTitle}
+                    desc={t.qualityDesc}
+                    color="amber"
+                    onClick={() => setActiveView('quality')}
+                    footer={t.gradingProto}
+                    bgIcon="📋"
+                />
+                <FeatureCard
+                    icon="💳"
+                    title={t.paymentTitle}
+                    desc={t.paymentDesc}
+                    color="emerald"
+                    onClick={() => setActiveView('payments')}
+                    footer={t.escrowSet}
+                    bgIcon="💰"
+                />
+            </section>
 
-                {/* Buyer Tools/FAQs */}
-                <section className="space-y-4">
-                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
-                        <span>📖</span> {t.faqs}
-                    </h2>
+            {/* Dispute Resolution Section */}
+            <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-blue-950 rounded-[3rem] p-10 md:p-14 text-white overflow-hidden relative group shadow-2xl">
+                <div className="relative z-10 max-w-lg space-y-6">
+                    <h2 className="text-3xl md:text-5xl font-black tracking-tighter leading-none">{t.dispute} ⚖️</h2>
+                    <p className="text-slate-400 font-medium text-lg leading-relaxed">{t.disputeDesc}</p>
+                    <button
+                        onClick={() => setShowDisputeForm(!showDisputeForm)}
+                        className="bg-white text-slate-900 font-black px-10 py-5 rounded-2xl hover:bg-rose-50 hover:text-rose-600 transition-all active:scale-95 shadow-xl shadow-black/20"
+                    >
+                        {showDisputeForm ? t.cancelDispute : t.raiseDispute}
+                    </button>
+                </div>
+                <div className="absolute -right-16 -bottom-16 text-[15rem] opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-1000 uppercase pointer-events-none">⚖️</div>
+            </section>
 
-                    <div className="grid gap-4">
-                        {faqDetails.map((item, i) => (
-                            <div key={i} className={`bg-white p-6 rounded-3xl border-2 ${item.color} shadow-sm hover:shadow-md transition-all`}>
-                                <div className="flex items-start gap-4">
-                                    <span className="text-3xl">{item.icon}</span>
-                                    <div className="flex-1">
-                                        <h3 className="font-black text-slate-800 text-lg">{item.title}</h3>
-                                        <p className="text-slate-500 font-medium text-sm mt-1">{item.desc}</p>
-
-                                        {expandedFaq === i && (
-                                            <div className="mt-4 p-4 bg-slate-50 rounded-2xl border border-slate-100 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                <p className="text-slate-700 font-bold text-sm leading-relaxed mb-3">
-                                                    {item.details}
-                                                </p>
-                                                {item.links && (
-                                                    <div className="flex flex-wrap gap-2">
-                                                        {item.links.map((link, idx) => (
-                                                            <a
-                                                                key={idx}
-                                                                href={link.url}
-                                                                className="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase text-indigo-700 hover:bg-indigo-50 transition-all flex items-center gap-1 shadow-sm"
-                                                            >
-                                                                {link.label} ↗
-                                                            </a>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-
-                                        <button
-                                            onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
-                                            className="text-indigo-600 font-bold text-xs mt-3 uppercase tracking-widest border-b-2 border-indigo-100 hover:border-indigo-600 transition-all"
-                                        >
-                                            {expandedFaq === i ? 'Show Less ↑' : 'Learn More →'}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                {/* Dispute Resolution Section */}
-                <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 rounded-[3rem] p-10 md:p-14 text-white overflow-hidden relative group shadow-2xl">
-                    <div className="relative z-10 max-w-lg space-y-6">
-                        <h2 className="text-3xl md:text-5xl font-black tracking-tighter leading-none">{t.dispute} ⚖️</h2>
-                        <p className="text-slate-400 font-medium text-lg leading-relaxed">Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.</p>
+            {showDisputeForm && (
+                <div className="bg-white border-2 border-slate-100 rounded-[2.5rem] p-8 shadow-2xl space-y-6 animate-in slide-in-from-top duration-500">
+                    {/* Custom Tabs */}
+                    <div className="flex p-1 bg-slate-100 rounded-2xl mb-6">
                         <button
-                            onClick={() => setShowDisputeForm(!showDisputeForm)}
-                            className="bg-white text-slate-900 font-black px-10 py-5 rounded-2xl hover:bg-rose-50 hover:text-rose-600 transition-all active:scale-95 shadow-xl shadow-black/20"
+                            onClick={() => setFormType('query')}
+                            className={`flex-1 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${formType === 'query' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}
                         >
-                            {showDisputeForm ? 'Cancel Dispute' : 'Raise Dispute Now'}
+                            ❓ {t.formTabs?.query || 'General Query'}
+                        </button>
+                        <button
+                            onClick={() => setFormType('dispute')}
+                            className={`flex-1 py-3 rounded-xl font-black text-xs uppercase tracking-widest transition-all ${formType === 'dispute' ? 'bg-rose-600 text-white shadow-lg' : 'text-slate-400 hover:text-slate-600'}`}
+                        >
+                            ⚖️ {t.formTabs?.dispute || 'Raise Dispute'}
                         </button>
                     </div>
-                    <div className="absolute -right-16 -bottom-16 text-[15rem] opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-1000">⚖️</div>
-                </section>
 
-                {/* Dispute Form (Conditional) */}
-                {showDisputeForm && (
-                    <form onSubmit={handleQuerySubmit} className="bg-white border-2 border-slate-100 rounded-[2.5rem] p-8 shadow-2xl space-y-6 animate-in slide-in-from-top duration-500">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Farmer Name / ID</label>
-                                <input required type="text" placeholder="Seller Details" className="w-full bg-slate-50 border-2 border-transparent focus:border-indigo-500 rounded-2xl px-5 py-4 outline-none transition-all font-medium" />
+                    <form onSubmit={(e) => handleQuerySubmit(e, formType)} className="space-y-6">
+                        {formType === 'dispute' && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">{t.farmerNameLabel}</label>
+                                    <input required name="farmerName" type="text" placeholder={t.farmerNamePlaceholder} className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl px-5 py-4 outline-none transition-all font-medium" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">{t.orderIdLabel}</label>
+                                    <input required name="orderId" type="text" placeholder={t.orderIdPlaceholder} className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl px-5 py-4 outline-none transition-all font-medium" />
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Order/Lot ID</label>
-                                <input required type="text" placeholder="Transaction ID" className="w-full bg-slate-50 border-2 border-transparent focus:border-indigo-500 rounded-2xl px-5 py-4 outline-none transition-all font-medium" />
-                            </div>
-                        </div>
+                        )}
                         <div className="space-y-2">
-                            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Type of Issue</label>
-                            <select required className="w-full bg-slate-50 border-2 border-transparent focus:border-indigo-500 rounded-2xl px-5 py-4 outline-none transition-all font-bold text-slate-700">
-                                <option value="">Select category...</option>
-                                <option value="quality">Quality Mismatch</option>
-                                <option value="weight">Weight/Quantity Shortage</option>
-                                <option value="delivery">Late Delivery</option>
-                                <option value="invoice">Invoice/GST Error</option>
+                            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">{t.issueTypeLabel}</label>
+                            <select required name="issue" className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl px-5 py-4 outline-none transition-all font-bold text-slate-700">
+                                <option value="">{t.selectCategory}</option>
+                                {formType === 'dispute' ? (
+                                    <>
+                                        <option value="quality">{t.issueQuality}</option>
+                                        <option value="weight">{t.issueWeight}</option>
+                                        <option value="delivery">{t.issueDelivery}</option>
+                                        <option value="invoice">{t.issueInvoice}</option>
+                                    </>
+                                ) : (
+                                    <>
+                                        <option value="kyc_help">{t.queryOptions?.kyc_help || 'KYC Help'}</option>
+                                        <option value="logistics_help">{t.queryOptions?.logistics_help || 'Logistics Request'}</option>
+                                        <option value="payment_issue">{t.queryOptions?.payment_issue || 'Payment Issue'}</option>
+                                        <option value="other">{t.queryOptions?.other || 'Other'}</option>
+                                    </>
+                                )}
                             </select>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">Detailed Message</label>
-                            <textarea required rows="4" placeholder="Briefly describe the issue for our verification team..." className="w-full bg-slate-50 border-2 border-transparent focus:border-indigo-500 rounded-2xl px-5 py-4 outline-none transition-all font-medium resize-none"></textarea>
+                            <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">{t.messageLabel}</label>
+                            <textarea required name="details" rows="4" placeholder={t.messagePlaceholder} className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 rounded-2xl px-5 py-4 outline-none transition-all font-medium resize-none"></textarea>
                         </div>
                         <button
                             disabled={formStatus === 'sending'}
                             className={`w-full py-5 rounded-[2rem] font-black text-lg shadow-xl transition-all active:scale-95 ${formStatus === 'success' ? 'bg-emerald-500 text-white' : 'bg-rose-600 text-white shadow-rose-200'}`}
                         >
-                            {formStatus === 'sending' ? 'Registering...' : formStatus === 'success' ? 'Dispute Raised! ✅' : 'Submit for Investigation'}
+                            {formStatus === 'sending' ? t.registering : formStatus === 'success' ? (formType === 'dispute' ? t.disputeRaised : 'Query Sent! ✅') : t.submitInvest}
                         </button>
                     </form>
-                )}
-            </div>
+                </div>
+            )}
+        </div>
+    );
 
-            {/* Floating Decorative Footer */}
-            <div className="text-center p-10">
-                <p className="text-slate-300 font-black italic">AgriWise Procurement Support — Securing the Supply Chain</p>
+    const FeatureCard = ({ icon, title, desc, onClick, color, footer, bgIcon }) => {
+        const colors = {
+            blue: "from-blue-50 border-blue-100 hover:border-blue-300",
+            indigo: "from-indigo-50 border-indigo-100 hover:border-indigo-300",
+            amber: "from-amber-50 border-amber-100 hover:border-amber-300",
+            emerald: "from-emerald-50 border-emerald-100 hover:border-emerald-300"
+        };
+        const btnColors = {
+            blue: "bg-blue-600",
+            indigo: "bg-indigo-600",
+            amber: "bg-amber-600",
+            emerald: "bg-emerald-600"
+        };
+        return (
+            <div onClick={onClick} className={`bg-gradient-to-br ${colors[color]} to-white border-2 rounded-[3rem] p-10 cursor-pointer hover:shadow-2xl transition-all group relative overflow-hidden`}>
+                <div className="relative z-10">
+                    <span className="text-6xl block mb-6 group-hover:scale-110 transition-transform">{icon}</span>
+                    <h3 className="text-2xl font-black text-slate-800 mb-2">{title}</h3>
+                    <p className="text-slate-500 font-bold mb-6 leading-relaxed">{desc}</p>
+                    <span className={`inline-block ${btnColors[color]} text-white font-black px-6 py-3 rounded-xl text-sm transition-transform active:scale-95`}>{footer}</span>
+                </div>
+                <div className="absolute -right-10 -bottom-10 text-[12rem] opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">{bgIcon}</div>
             </div>
+        );
+    };
+
+    const SubPageHeader = () => (
+        <button onClick={() => setActiveView('main')} className="text-blue-600 font-black flex items-center gap-2 mb-8 bg-blue-50 px-6 py-3 rounded-2xl hover:bg-blue-100 transition-all w-fit group">
+            <span className="group-hover:-translate-x-1 transition-transform">←</span> {t.backDashboard}
+        </button>
+    );
+
+    const SubPageView = ({ title, fullText, icon, colorClass, children, bgIcon }) => (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-8">
+            <SubPageHeader />
+            <div className={`bg-white rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-2 ${colorClass} relative overflow-hidden`}>
+                <div className="max-w-2xl relative z-10 space-y-8">
+                    <h2 className="text-4xl md:text-7xl font-black text-slate-900 tracking-tight leading-none">{title} {icon}</h2>
+                    <p className="text-slate-600 font-bold text-lg md:text-xl leading-relaxed">{fullText}</p>
+                    {children}
+                </div>
+                <div className="absolute -right-20 -bottom-20 text-[20rem] opacity-5 rotate-12 pointer-events-none">{bgIcon}</div>
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="min-h-screen bg-slate-50 pb-20 font-sans">
+            {/* Main Navigation Header */}
+            <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+                <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+                    <button onClick={() => activeView === 'main' ? navigate('/marketplace') : setActiveView('main')} className="flex items-center gap-2 text-blue-700 font-black uppercase text-xs tracking-widest hover:text-blue-500 transition-colors">
+                        <span>←</span> {activeView === 'main' ? t.back : 'Dashboard'}
+                    </button>
+                    {user?.email && (
+                        <button onClick={() => setShowMyReports(true)} className="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-xl font-black uppercase text-xs tracking-widest hover:bg-blue-100 transition-colors ml-4">
+                            <span>📋</span>
+                            <span>{t.myReports || 'Reports'}</span>
+                            {myReports.length > 0 && <span className="bg-blue-600 text-white w-5 h-5 flex items-center justify-center rounded-full text-[10px]">{myReports.length}</span>}
+                        </button>
+                    )}
+                    <select
+                        value={lang}
+                        onChange={(e) => setLang(e.target.value)}
+                        className="bg-slate-100 border-none rounded-xl px-4 py-2 text-xs font-black uppercase tracking-widest text-blue-700 outline-none cursor-pointer hover:bg-white hover:ring-2 hover:ring-blue-100 transition-all shadow-sm"
+                    >
+                        <option value="en">English (EN)</option>
+                        <option value="hi">हिंदी (HI)</option>
+                        <option value="te">తెలుగు (TE)</option>
+                        <option value="ta">தமிழ் (TA)</option>
+                        <option value="ml">മലയാളം (ML)</option>
+                        <option value="kn">ಕನ್ನಡ (KN)</option>
+                        <option value="pa">ਪੰਜਾਬੀ (PA)</option>
+                        <option value="mr">मराठी (MR)</option>
+                    </select>
+                </div>
+            </header>
+
+            <main className="max-w-4xl mx-auto p-6 mt-8">
+                {activeView === 'main' && <MainView />}
+                {activeView === 'procurement' && (
+                    <SubPageView title={t.procurementTitle} fullText={t.procurementFull} icon="📦" colorClass="border-blue-50" bgIcon="🏢">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                            <button className="flex items-center gap-4 p-6 bg-slate-50 rounded-[2rem] border-2 border-slate-100 hover:border-blue-400 transition-all text-left group">
+                                <span className="text-3xl group-hover:scale-110 transition-transform">⚖️</span>
+                                <span className="font-black text-slate-800 tracking-tight">{t.auctionRules}</span>
+                            </button>
+                            <button className="flex items-center gap-4 p-6 bg-slate-50 rounded-[2rem] border-2 border-slate-100 hover:border-blue-400 transition-all text-left group">
+                                <span className="text-3xl group-hover:scale-110 transition-transform">📝</span>
+                                <span className="font-black text-slate-800 tracking-tight">{t.tenderTracker}</span>
+                            </button>
+                        </div>
+                    </SubPageView>
+                )}
+                {activeView === 'logistics' && (
+                    <SubPageView title={t.logisticsTitle} fullText={t.logisticsFull} icon="🚚" colorClass="border-indigo-50" bgIcon="🛣️">
+                        <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 p-8 rounded-[2.5rem] text-white shadow-xl shadow-indigo-100">
+                            <h4 className="font-black uppercase tracking-widest text-xs mb-4 opacity-80">{t.liveTracking}</h4>
+                            <p className="font-bold text-lg leading-relaxed">{t.trackingDesc}</p>
+                        </div>
+                    </SubPageView>
+                )}
+                {activeView === 'quality' && (
+                    <SubPageView title={t.qualityTitle} fullText={t.qualityFull} icon="🔬" colorClass="border-amber-50" bgIcon="📋">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                            {[t.gradeAplus, t.gradeA, t.gradeB].map((g, i) => (
+                                <div key={i} className="bg-slate-50 p-8 rounded-[2rem] border-2 border-amber-100 text-center group hover:bg-white hover:shadow-xl hover:border-amber-400 transition-all">
+                                    <span className="text-4xl block mb-3 group-hover:rotate-12 transition-transform">{['🏅', '🥈', '🥉'][i]}</span>
+                                    <h4 className="font-black text-slate-800 uppercase text-xs tracking-widest mb-2">{g}</h4>
+                                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">{[t.exportGrade, t.domesticStd, t.industrial][i]}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </SubPageView>
+                )}
+                {activeView === 'payments' && (
+                    <SubPageView title={t.paymentTitle} fullText={t.paymentFull} icon="💳" colorClass="border-emerald-50" bgIcon="💰">
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                            <button className="bg-emerald-600 text-white font-black px-10 py-5 rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-100 active:scale-95">{t.downloadGst}</button>
+                            <button className="bg-slate-900 text-white font-black px-10 py-5 rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 active:scale-95">{t.walletSettings}</button>
+                        </div>
+                    </SubPageView>
+                )}
+            </main>
+
+            {/* Premium Decorative Footer */}
+            <footer className="text-center p-14 opacity-40">
+                <p className="text-slate-400 font-black text-xs uppercase tracking-[0.3em] italic">{t.footerText}</p>
+            </footer>
+            {/* My Reports Modal */}
+            {showMyReports && (
+                <div className="fixed inset-0 bg-slate-900/50 z-[100] flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white rounded-[2rem] w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95 duration-200 border-4 border-slate-50">
+                        <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                            <h3 className="text-2xl font-black text-slate-800 tracking-tight">{t.myReports || 'My Reports'}</h3>
+                            <button onClick={() => setShowMyReports(false)} className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-700 hover:bg-slate-300 transition-all font-bold">✕</button>
+                        </div>
+                        <div className="p-8 overflow-y-auto">
+                            {myReports.length === 0 ? (
+                                <div className="text-center py-12 text-slate-400 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
+                                    <p className="font-bold">No reports found.</p>
+                                </div>
+                            ) : (
+                                <div className="space-y-4">
+                                    {myReports.map((report) => (
+                                        <div key={report._id} className="border border-slate-100 rounded-2xl p-6 hover:shadow-xl hover:shadow-slate-100 transition-all bg-white group">
+                                            <div className="flex justify-between items-start mb-4">
+                                                <div>
+                                                    <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${report.type === 'dispute' ? 'bg-rose-100 text-rose-600' : 'bg-blue-100 text-blue-600'
+                                                        }`}>
+                                                        {report.type}
+                                                    </span>
+                                                    <h4 className="font-bold text-slate-800 mt-3 text-lg">{report.subject}</h4>
+                                                    <p className="text-xs font-bold text-slate-400 mt-1 uppercase tracking-wider">{new Date(report.createdAt).toLocaleDateString()}</p>
+                                                </div>
+                                                <div className="flex flex-col items-end">
+                                                    <span className={`text-xs font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm ${report.status === 'resolved' ? 'bg-emerald-500 text-white' :
+                                                        report.status === 'in-progress' ? 'bg-amber-400 text-white' :
+                                                            'bg-slate-200 text-slate-500'
+                                                        }`}>
+                                                        {report.status}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="bg-slate-50 p-4 rounded-xl text-sm font-medium text-slate-600">
+                                                <p className="line-clamp-2">{report.details.message || report.details.details || report.details.issue}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

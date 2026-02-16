@@ -1,0 +1,413 @@
+  console.error
+    An update to Weather inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      464 |       const res = await fetch(`http://localhost:5001/api/support/weather?lat=${lat}&lon=${lon}&crop=${crop}&lang=${currentLang}`);
+      465 |       const json = await res.json();
+    > 466 |       if (json.success) setData(json.data);
+          |                         ^
+      467 |     } catch (err) {
+      468 |       console.error("Failed to fetch weather", err);
+      469 |     } finally {
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at setData (src/components/Weather.jsx:466:25)
+      at Generator.call (src/components/Weather.jsx:2:1)
+      at Generator._invoke [as next] (src/components/Weather.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.jsx:2:1)
+
+  console.error
+    An update to Weather inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      468 |       console.error("Failed to fetch weather", err);
+      469 |     } finally {
+    > 470 |       setLoading(false);
+          |       ^
+      471 |     }
+      472 |   };
+      473 |
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at setLoading (src/components/Weather.jsx:470:7)
+      at Generator.call (src/components/Weather.jsx:2:1)
+      at Generator._invoke [as next] (src/components/Weather.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.jsx:2:1)
+
+FAIL src/components/Weather.test.jsx
+  Weather Component
+    √ renders loading state initially (50 ms)
+    × renders weather data after fetch (1028 ms)
+    × navigates back on button click (1009 ms)
+
+  ● Weather Component › renders weather data after fetch
+
+    Found multiple elements with the text: 28°
+
+    Here are the matching elements:
+
+    Ignored nodes: comments, script, style
+    [36m<h1[39m
+      [33mclass[39m=[32m"text-7xl font-black tracking-tighter leading-none"[39m
+    [36m>[39m
+      [0m28[0m
+      [0m°[0m
+    [36m</h1>[39m
+
+    Ignored nodes: comments, script, style
+    [36m<p[39m
+      [33mclass[39m=[32m"text-2xl font-black text-slate-800"[39m
+    [36m>[39m
+      [0m28[0m
+      [0m°[0m
+    [36m</p>[39m
+
+    (If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"min-h-screen bg-[#f8fbff] pb-20"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"max-w-5xl mx-auto px-6 py-4 flex justify-between items-center"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"flex items-center gap-2 text-sky-700 font-black uppercase text-xs tracking-widest hover:text-sky-500 transition-colors"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0m←[0m
+                [36m</span>[39m
+                [0m [0m
+                [0mBack to Dashboard[0m
+              [36m</button>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center gap-4"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto max-w-[200px] md:max-w-none no-scrollbar"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 bg-white text-slate-900 shadow-sm"[39m
+                  [36m>[39m
+                    [0men[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mhi[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mte[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mta[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mkn[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mmr[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mml[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mbn[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"hidden md:flex items-center gap-2 bg-sky-50 px-4 py-2 rounded-full border border-sky-100"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"w-2 h-2 bg-emerald-500 rounded-full animate-pulse"[39m
+                  [36m/>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"text-[10px] font-black text-sky-700 uppercase tracking-widest"[39m
+                  [36m>[39m
+                    [0mLive Satellite Portal[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<main[39m
+            [33mclass[39m=[32m"max-w-5xl mx-auto p-6 space-y-10 mt-8"[39m
+          [36m>[39m
+            [36m<section[39m
+              [33mclass[39m=[32m"relative overflow-hidden rounded-[3.5rem] p-8 md:p-12 text-white shadow-2xl transition-all duration-1000 bg-gradient-to-br from-amber-400 to-orange-600"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"absolute inset-0 pointer-events-none overflow-hidden opacity-20"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] border-[1px] border-white/20 rounded-full animate-[spin_10s_linear_infinite]"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1/2 bg-gradient-to-t from-emerald-400 to-transparent origin-bottom"[39m
+                  [36m/>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.05)_100%)]"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"absolute inset-0 pointer-events-none overflow-hidden"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 0%; animation-delay: 0s;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 20%; animation-delay: 0.5s;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 40%; animation-delay: 1s;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 60%; animation-delay: 1.5s;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 80%; animation-delay: 2s;"[39m
+                [36m/>[39m
+                [36m...
+
+      76 |         );
+      77 |
+    > 78 |         await waitFor(() => {
+         |                      ^
+      79 |             expect(screen.getByText('28°')).toBeInTheDocument();
+      80 |         });
+      81 |
+
+      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
+      at src/components/Weather.test.jsx:78:22
+      at Generator.call (src/components/Weather.test.jsx:2:1)
+      at Generator._invoke [as next] (src/components/Weather.test.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.test.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.test.jsx:2:1)
+      at _next (src/components/Weather.test.jsx:2:1)
+      at Object.<anonymous> (src/components/Weather.test.jsx:2:1)
+
+  ● Weather Component › navigates back on button click
+
+    Found multiple elements with the text: 28°
+
+    Here are the matching elements:
+
+    Ignored nodes: comments, script, style
+    [36m<h1[39m
+      [33mclass[39m=[32m"text-7xl font-black tracking-tighter leading-none"[39m
+    [36m>[39m
+      [0m28[0m
+      [0m°[0m
+    [36m</h1>[39m
+
+    Ignored nodes: comments, script, style
+    [36m<p[39m
+      [33mclass[39m=[32m"text-2xl font-black text-slate-800"[39m
+    [36m>[39m
+      [0m28[0m
+      [0m°[0m
+    [36m</p>[39m
+
+    (If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+    Ignored nodes: comments, script, style
+    [36m<body>[39m
+      [36m<div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"min-h-screen bg-[#f8fbff] pb-20"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"max-w-5xl mx-auto px-6 py-4 flex justify-between items-center"[39m
+            [36m>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"flex items-center gap-2 text-sky-700 font-black uppercase text-xs tracking-widest hover:text-sky-500 transition-colors"[39m
+              [36m>[39m
+                [36m<span>[39m
+                  [0m←[0m
+                [36m</span>[39m
+                [0m [0m
+                [0mBack to Dashboard[0m
+              [36m</button>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center gap-4"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"flex bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto max-w-[200px] md:max-w-none no-scrollbar"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 bg-white text-slate-900 shadow-sm"[39m
+                  [36m>[39m
+                    [0men[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mhi[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mte[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mta[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mkn[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mmr[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mml[0m
+                  [36m</button>[39m
+                  [36m<button[39m
+                    [33mclass[39m=[32m"px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 text-slate-400 hover:text-slate-600"[39m
+                  [36m>[39m
+                    [0mbn[0m
+                  [36m</button>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"hidden md:flex items-center gap-2 bg-sky-50 px-4 py-2 rounded-full border border-sky-100"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"w-2 h-2 bg-emerald-500 rounded-full animate-pulse"[39m
+                  [36m/>[39m
+                  [36m<span[39m
+                    [33mclass[39m=[32m"text-[10px] font-black text-sky-700 uppercase tracking-widest"[39m
+                  [36m>[39m
+                    [0mLive Satellite Portal[0m
+                  [36m</span>[39m
+                [36m</div>[39m
+              [36m</div>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<main[39m
+            [33mclass[39m=[32m"max-w-5xl mx-auto p-6 space-y-10 mt-8"[39m
+          [36m>[39m
+            [36m<section[39m
+              [33mclass[39m=[32m"relative overflow-hidden rounded-[3.5rem] p-8 md:p-12 text-white shadow-2xl transition-all duration-1000 bg-gradient-to-br from-amber-400 to-orange-600"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"absolute inset-0 pointer-events-none overflow-hidden opacity-20"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] border-[1px] border-white/20 rounded-full animate-[spin_10s_linear_infinite]"[39m
+                [36m>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1/2 bg-gradient-to-t from-emerald-400 to-transparent origin-bottom"[39m
+                  [36m/>[39m
+                [36m</div>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.05)_100%)]"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"absolute inset-0 pointer-events-none overflow-hidden"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 0%; animation-delay: 0s;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 20%; animation-delay: 0.5s;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 40%; animation-delay: 1s;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 60%; animation-delay: 1.5s;"[39m
+                [36m/>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"absolute top-[-10%] w-32 h-[120%] bg-gradient-to-b from-white/20 to-transparent blur-3xl -rotate-12 animate-[pulse_4s_ease-in-out_infinite]"[39m
+                  [33mstyle[39m=[32m"left: 80%; animation-delay: 2s;"[39m
+                [36m/>[39m
+                [36m...
+
+      106 |         );
+      107 |
+    > 108 |         await waitFor(() => screen.getByText('28°'));
+          |                      ^
+      109 |
+      110 |         const backBtn = screen.getByText(/Back to Dashboard/i);
+      111 |         fireEvent.click(backBtn);
+
+      at waitForWrapper (node_modules/@testing-library/dom/dist/wait-for.js:163:27)
+      at src/components/Weather.test.jsx:108:22
+      at Generator.call (src/components/Weather.test.jsx:2:1)
+      at Generator._invoke [as next] (src/components/Weather.test.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.test.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.test.jsx:2:1)
+      at _next (src/components/Weather.test.jsx:2:1)
+      at Object.<anonymous> (src/components/Weather.test.jsx:2:1)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 1 passed, 3 total
+Snapshots:   0 total
+Time:        4.222 s
+Ran all test suites matching src/components/Weather.test.jsx.

@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from './components/LoginPage';
 import LandingPage from './components/LandingPage';
 import FrontPage from './components/FrontPage';
+import AdminFrontPage from './components/AdminFrontPage'; // Import Admin Page
+import AdminSupport from './components/AdminSupport';
 import MarketPrices from './components/MarketPrices';
 import MyCrops from './components/MyCrops';
 import GovtSchemes from './components/GovtSchemes';
@@ -16,6 +18,7 @@ import BuyerSupport from './components/BuyerSupport';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
 import { CartProvider } from './components/CartContext';
+import { LanguageProvider } from './components/LanguageContext'; // Import Language Provider
 
 // Public Static Pages
 import About from './components/About';
@@ -64,80 +67,84 @@ function App() {
   }
 
   return (
-    <CartProvider>
-      <Router>
-        <main className="antialiased text-gray-900">
-          <Routes>
-            {/* Public Routes - Accessible to all */}
-            <Route
-              path="/login"
-              element={!user ? <LoginPage onLogin={handleLogin} /> : <Navigate to="/" />}
-            />
+    <LanguageProvider>
+      <CartProvider>
+        <Router>
+          <main className="antialiased text-gray-900">
+            <Routes>
+              {/* Public Routes - Accessible to all */}
+              <Route
+                path="/login"
+                element={!user ? <LoginPage onLogin={handleLogin} /> : <Navigate to="/" />}
+              />
 
-            {/* Logic: If user is logged in, '/' goes to Dashboard (FrontPage/BuyerFrontPage).
-                If NOT logged in, '/' goes to Landing Page. */}
-            <Route
-              path="/"
-              element={
-                user ? (
-                  user.role === 'buyer' ? (
-                    <BuyerFrontPage onLogout={handleLogout} />
+              {/* Logic: If user is logged in, '/' goes to Dashboard based on Role. */}
+              <Route
+                path="/"
+                element={
+                  user ? (
+                    user.role === 'buyer' ? (
+                      <BuyerFrontPage onLogout={handleLogout} />
+                    ) : user.role === 'admin' ? (
+                      <AdminFrontPage onLogout={handleLogout} />
+                    ) : (
+                      <FrontPage onLogout={handleLogout} />
+                    )
                   ) : (
-                    <FrontPage onLogout={handleLogout} />
+                    <LandingPage />
                   )
-                ) : (
-                  <LandingPage />
-                )
-              }
-            />
+                }
+              />
 
-            {/* Public Page Routes */}
-            <Route path="/about" element={<About />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/contact" element={<Contact />} />
+              {/* Public Page Routes */}
+              <Route path="/about" element={<About />} />
+              <Route path="/features" element={<Features />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/contact" element={<Contact />} />
 
-            {user ? (
-              <>
-                {/* Authenticated Routes */}
-                <Route path="/market-prices" element={<MarketPrices />} />
-                <Route path="/my-crops" element={<MyCrops user={user} />} />
-                <Route path="/govt-schemes" element={<GovtSchemes />} />
-                <Route path="/marketplace" element={<MarketPlace />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/weather" element={<Weather />} />
-                <Route
-                  path="/support"
-                  element={user.role === 'buyer' ? <BuyerSupport /> : <Support />}
-                />
+              {user ? (
+                <>
+                  {/* Authenticated Routes */}
+                  <Route path="/market-prices" element={<MarketPrices />} />
+                  <Route path="/my-crops" element={<MyCrops user={user} />} />
+                  <Route path="/govt-schemes" element={<GovtSchemes />} />
+                  <Route path="/marketplace" element={<MarketPlace />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/product/:id" element={<ProductDetails />} />
+                  <Route path="/weather" element={<Weather />} />
+                  <Route path="/admin-support" element={<AdminSupport />} />
+                  <Route
+                    path="/support"
+                    element={user.role === 'buyer' ? <BuyerSupport user={user} /> : <Support user={user} />}
+                  />
 
-                {/* Govt Schemes Sub-Routes with Role Based Access */}
-                <Route
-                  path="/schemes/list"
-                  element={user.role === 'admin' ? <SchemeListAdmin /> : <SchemeListFarmer user={user} />}
-                />
-                <Route
-                  path="/schemes/tips"
-                  element={user.role === 'admin' ? <FarmingTipsAdmin /> : <FarmingTipsFarmer />}
-                />
-                <Route
-                  path="/schemes/updates"
-                  element={user.role === 'admin' ? <LatestUpdatesAdmin /> : <LatestUpdatesFarmer />}
-                />
-                <Route
-                  path="/schemes/finance"
-                  element={user.role === 'admin' ? <FinanceAdmin /> : <FinanceFarmer user={user} />}
-                />
-              </>
-            ) : (
-              /* Fallback for unauthenticated trying to access protected routes */
-              <Route path="*" element={<Navigate to="/login" />} />
-            )}
-          </Routes>
-        </main>
-      </Router>
-    </CartProvider>
+                  {/* Govt Schemes Sub-Routes with Role Based Access */}
+                  <Route
+                    path="/schemes/list"
+                    element={user.role === 'admin' ? <SchemeListAdmin /> : <SchemeListFarmer user={user} />}
+                  />
+                  <Route
+                    path="/schemes/tips"
+                    element={user.role === 'admin' ? <FarmingTipsAdmin /> : <FarmingTipsFarmer />}
+                  />
+                  <Route
+                    path="/schemes/updates"
+                    element={user.role === 'admin' ? <LatestUpdatesAdmin /> : <LatestUpdatesFarmer />}
+                  />
+                  <Route
+                    path="/schemes/finance"
+                    element={user.role === 'admin' ? <FinanceAdmin /> : <FinanceFarmer user={user} />}
+                  />
+                </>
+              ) : (
+                /* Fallback for unauthenticated trying to access protected routes */
+                <Route path="*" element={<Navigate to="/login" />} />
+              )}
+            </Routes>
+          </main>
+        </Router>
+      </CartProvider>
+    </LanguageProvider>
   );
 }
 

@@ -233,8 +233,10 @@ const Marketplace = () => {
                             <div className="flex gap-2.5 mt-2">
                               <button onClick={() => navigate(`/product/${p._id || p.id}`, { state: { ...p, imageUrl: productImg } })} className="flex-1 bg-white border-2 border-emerald-100 py-3 rounded-2xl font-black text-emerald-900 text-[10px] uppercase tracking-widest hover:bg-emerald-50 flex items-center justify-center gap-2">
                                 Details <ChevronRight size={14} />
-                              </button> 
-                              <button onClick={() => addToCart({ ...p, id: p._id || p.id, imageUrl: productImg })} className="w-12 h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90">
+                              </button>
+                              <button
+                                title="Add to Cart"
+                                onClick={() => addToCart({ ...p, id: p._id || p.id, imageUrl: productImg })} className="w-12 h-12 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl flex items-center justify-center shadow-lg transition-all active:scale-90">
                                 <ShoppingCart size={18} />
                               </button>
                             </div>
