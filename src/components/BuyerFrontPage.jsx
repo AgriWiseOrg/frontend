@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     TrendingUp, Sprout, Landmark, ShoppingBag,
     CloudSun, LifeBuoy, Search, LogOut, ShoppingCart,
-    ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X
+    ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User
 } from 'lucide-react';
 import { useCart } from './CartContext';
 
@@ -148,6 +148,9 @@ const BuyerFrontPage = ({ onLogout }) => {
                     </motion.div>
 
                     <div className="flex items-center gap-4">
+                        <button onClick={() => navigate('/profile')} className="p-2.5 border border-slate-200 hover:bg-emerald-50 hover:border-emerald-200 text-slate-500 hover:text-emerald-600 rounded-full transition-all shadow-sm" title="Profile">
+                            <User className="w-5 h-5" />
+                        </button>
                         <button onClick={() => navigate('/cart')} className="relative p-2.5 bg-white border border-slate-200 hover:border-emerald-500 rounded-full transition-all shadow-sm">
                             <ShoppingCart className="w-5 h-5 text-slate-700" />
                             {totalItems > 0 && (

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   TrendingUp, Sprout, Landmark, ShoppingBag,
   CloudSun, LifeBuoy, Search, LogOut, ShoppingCart,
-  ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X
+  ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User
 } from 'lucide-react';
 import { useCart } from './CartContext';
 
@@ -19,7 +19,7 @@ const FrontPage = ({ onLogout }) => {
   const [loadingWeather, setLoadingWeather] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   // New State for Sliding Updates - Initially empty, filled by API
   const [updateIndex, setUpdateIndex] = useState(0);
   const [cropUpdates, setCropUpdates] = useState([
@@ -30,16 +30,16 @@ const FrontPage = ({ onLogout }) => {
   useEffect(() => {
     const fetchMarketTicker = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/market/prices');    
+        const response = await fetch('http://localhost:5001/api/market/prices');
         const data = await response.json();
-        
+
         if (data && data.length > 0) {
           const dynamicUpdates = data.slice(0, 6).map(item => {
             // Generate a realistic % change based on the trend provided by your API
             // Since API doesn't provide % directly, we generate a stable random % for display
             const isUp = item.trend === 'up';
             const percentage = (Math.random() * (15 - 2) + 2).toFixed(1); // Random 2% to 15%
-            
+
             return {
               crop: item.crop.split(' ')[0], // Get main name (e.g. "Wheat")
               change: `${isUp ? '+' : '-'}${percentage}%`,
@@ -60,7 +60,7 @@ const FrontPage = ({ onLogout }) => {
     if (cropUpdates.length <= 1) return;
     const timer = setInterval(() => {
       setUpdateIndex((prev) => (prev + 1) % cropUpdates.length);
-    }, 4000); 
+    }, 4000);
     return () => clearInterval(timer);
   }, [cropUpdates]);
 
@@ -151,6 +151,9 @@ const FrontPage = ({ onLogout }) => {
           </motion.div>
 
           <div className="flex items-center gap-4">
+            <button onClick={() => navigate('/profile')} className="p-2.5 border border-slate-200 hover:bg-emerald-50 hover:border-emerald-200 text-slate-500 hover:text-emerald-600 rounded-full transition-all shadow-sm" title="Profile">
+              <User className="w-5 h-5" />
+            </button>
             <button onClick={() => navigate('/cart')} className="relative p-2.5 bg-white border border-slate-200 hover:border-emerald-500 rounded-full transition-all shadow-sm">
               <ShoppingCart className="w-5 h-5 text-slate-700" />
               {totalItems > 0 && (
@@ -235,11 +238,11 @@ const FrontPage = ({ onLogout }) => {
             className="w-full bg-white border-2 border-slate-200 rounded-[2rem] py-6 px-16 shadow-lg shadow-slate-200/40 focus:shadow-emerald-500/10 focus:border-emerald-500 transition-all outline-none text-lg font-medium"
           />
           <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-3">
-             {searchQuery && (
-                <button onClick={() => setSearchQuery("")} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 hover:text-red-500 transition-colors">
-                  <X size={20} />
-                </button>
-             )}
+            {searchQuery && (
+              <button onClick={() => setSearchQuery("")} className="p-2 hover:bg-slate-100 rounded-full text-slate-400 hover:text-red-500 transition-colors">
+                <X size={20} />
+              </button>
+            )}
             <div className="hidden md:flex gap-2">
               <kbd className="px-2 py-1 bg-slate-100 text-slate-500 rounded-lg text-xs font-bold border border-slate-300">CTRL</kbd>
               <kbd className="px-2 py-1 bg-slate-100 text-slate-500 rounded-lg text-xs font-bold border border-slate-300">K</kbd>
@@ -263,7 +266,7 @@ const FrontPage = ({ onLogout }) => {
                 </div>
                 <span className="text-emerald-400 font-black text-xs uppercase tracking-[0.3em]">Market Intelligence</span>
               </div>
-              
+
               {/* Sliding Animation Container */}
               <div className="h-[120px] md:h-[160px] overflow-hidden">
                 <AnimatePresence mode="wait">
@@ -289,7 +292,7 @@ const FrontPage = ({ onLogout }) => {
                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
-            
+
             <div className="absolute top-0 right-0 w-full h-full opacity-30 pointer-events-none">
               <div className="absolute -right-20 -top-20 w-96 h-96 bg-emerald-500 rounded-full blur-[120px]" />
             </div>
