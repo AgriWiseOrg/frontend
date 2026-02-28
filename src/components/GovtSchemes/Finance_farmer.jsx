@@ -50,6 +50,9 @@ const FinanceFarmer = ({ user }) => {
       }
     };
 
+    fetchData();
+  }, [user]);
+
   const handleSubsidyCheck = (e) => {
     e.preventDefault();
     const landNum = parseFloat(subsidyData.land);
@@ -266,4 +269,4 @@ const FinanceFarmer = ({ user }) => {
   );
 };
 
-export default FinanceFarmer;                                   // Export component
+export default FinanceFarmer;
