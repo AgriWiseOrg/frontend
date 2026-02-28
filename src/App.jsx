@@ -40,6 +40,7 @@ import FinanceAdmin from './components/GovtSchemes/Finance_admin';
 import FinanceFarmer from './components/GovtSchemes/Finance_farmer';
 import BuyerFrontPage from './components/BuyerFrontPage';
 import Profile from './components/Profile';
+import OrderManagement from './components/OrderManagement';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -107,6 +108,7 @@ function App() {
                 <>
                   {/* Authenticated Routes */}
                   <Route path="/profile" element={<Profile user={user} />} />
+                  <Route path="/orders" element={<OrderManagement user={user} />} />
                   <Route path="/market-prices" element={<MarketPrices />} />
                   <Route path="/my-crops" element={<MyCrops user={user} />} />
                   <Route path="/govt-schemes" element={<GovtSchemes />} />

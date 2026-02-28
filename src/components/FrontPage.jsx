@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   TrendingUp, Sprout, Landmark, ShoppingBag,
   CloudSun, LifeBuoy, Search, LogOut, ShoppingCart,
-  ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User
+  ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ClipboardList
 } from 'lucide-react';
 import { useCart } from './CartContext';
 
@@ -124,8 +124,8 @@ const FrontPage = ({ onLogout }) => {
     { title: 'Market Prices', icon: <TrendingUp />, desc: 'Real-time crop rates', color: 'bg-blue-600', path: '/market-prices', badge: 'Live' },
     { title: 'My Crops', icon: <Sprout />, desc: 'Track your growth', color: 'bg-emerald-600', path: '/my-crops' },
     { title: 'Govt Schemes', icon: <Landmark />, desc: 'Subsidy & Grants', color: 'bg-orange-600', path: '/govt-schemes', badge: 'New' },
+    { title: 'Order Management', icon: <ClipboardList />, desc: 'View Buyer Orders', color: 'bg-sky-600', path: '/orders', badge: 'Active' },
     { title: 'Marketplace', icon: <ShoppingBag />, desc: 'Equipment & Seeds', color: 'bg-purple-600', path: '/marketplace' },
-    { title: 'Weather', icon: <CloudSun />, desc: 'Precision forecast', color: 'bg-sky-600', path: '/weather' },
     { title: 'Support', icon: <LifeBuoy />, desc: 'Expert help', color: 'bg-rose-600', path: '/support' },
   ];
 
@@ -151,6 +151,9 @@ const FrontPage = ({ onLogout }) => {
           </motion.div>
 
           <div className="flex items-center gap-4">
+            <button onClick={() => navigate('/weather')} className="p-2.5 border border-slate-200 hover:bg-sky-50 hover:border-sky-200 text-slate-500 hover:text-sky-600 rounded-full transition-all shadow-sm" title="Weather">
+              <CloudSun className="w-5 h-5" />
+            </button>
             <button onClick={() => navigate('/profile')} className="p-2.5 border border-slate-200 hover:bg-emerald-50 hover:border-emerald-200 text-slate-500 hover:text-emerald-600 rounded-full transition-all shadow-sm" title="Profile">
               <User className="w-5 h-5" />
             </button>
