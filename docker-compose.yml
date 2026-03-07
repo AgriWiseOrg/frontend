@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./Real/backend
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_URI=${MONGO_URI:-mongodb://localhost:27017/AgriWise}
+      - PORT=5001
+    restart: always
+
+  frontend:
+    build: ./Real/frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
