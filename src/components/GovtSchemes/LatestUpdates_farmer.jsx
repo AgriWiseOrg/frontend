@@ -208,4 +208,4 @@ const LatestUpdates = () => {
   );
 };
 
-export default LatestUpdates;
+export default LatestUpdates; // Export component

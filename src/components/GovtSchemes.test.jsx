@@ -1,3 +1,11 @@
+/*
+Unit Tests for GovtSchemes:
+- Renders heading text
+- Navigates back to home
+- Navigates on hub card click
+- Navigates via View All Alerts button
+*/
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import GovtSchemes from './GovtSchemes';

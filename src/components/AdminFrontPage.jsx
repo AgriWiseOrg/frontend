@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Landmark, FileText, Bell, Zap, LogOut, ShieldCheck,
     Search, ChevronRight, LayoutDashboard, Clock, Calendar,
-    CloudSun, Droplets, Wind, RefreshCw
+    CloudSun, Droplets, Wind, RefreshCw, User
 } from 'lucide-react';
 
 const AdminFrontPage = ({ onLogout }) => {
@@ -93,9 +93,14 @@ const AdminFrontPage = ({ onLogout }) => {
                         <span className="text-2xl font-black tracking-tight text-slate-900">AgriWise <span className="text-emerald-600">Admin</span></span>
                     </motion.div>
 
-                    <button onClick={onLogout} className="p-2.5 border border-slate-200 hover:bg-red-50 hover:border-red-200 text-slate-500 hover:text-red-600 rounded-full transition-all shadow-sm">
-                        <LogOut className="w-5 h-5" />
-                    </button>
+                    <div className="flex items-center gap-4">
+                        <button onClick={() => navigate('/profile')} className="p-2.5 border border-slate-200 hover:bg-emerald-50 hover:border-emerald-200 text-slate-500 hover:text-emerald-600 rounded-full transition-all shadow-sm" title="Profile">
+                            <User className="w-5 h-5" />
+                        </button>
+                        <button onClick={onLogout} className="p-2.5 border border-slate-200 hover:bg-red-50 hover:border-red-200 text-slate-500 hover:text-red-600 rounded-full transition-all shadow-sm">
+                            <LogOut className="w-5 h-5" />
+                        </button>
+                    </div>
                 </div>
             </nav>
 

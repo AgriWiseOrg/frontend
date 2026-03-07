@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';          // Import React + hooks for state & lifecycle
+import { useNavigate } from 'react-router-dom';              // Hook to programmatically change routes, functional components can do everything using hooks.
+import axios from 'axios';                                   // For making HTTP requests to backend
 import {
   Landmark,
   CreditCard,
@@ -46,9 +46,10 @@ const FinanceFarmer = ({ user }) => {
       } catch (err) {
         setError("Unable to connect to the server.");
       } finally {
-        setLoading(false);
+        setLoading(false);                                    // Stop loading
       }
     };
+
     fetchData();
   }, [user]);
 
@@ -86,40 +87,41 @@ const FinanceFarmer = ({ user }) => {
       if (response.status === 201) {
         setAppliedSchemes((prev) => [...prev, scheme._id]);
       }
+
     } catch (err) {
       alert("Application failed. Check backend connectivity.");
     } finally {
-      setSubmittingId(null);
+      setSubmittingId(null);                                   // Remove submitting state
     }
   };
 
-  const getIcon = (type) => {
-    const t = type?.toLowerCase() || '';
-    if (t.includes('loan')) return <Landmark className="w-6 h-6" />;
-    if (t.includes('private')) return <CreditCard className="w-6 h-6" />;
-    return <ShieldCheck className="w-6 h-6" />;
+  const getIcon = (type) => {                                  // Function to return icon based on type
+    const t = type?.toLowerCase() || '';                       // Convert safely to lowercase
+    if (t.includes('loan')) return <Landmark className="w-6 h-6" />;      // Loan icon
+    if (t.includes('private')) return <CreditCard className="w-6 h-6" />; // Private credit icon
+    return <ShieldCheck className="w-6 h-6" />;                // Default icon
   };
 
-  const getTheme = (color) => {
+  const getTheme = (color) => {                                // Returns color theme class
     const themes = {
       emerald: "bg-emerald-50 text-emerald-600",
       blue: "bg-blue-50 text-blue-600",
       amber: "bg-amber-50 text-amber-600",
       indigo: "bg-indigo-50 text-indigo-600"
     };
-    return themes[color] || themes.indigo;
+    return themes[color] || themes.indigo;                     // Default indigo
   };
 
-  if (loading) return (
+  if (loading) return (                                        // If loading true
     <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC]">
       <div className="flex flex-col items-center gap-4">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-indigo-600" /> {/* Spinner */}
         <p className="font-bold text-slate-400 text-xl">Loading AgriWise Finance...</p>
       </div>
     </div>
   );
 
-  return (
+  return (                                                     // Main UI starts
     <div className="min-h-screen bg-[#F8FAFC] font-sans text-slate-900 p-4 md:p-10">
       <div className="max-w-6xl mx-auto">
         
@@ -256,6 +258,7 @@ const FinanceFarmer = ({ user }) => {
                       {eligibilityResult.desc}
                     </p>
                   </div>
+
                 </div>
               )}
             </div>

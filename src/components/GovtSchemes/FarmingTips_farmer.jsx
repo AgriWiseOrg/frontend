@@ -69,15 +69,22 @@ const FarmingTips = () => {
 
   const getAdvisoryIcon = (type) => {
     switch (type) {
-      case 'water': return <Droplets />;
-      case 'sun': return <Sun />;
-      case 'bug': return <Bug />;
-      default: return <Sprout />;
+      case 'water': 
+        return <Droplets />; // Show water icon
+      case 'sun': 
+        return <Sun />; // Show sun icon
+      case 'bug': 
+        return <Bug />; // Show pest icon
+      default: 
+        return <Sprout />; // Default icon if none matches
     }
   };
 
-  return (
+  return ( // JSX UI starts here
+
     <div className="min-h-screen bg-white p-6 md:p-10 font-sans">
+      {/* Full screen container with padding */}
+
       <div className="max-w-4xl mx-auto">
         <button 
           onClick={() => navigate('/govt-schemes')} 
@@ -149,4 +156,5 @@ const FarmingTips = () => {
   );
 };
 
-export default FarmingTips;
+export default FarmingTips; 
+// Export component so it can be used in routing
