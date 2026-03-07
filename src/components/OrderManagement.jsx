@@ -175,7 +175,7 @@ const OrderManagement = ({ user }) => {
                                                 {order.status}
                                             </div>
                                         </div>
-                                        <div className="w-full lg:w-auto mt-2 lg:mt-0">
+                                        <div className="w-full lg:w-auto mt-2 lg:mt-0 flex gap-4">
                                             <select
                                                 value={order.status}
                                                 onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
@@ -188,6 +188,12 @@ const OrderManagement = ({ user }) => {
                                                 <option value="Delivered">Mark Delivered</option>
                                                 <option value="Cancelled">Cancel Order</option>
                                             </select>
+                                            <button
+                                                onClick={() => navigate(`/order/${order._id}`)}
+                                                className="w-full lg:w-auto bg-white border-2 border-emerald-500 text-emerald-700 hover:bg-emerald-50 text-sm rounded-xl px-6 py-3 font-bold transition-all shadow-sm"
+                                            >
+                                                View Details
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

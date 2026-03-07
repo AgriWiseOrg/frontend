@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     TrendingUp, Sprout, Landmark, ShoppingBag,
     CloudSun, LifeBuoy, Search, LogOut, ShoppingCart,
-    ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User
+    ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ClipboardList
 } from 'lucide-react';
 import { useCart } from './CartContext';
 
@@ -120,7 +120,7 @@ const BuyerFrontPage = ({ onLogout }) => {
 
     const menuItems = [
         { title: 'Market Prices', icon: <TrendingUp />, desc: 'Real-time crop rates', color: 'bg-blue-600', path: '/market-prices', badge: 'Live' },
-        // Removed My Crops and Govt Schemes for Buyer
+        { title: 'My Orders', icon: <ClipboardList />, desc: 'Track your purchases', color: 'bg-emerald-600', path: '/my-orders' },
         { title: 'Marketplace', icon: <ShoppingBag />, desc: 'Buy Equipment & Seeds', color: 'bg-purple-600', path: '/marketplace' },
         { title: 'Logistics Forecast', icon: <CloudSun />, desc: 'Transport Weather', color: 'bg-sky-600', path: '/weather' },
         { title: 'Buyer Support', icon: <LifeBuoy />, desc: 'Procurement Help', color: 'bg-rose-600', path: '/support' },
@@ -349,7 +349,7 @@ const BuyerFrontPage = ({ onLogout }) => {
                     <button onClick={() => navigate('/')} className="bg-emerald-500 hover:bg-emerald-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-xl shadow-emerald-500/40 transition-transform active:scale-90 -mt-8 border-[6px] border-[#F8FAFC]">
                         <Sprout size={32} />
                     </button>
-                    <NavButton icon={<LifeBuoy size={22} />} label="Help" onClick={() => navigate('/support')} />
+                    <NavButton icon={<ClipboardList size={22} />} label="Orders" onClick={() => navigate('/my-orders')} />
                     <NavButton icon={<MapPin size={22} />} label="Local" onClick={() => navigate('/weather')} />
                 </div>
             </div>
