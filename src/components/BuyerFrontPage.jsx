@@ -4,14 +4,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     TrendingUp, Sprout, Landmark, ShoppingBag,
     CloudSun, LifeBuoy, Search, LogOut, ShoppingCart,
-    ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User
+    ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ChevronDown
 } from 'lucide-react';
 import { useCart } from './CartContext';
+import { useTranslation } from 'react-i18next';
+import { useLanguage } from './LanguageContext';
 
 const BuyerFrontPage = ({ onLogout }) => {
     const navigate = useNavigate();
     const { totalItems } = useCart();
     const searchInputRef = useRef(null);
+    const { t, i18n } = useTranslation();
+    const { language, setLanguage } = useLanguage();
 
     // States
     const [weatherData, setWeatherData] = useState({ temp: '--', humidity: '--', wind: '--' });
@@ -19,6 +23,7 @@ const BuyerFrontPage = ({ onLogout }) => {
     const [loadingWeather, setLoadingWeather] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [langOpen, setLangOpen] = useState(false);
 
     // New State for Sliding Updates - Initially empty, filled by API
     const [updateIndex, setUpdateIndex] = useState(0);
@@ -116,14 +121,14 @@ const BuyerFrontPage = ({ onLogout }) => {
     }, []);
 
     const hour = currentTime.getHours();
-    const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+    const greeting = hour < 12 ? t('greeting_morning', 'Good Morning') : hour < 18 ? t('greeting_afternoon', 'Good Afternoon') : t('greeting_evening', 'Good Evening');
 
     const menuItems = [
-        { title: 'Market Prices', icon: <TrendingUp />, desc: 'Real-time crop rates', color: 'bg-blue-600', path: '/market-prices', badge: 'Live' },
+        { title: t('marketPrices', 'Market Prices'), icon: <TrendingUp />, desc: t('marketPricesDesc', 'Real-time crop rates'), color: 'bg-blue-600', path: '/market-prices', badge: t('badgeLive', 'Live') },
         // Removed My Crops and Govt Schemes for Buyer
-        { title: 'Marketplace', icon: <ShoppingBag />, desc: 'Buy Equipment & Seeds', color: 'bg-purple-600', path: '/marketplace' },
-        { title: 'Logistics Forecast', icon: <CloudSun />, desc: 'Transport Weather', color: 'bg-sky-600', path: '/weather' },
-        { title: 'Buyer Support', icon: <LifeBuoy />, desc: 'Procurement Help', color: 'bg-rose-600', path: '/support' },
+        { title: t('marketplace', 'Marketplace'), icon: <ShoppingBag />, desc: t('buyEquipmentDesc', 'Buy Equipment & Seeds'), color: 'bg-purple-600', path: '/marketplace' },
+        { title: t('logisticsForecast', 'Logistics Forecast'), icon: <CloudSun />, desc: t('transportWeatherDesc', 'Transport Weather'), color: 'bg-sky-600', path: '/weather' },
+        { title: t('buyerSupport', 'Buyer Support'), icon: <LifeBuoy />, desc: t('procurementHelpDesc', 'Procurement Help'), color: 'bg-rose-600', path: '/support' },
     ];
 
     const filteredItems = menuItems.filter(item =>
@@ -148,6 +153,28 @@ const BuyerFrontPage = ({ onLogout }) => {
                     </motion.div>
 
                     <div className="flex items-center gap-4">
+                        <div className="relative z-[110]">
+                            <button
+                                onClick={() => setLangOpen(!langOpen)}
+                                className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-full text-slate-600 font-medium hover:text-emerald-600 hover:bg-emerald-50 transition-all border border-slate-200 shadow-sm"
+                            >
+                                <span className="text-sm">{language.split(' ')[0]}</span>
+                                <ChevronDown className={`w-4 h-4 transition-transform ${langOpen ? 'rotate-180' : ''}`} />
+                            </button>
+                            {langOpen && (
+                                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden py-1 max-h-64 overflow-y-auto">
+                                    {['English', 'हिंदी (Hindi)', 'मराठी (Marathi)', 'ગુજરાતી (Gujarati)', 'ਪੰਜਾਬੀ (Punjabi)', 'தமிழ் (Tamil)', 'తెలుగు (Telugu)', 'ಕನ್ನಡ (Kannada)', 'বাংলা (Bengali)'].map((lang) => (
+                                        <button
+                                            key={lang}
+                                            onClick={() => { setLanguage(lang); setLangOpen(false); }}
+                                            className="w-full text-left px-4 py-2 hover:bg-emerald-50 text-slate-600 text-sm font-medium hover:text-emerald-600"
+                                        >
+                                            {lang}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                         <button onClick={() => navigate('/profile')} className="p-2.5 border border-slate-200 hover:bg-emerald-50 hover:border-emerald-200 text-slate-500 hover:text-emerald-600 rounded-full transition-all shadow-sm" title="Profile">
                             <User className="w-5 h-5" />
                         </button>
@@ -170,11 +197,11 @@ const BuyerFrontPage = ({ onLogout }) => {
                 <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                         <div className="flex items-center gap-2 mb-3">
-                            <span className="px-3 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-black tracking-widest uppercase shadow-sm">Procurement Dashboard</span>
-                            <span className="text-slate-500 text-xs font-bold">{currentTime.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                            <span className="px-3 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-black tracking-widest uppercase shadow-sm">{t('procurementDashboard', 'Procurement Dashboard')}</span>
+                            <span className="text-slate-500 text-xs font-bold">{currentTime.toLocaleDateString(i18n.language || 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                         <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter">
-                            {greeting}, <br /><span className="text-emerald-600">Buyer</span>
+                            {t(greeting.replace(' ', ''), greeting)}, <br /><span className="text-emerald-600">{t('buyer', 'Buyer')}</span>
                         </h1>
                     </motion.div>
 
@@ -185,7 +212,7 @@ const BuyerFrontPage = ({ onLogout }) => {
                                     <Clock className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-0.5">Local Time</p>
+                                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-0.5">{t('localTime', 'Local Time')}</p>
                                     <p className="text-xl font-black text-slate-800 tabular-nums">
                                         {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </p>
@@ -197,7 +224,7 @@ const BuyerFrontPage = ({ onLogout }) => {
                                     <CloudSun className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-0.5">Temp</p>
+                                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-0.5">{t('temp', 'Temp')}</p>
                                     <p className="text-xl font-black text-slate-800 italic">
                                         {loadingWeather ? <RefreshCw className="w-5 h-5 animate-spin text-slate-300" /> : `${weatherData.temp}°C`}
                                     </p>
@@ -231,7 +258,7 @@ const BuyerFrontPage = ({ onLogout }) => {
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search for crops, mandi rates, or expert advice..."
+                        placeholder={t('searchFarmer', 'Search for crops, mandi rates, or expert advice...')}
                         className="w-full bg-white border-2 border-slate-200 rounded-[2rem] py-6 px-16 shadow-lg shadow-slate-200/40 focus:shadow-emerald-500/10 focus:border-emerald-500 transition-all outline-none text-lg font-medium"
                     />
                     <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-3">
@@ -261,7 +288,7 @@ const BuyerFrontPage = ({ onLogout }) => {
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                                 </div>
-                                <span className="text-emerald-400 font-black text-xs uppercase tracking-[0.3em]">Market Intelligence</span>
+                                <span className="text-emerald-400 font-black text-xs uppercase tracking-[0.3em]">{t('marketIntelligence', 'Market Intelligence')}</span>
                             </div>
 
                             {/* Sliding Animation Container */}
@@ -275,17 +302,17 @@ const BuyerFrontPage = ({ onLogout }) => {
                                         transition={{ duration: 0.5, ease: "easeInOut" }}
                                         className="text-4xl md:text-6xl font-black leading-tight"
                                     >
-                                        {cropUpdates[updateIndex].crop} prices are {cropUpdates[updateIndex].change.startsWith('+') ? 'up' : 'down'}{" "}
+                                        {t(cropUpdates[updateIndex].crop, cropUpdates[updateIndex].crop)} {t('pricesAre', 'prices are')} {cropUpdates[updateIndex].change.startsWith('+') ? t('priceUp', 'up') : t('priceDown', 'down')}{" "}
                                         <span className={`${cropUpdates[updateIndex].color} italic underline decoration-white/20 underline-offset-8`}>
                                             {cropUpdates[updateIndex].change.replace(/[+-]/, '')}
                                         </span>{" "}
-                                        in your region.
+                                        {t('inYourRegion', 'in your region.')}
                                     </motion.h2>
                                 </AnimatePresence>
                             </div>
 
                             <button onClick={() => navigate('/market-prices')} className="mt-8 bg-emerald-500 hover:bg-emerald-400 text-white font-black px-10 py-4 rounded-2xl transition-all flex items-center gap-3 group shadow-xl shadow-emerald-500/20 active:scale-95">
-                                View Market Trends
+                                {t('viewMarketTrends', 'View Market Trends')}
                                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
                             </button>
                         </div>
@@ -323,7 +350,7 @@ const BuyerFrontPage = ({ onLogout }) => {
                                     <h3 className="text-2xl font-black text-slate-900 mb-2">{item.title}</h3>
                                     <p className="text-slate-500 font-bold leading-relaxed">{item.desc}</p>
                                     <div className="mt-8 flex items-center gap-2 text-emerald-600 font-black text-sm opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                                        Enter Dashboard <ChevronRight size={16} />
+                                        {t('enterDashboard', 'Enter Dashboard')} <ChevronRight size={16} />
                                     </div>
                                 </motion.button>
                             ))
@@ -332,9 +359,9 @@ const BuyerFrontPage = ({ onLogout }) => {
                                 <div className="bg-slate-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
                                     <Search size={32} />
                                 </div>
-                                <h3 className="text-2xl font-black text-slate-800">No tools found</h3>
-                                <p className="text-slate-500">We couldn't find anything matching "{searchQuery}"</p>
-                                <button onClick={() => setSearchQuery("")} className="mt-6 text-emerald-600 font-black underline underline-offset-4">Clear search</button>
+                                <h3 className="text-2xl font-black text-slate-800">{t('noToolsFound', 'No tools found')}</h3>
+                                <p className="text-slate-500">{t('noMatchFound', `We couldn't find anything matching "${searchQuery}"`, { query: searchQuery })}</p>
+                                <button onClick={() => setSearchQuery("")} className="mt-6 text-emerald-600 font-black underline underline-offset-4">{t('clearSearch', 'Clear search')}</button>
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -344,13 +371,13 @@ const BuyerFrontPage = ({ onLogout }) => {
             {/* Floating Navigation */}
             <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-lg">
                 <div className="bg-slate-900 border border-slate-800 rounded-[2.5rem] p-3 flex justify-between items-center shadow-2xl shadow-slate-900/40">
-                    <NavButton icon={<TrendingUp size={22} />} label="Stats" active onClick={() => navigate('/market-prices')} />
-                    <NavButton icon={<ShoppingBag size={22} />} label="Shop" onClick={() => navigate('/marketplace')} />
+                    <NavButton icon={<TrendingUp size={22} />} label={t('navStats', 'Stats')} active onClick={() => navigate('/market-prices')} />
+                    <NavButton icon={<ShoppingBag size={22} />} label={t('navShop', 'Shop')} onClick={() => navigate('/marketplace')} />
                     <button onClick={() => navigate('/')} className="bg-emerald-500 hover:bg-emerald-400 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-xl shadow-emerald-500/40 transition-transform active:scale-90 -mt-8 border-[6px] border-[#F8FAFC]">
                         <Sprout size={32} />
                     </button>
-                    <NavButton icon={<LifeBuoy size={22} />} label="Help" onClick={() => navigate('/support')} />
-                    <NavButton icon={<MapPin size={22} />} label="Local" onClick={() => navigate('/weather')} />
+                    <NavButton icon={<LifeBuoy size={22} />} label={t('navHelp', 'Help')} onClick={() => navigate('/support')} />
+                    <NavButton icon={<MapPin size={22} />} label={t('navLocal', 'Local')} onClick={() => navigate('/weather')} />
                 </div>
             </div>
         </div>

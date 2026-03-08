@@ -4,7 +4,7 @@ import { useLanguage } from './LanguageContext';
 
 const BuyerSupport = ({ user }) => {
     const navigate = useNavigate();
-    const { language: lang, setLanguage: setLang } = useLanguage();
+    const { langCode: lang, setLanguage: setLang } = useLanguage();
     const [showDisputeForm, setShowDisputeForm] = useState(false);
     const [formStatus, setFormStatus] = useState('');
     const [myReports, setMyReports] = useState([]);

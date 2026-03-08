@@ -4,14 +4,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Landmark, FileText, Bell, Zap, LogOut, ShieldCheck,
     Search, ChevronRight, LayoutDashboard, Clock, Calendar,
-    CloudSun, Droplets, Wind, RefreshCw, User
+    CloudSun, Droplets, Wind, RefreshCw, User, ChevronDown
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { useLanguage } from './LanguageContext';
 
 const AdminFrontPage = ({ onLogout }) => {
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
+    const { language, setLanguage } = useLanguage();
     const [currentTime, setCurrentTime] = useState(new Date());
     const [isScrolled, setIsScrolled] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [langOpen, setLangOpen] = useState(false);
 
     // Weather State
     const [weatherData, setWeatherData] = useState({ temp: '--', humidity: '--', wind: '--' });
@@ -60,14 +65,14 @@ const AdminFrontPage = ({ onLogout }) => {
     }, []);
 
     const hour = currentTime.getHours();
-    const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+    const greeting = hour < 12 ? t('greeting_morning', 'Good Morning') : hour < 18 ? t('greeting_afternoon', 'Good Afternoon') : t('greeting_evening', 'Good Evening');
 
     const menuItems = [
-        { title: 'Manage Schemes', icon: <Landmark />, desc: 'Add or edit govt schemes', color: 'bg-orange-600', path: '/schemes/list', badge: 'Core' },
-        { title: 'Farming Tips', icon: <Zap />, desc: 'Update expert advice', color: 'bg-yellow-600', path: '/schemes/tips' },
-        { title: 'Latest Updates', icon: <Bell />, desc: 'Broadcast news', color: 'bg-blue-600', path: '/schemes/updates', badge: 'Live' },
-        { title: 'Finance Data', icon: <FileText />, desc: 'Manage financial records', color: 'bg-emerald-600', path: '/schemes/finance' },
-        { title: 'Support Tickets', icon: <ShieldCheck />, desc: 'Manage disputes & queries', color: 'bg-rose-600', path: '/admin-support', badge: 'Action Req' },
+        { title: t('manageSchemes', 'Manage Schemes'), icon: <Landmark />, desc: t('manageSchemesDesc', 'Add or edit govt schemes'), color: 'bg-orange-600', path: '/schemes/list', badge: t('badgeCore', 'Core') },
+        { title: t('farmingTips', 'Farming Tips'), icon: <Zap />, desc: t('farmingTipsDesc', 'Update expert advice'), color: 'bg-yellow-600', path: '/schemes/tips' },
+        { title: t('latestUpdates', 'Latest Updates'), icon: <Bell />, desc: t('latestUpdatesDesc', 'Broadcast news'), color: 'bg-blue-600', path: '/schemes/updates', badge: t('badgeLive', 'Live') },
+        { title: t('financeData', 'Finance Data'), icon: <FileText />, desc: t('financeDataDesc', 'Manage financial records'), color: 'bg-emerald-600', path: '/schemes/finance' },
+        { title: t('supportTickets', 'Support Tickets'), icon: <ShieldCheck />, desc: t('supportTicketsDesc', 'Manage disputes & queries'), color: 'bg-rose-600', path: '/admin-support', badge: t('badgeAction', 'Action Req') },
     ];
 
     const filteredItems = menuItems.filter(item =>
@@ -90,10 +95,32 @@ const AdminFrontPage = ({ onLogout }) => {
                         <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/20">
                             <ShieldCheck className="text-white w-6 h-6" />
                         </div>
-                        <span className="text-2xl font-black tracking-tight text-slate-900">AgriWise <span className="text-emerald-600">Admin</span></span>
+                        <span className="text-2xl font-black tracking-tight text-slate-900">AgriWise <span className="text-emerald-600">{t('role_admin', 'Admin')}</span></span>
                     </motion.div>
 
                     <div className="flex items-center gap-4">
+                        <div className="relative z-[110]">
+                            <button
+                                onClick={() => setLangOpen(!langOpen)}
+                                className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-full text-slate-600 font-medium hover:text-emerald-600 hover:bg-emerald-50 transition-all border border-slate-200 shadow-sm"
+                            >
+                                <span className="text-sm">{language.split(' ')[0]}</span>
+                                <ChevronDown className={`w-4 h-4 transition-transform ${langOpen ? 'rotate-180' : ''}`} />
+                            </button>
+                            {langOpen && (
+                                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden py-1 max-h-64 overflow-y-auto">
+                                    {['English', 'हिंदी (Hindi)', 'मराठी (Marathi)', 'ગુજરાતી (Gujarati)', 'ਪੰਜਾਬੀ (Punjabi)', 'தமிழ் (Tamil)', 'తెలుగు (Telugu)', 'ಕನ್ನಡ (Kannada)', 'বাংলা (Bengali)'].map((lang) => (
+                                        <button
+                                            key={lang}
+                                            onClick={() => { setLanguage(lang); setLangOpen(false); }}
+                                            className="w-full text-left px-4 py-2 hover:bg-emerald-50 text-slate-600 text-sm font-medium hover:text-emerald-600"
+                                        >
+                                            {lang}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                         <button onClick={() => navigate('/profile')} className="p-2.5 border border-slate-200 hover:bg-emerald-50 hover:border-emerald-200 text-slate-500 hover:text-emerald-600 rounded-full transition-all shadow-sm" title="Profile">
                             <User className="w-5 h-5" />
                         </button>
@@ -109,11 +136,11 @@ const AdminFrontPage = ({ onLogout }) => {
                 <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                         <div className="flex items-center gap-2 mb-3">
-                            <span className="px-3 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-black tracking-widest uppercase shadow-sm">Admin Portal</span>
-                            <span className="text-slate-500 text-xs font-bold">{currentTime.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                            <span className="px-3 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-black tracking-widest uppercase shadow-sm">{t('adminPortal', 'Admin Portal')}</span>
+                            <span className="text-slate-500 text-xs font-bold">{currentTime.toLocaleDateString(i18n.language || 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                         <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter">
-                            {greeting}, <br /><span className="text-emerald-600">Admin</span>
+                            {t(greeting.replace(' ', ''), greeting)}, <br /><span className="text-emerald-600">{t('admin', 'Admin')}</span>
                         </h1>
                     </motion.div>
 
@@ -124,7 +151,7 @@ const AdminFrontPage = ({ onLogout }) => {
                                     <Clock className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-0.5">Local Time</p>
+                                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-0.5">{t('localTime', 'Local Time')}</p>
                                     <p className="text-xl font-black text-slate-800 tabular-nums">
                                         {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </p>
@@ -136,7 +163,7 @@ const AdminFrontPage = ({ onLogout }) => {
                                     <CloudSun className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-0.5">Temp</p>
+                                    <p className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-0.5">{t('temp', 'Temp')}</p>
                                     <p className="text-xl font-black text-slate-800 italic">
                                         {loadingWeather ? <RefreshCw className="w-5 h-5 animate-spin text-slate-300" /> : `${weatherData.temp}°C`}
                                     </p>
@@ -175,23 +202,23 @@ const AdminFrontPage = ({ onLogout }) => {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                             </div>
-                            <span className="text-emerald-400 font-black text-xs uppercase tracking-[0.3em]">System Status</span>
+                            <span className="text-emerald-400 font-black text-xs uppercase tracking-[0.3em]">{t('systemStatus', 'System Status')}</span>
                         </div>
 
                         <h2 className="text-4xl md:text-6xl font-black leading-tight mb-4">
-                            All systems are <br />
+                            {t('allSystemsAre', 'All systems are')} <br />
                             <span className="text-emerald-400 italic underline decoration-white/20 underline-offset-8">
-                                operational
+                                {t('operational', 'operational')}
                             </span>
                             .
                         </h2>
 
                         <p className="text-slate-400 text-lg font-medium mb-8 max-w-lg">
-                            User activity is normal. Support ticket volume is low.
+                            {t('systemStatusDesc', 'User activity is normal. Support ticket volume is low.')}
                         </p>
 
                         <button onClick={() => navigate('/admin-support')} className="bg-emerald-500 hover:bg-emerald-400 text-white font-black px-10 py-4 rounded-2xl transition-all flex items-center gap-3 group shadow-xl shadow-emerald-500/20 active:scale-95">
-                            Check Reports
+                            {t('checkReports', 'Check Reports')}
                             <ChevronRight className="group-hover:translate-x-1 transition-transform" />
                         </button>
                     </div>
@@ -209,7 +236,7 @@ const AdminFrontPage = ({ onLogout }) => {
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search admin modules..."
+                        placeholder={t('searchAdmin', 'Search admin modules...')}
                         className="w-full bg-white border-2 border-slate-200 rounded-[2rem] py-6 px-16 shadow-lg shadow-slate-200/40 focus:shadow-emerald-500/10 focus:border-emerald-500 transition-all outline-none text-lg font-medium"
                     />
                 </div>
@@ -242,7 +269,7 @@ const AdminFrontPage = ({ onLogout }) => {
                                     <h3 className="text-2xl font-black text-slate-900 mb-2">{item.title}</h3>
                                     <p className="text-slate-500 font-bold leading-relaxed">{item.desc}</p>
                                     <div className="mt-8 flex items-center gap-2 text-emerald-600 font-black text-sm opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
-                                        Open Module <ChevronRight size={16} />
+                                        {t('openModule', 'Open Module')} <ChevronRight size={16} />
                                     </div>
                                 </motion.button>
                             ))
@@ -251,9 +278,9 @@ const AdminFrontPage = ({ onLogout }) => {
                                 <div className="bg-slate-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
                                     <Search size={32} />
                                 </div>
-                                <h3 className="text-2xl font-black text-slate-800">No modules found</h3>
-                                <p className="text-slate-500">We couldn't find anything matching "{searchQuery}"</p>
-                                <button onClick={() => setSearchQuery("")} className="mt-6 text-orange-600 font-black underline underline-offset-4">Clear search</button>
+                                <h3 className="text-2xl font-black text-slate-800">{t('noModulesFound', 'No modules found')}</h3>
+                                <p className="text-slate-500">{t('noMatchFound', `We couldn't find anything matching "${searchQuery}"`, { query: searchQuery })}</p>
+                                <button onClick={() => setSearchQuery("")} className="mt-6 text-orange-600 font-black underline underline-offset-4">{t('clearSearch', 'Clear search')}</button>
                             </motion.div>
                         )}
                     </AnimatePresence>

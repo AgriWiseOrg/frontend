@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { 
@@ -7,6 +8,8 @@ import {
 import { useCart } from "./CartContext"; 
 
 const ProductDetails = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const { state: product } = useLocation();
   const { addToCart } = useCart(); 
@@ -60,7 +63,7 @@ const ProductDetails = () => {
           </button>
           <div className="flex items-center gap-2">
             <Leaf className="text-emerald-400" size={20} />
-            <span className="font-black tracking-tighter text-lg uppercase">AGRIWISE</span>
+            <span className="font-black tracking-tighter text-lg uppercase">{t("AGRIWISE")}</span>
           </div>
         </div>
         <div className="flex gap-4">
@@ -82,7 +85,7 @@ const ProductDetails = () => {
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
-                Verified Harvest
+                {t("Verified Harvest")}
               </div>
             </div>
             
@@ -129,20 +132,20 @@ const ProductDetails = () => {
                 <span className="text-red-600 text-2xl font-light">-15%</span>
                 <span className="text-3xl font-bold">₹{product.price}</span>
               </div>
-              <p className="text-slate-500 text-sm italic">M.R.P.: <span className="line-through">₹{Math.floor(product.price * 1.15)}</span></p>
+              <p className="text-slate-500 text-sm italic">{t("M.R.P.:")} <span className="line-through">₹{Math.floor(product.price * 1.15)}</span></p>
               <p className="text-emerald-700 font-bold text-sm mt-2 flex items-center gap-2">
                 <Award size={16} /> Best Price in {product.location}
               </p>
             </div>
 
             <div className="space-y-4 mt-2">
-              <h3 className="font-black text-lg border-b-2 border-emerald-500 w-fit pb-1">Product Specifications</h3>
+              <h3 className="font-black text-lg border-b-2 border-emerald-500 w-fit pb-1">{t("Product Specifications")}</h3>
               <table className="w-full text-sm text-slate-600">
                 <tbody>
-                  <tr className="border-b border-slate-50"><td className="py-2 font-bold w-1/3">Farmer</td><td>{product.farmer}</td></tr>
-                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">Origin</td><td>{product.location}, India</td></tr>
-                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">Stock</td><td>{product.quantity} Quintals</td></tr>
-                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">Grade</td><td>Grade A (Export Quality)</td></tr>
+                  <tr className="border-b border-slate-50"><td className="py-2 font-bold w-1/3">{t("Farmer")}</td><td>{product.farmer}</td></tr>
+                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Origin")}</td><td>{product.location}, India</td></tr>
+                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Stock")}</td><td>{product.quantity} Quintals</td></tr>
+                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Grade")}</td><td>{t("Grade A (Export Quality)")}</td></tr>
                 </tbody>
               </table>
             </div>
@@ -153,13 +156,13 @@ const ProductDetails = () => {
             <div className="border border-slate-200 p-6 rounded-3xl sticky top-24 shadow-sm bg-white">
               <p className="text-2xl font-bold">₹{product.price}</p>
               <p className="text-emerald-600 text-sm font-bold mt-2 flex items-center gap-1 underline cursor-pointer">
-                FREE Delivery <ChevronRight size={14} />
+                {t("FREE Delivery")} <ChevronRight size={14} />
               </p>
               
               <div className="my-6 space-y-3">
-                <p className="text-emerald-700 text-xl font-bold">In Stock</p>
+                <p className="text-emerald-700 text-xl font-bold">{t("In Stock")}</p>
                 <div className="bg-slate-100 p-2 rounded-lg flex items-center justify-between text-sm font-bold">
-                  <span>Quantity:</span>
+                  <span>{t("Quantity:")}</span>
                   <select className="bg-transparent outline-none">
                     {[...Array(5)].map((_, i) => <option key={i+1}>{i+1} Quintal</option>)}
                   </select>
@@ -168,10 +171,10 @@ const ProductDetails = () => {
 
               <div className="flex flex-col gap-3">
                 <button onClick={handleAddToCart} className="w-full bg-yellow-400 hover:bg-yellow-500 text-slate-900 py-3 rounded-full font-bold text-sm shadow-sm transition-all active:scale-95">
-                  Add to Cart
+                  {t("Add to Cart")}
                 </button>
                 <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-full font-bold text-sm shadow-sm transition-all active:scale-95">
-                  Buy Now
+                  {t("Buy Now")}
                 </button>
               </div>
             </div>
@@ -184,7 +187,7 @@ const ProductDetails = () => {
             {/* Review Form */}
             <div className="lg:w-1/3">
               <form onSubmit={handleAddReview} className="bg-emerald-50 p-6 rounded-3xl border border-emerald-100 shadow-sm">
-                <h4 className="font-black text-emerald-800 text-lg mb-4 uppercase tracking-tighter">Share your feedback</h4>
+                <h4 className="font-black text-emerald-800 text-lg mb-4 uppercase tracking-tighter">{t("Share your feedback")}</h4>
                 <div className="flex gap-2 mb-4">
                   {[1, 2, 3, 4, 5].map(num => (
                     <Star 
@@ -196,13 +199,13 @@ const ProductDetails = () => {
                   ))}
                 </div>
                 <textarea 
-                  placeholder="How was the harvest quality?"
+                  placeholder={t("How was the harvest quality?")}
                   className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm focus:ring-2 focus:ring-emerald-500 outline-none h-24 mb-4"
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                 />
                 <button type="submit" className="w-full bg-emerald-700 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-emerald-800 transition-all">
-                  Post Review <Send size={16} />
+                  {t("Post Review")} <Send size={16} />
                 </button>
               </form>
             </div>
@@ -210,7 +213,7 @@ const ProductDetails = () => {
             {/* Review List */}
             <div className="lg:w-2/3 space-y-6">
               <h3 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-                Customer Feedbacks <span className="text-emerald-600 text-sm">({reviews.length})</span>
+                {t("Customer Feedbacks")} <span className="text-emerald-600 text-sm">({reviews.length})</span>
               </h3>
               {reviews.map(review => (
                 <div key={review.id} className="border-b border-slate-50 pb-6 flex gap-4">
@@ -238,8 +241,8 @@ const ProductDetails = () => {
 
       {/* --- Mobile Fixed Bottom Bar --- */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4 flex gap-3 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
-        <button onClick={handleAddToCart} className="flex-1 bg-yellow-400 py-3 rounded-xl font-black text-sm">Add to Cart</button>
-        <button className="flex-1 bg-orange-500 text-white py-3 rounded-xl font-black text-sm">Buy Now</button>
+        <button onClick={handleAddToCart} className="flex-1 bg-yellow-400 py-3 rounded-xl font-black text-sm">{t("Add to Cart")}</button>
+        <button className="flex-1 bg-orange-500 text-white py-3 rounded-xl font-black text-sm">{t("Buy Now")}</button>
         <button className="p-3 border border-slate-200 rounded-xl text-emerald-700">
            <Phone size={20} />
         </button>

@@ -1,6 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import React, { useState } from 'react';
 
 const LoginPage = ({ onLogin }) => {
+  const { t } = useTranslation();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('farmer'); // Default is lowercase
@@ -47,11 +50,11 @@ const LoginPage = ({ onLogin }) => {
   return (
     <div className="h-screen flex items-center justify-center bg-gray-50">
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-xl w-96 space-y-4">
-        <h1 className="text-3xl font-black text-green-700 text-center">AgriWise</h1>
+        <h1 className="text-3xl font-black text-green-700 text-center">{t("AgriWise")}</h1>
 
         <input
           type="email"
-          placeholder="Email"
+          placeholder={t("Email")}
           className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -60,7 +63,7 @@ const LoginPage = ({ onLogin }) => {
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder={t("Password")}
           className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -73,9 +76,9 @@ const LoginPage = ({ onLogin }) => {
             value={role}
             onChange={(e) => setRole(e.target.value)}
           >
-            <option value="farmer">Farmer</option>
-            <option value="buyer">Buyer</option>
-            <option value="admin">Admin</option>
+            <option value="farmer">{t("Farmer")}</option>
+            <option value="buyer">{t("Buyer")}</option>
+            <option value="admin">{t("Admin")}</option>
           </select>
         )}
 

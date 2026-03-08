@@ -1,7 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import { Leaf, DollarSign, Award, Droplets, AlertCircle } from 'lucide-react';
 
 const QualityPriceCalculator = () => {
+  const { t } = useTranslation();
+
     const [crops, setCrops] = useState([]);
     const [formData, setFormData] = useState({
         crop: '',
@@ -74,8 +77,8 @@ const QualityPriceCalculator = () => {
                     <Award className="h-6 w-6 text-emerald-600" />
                 </div>
                 <div>
-                    <h3 className="text-lg font-bold text-gray-800">Quality-Based Price Calculator</h3>
-                    <p className="text-sm text-gray-500">Get a fair price estimate based on your crop's quality</p>
+                    <h3 className="text-lg font-bold text-gray-800">{t("Quality-Based Price Calculator")}</h3>
+                    <p className="text-sm text-gray-500">{t("Get a fair price estimate based on your crop's quality")}</p>
                 </div>
             </div>
 
@@ -83,7 +86,7 @@ const QualityPriceCalculator = () => {
 
                 {/* Crop Selection */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Select Crop</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("Select Crop")}</label>
                     <div className="relative">
                         <Leaf className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                         <select
@@ -98,7 +101,7 @@ const QualityPriceCalculator = () => {
 
                 {/* Grade Selection */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Quality Grade</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("Quality Grade")}</label>
                     <div className="grid grid-cols-3 gap-2">
                         {['A', 'B', 'C'].map((grade) => (
                             <button
@@ -119,7 +122,7 @@ const QualityPriceCalculator = () => {
                 {/* Parameters */}
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                        <Droplets className="h-4 w-4" /> Moisture Content (%)
+                        <Droplets className="h-4 w-4" /> {t("Moisture Content (%)")}
                     </label>
                     <input
                         type="number"
@@ -132,7 +135,7 @@ const QualityPriceCalculator = () => {
 
                 <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
-                        <AlertCircle className="h-4 w-4" /> Damage / Foreign Matter (%)
+                        <AlertCircle className="h-4 w-4" /> {t("Damage / Foreign Matter (%)")}
                     </label>
                     <input
                         type="number"
@@ -151,7 +154,7 @@ const QualityPriceCalculator = () => {
                     >
                         {loading ? 'Calculating...' : (
                             <>
-                                <DollarSign className="h-5 w-5" /> Calculate Suggested Price
+                                <DollarSign className="h-5 w-5" /> {t("Calculate Suggested Price")}
                             </>
                         )}
                     </button>
@@ -163,8 +166,8 @@ const QualityPriceCalculator = () => {
                 <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-emerald-50 rounded-2xl border border-emerald-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 pb-4 border-b border-emerald-200">
                         <div>
-                            <p className="text-sm text-gray-500 mb-1">Estimated Market Value</p>
-                            <h4 className="text-3xl font-bold text-gray-800">₹{result.suggestedPrice}<span className="text-lg text-gray-500 font-normal">/quintal</span></h4>
+                            <p className="text-sm text-gray-500 mb-1">{t("Estimated Market Value")}</p>
+                            <h4 className="text-3xl font-bold text-gray-800">₹{result.suggestedPrice}<span className="text-lg text-gray-500 font-normal">{t("/quintal")}</span></h4>
                         </div>
                         <div className={`px-4 py-2 rounded-full border ${getGradeColor(formData.grade)}`}>
                             <span className="font-semibold">Quality Score: {result.qualityScore}/100</span>
@@ -173,13 +176,13 @@ const QualityPriceCalculator = () => {
 
                     <div className="space-y-3">
                         <div className="flex justify-between text-sm">
-                            <span className="text-gray-600">Base Market Price:</span>
+                            <span className="text-gray-600">{t("Base Market Price:")}</span>
                             <span className="font-medium">₹{result.originalPrice.toFixed(0)}</span>
                         </div>
 
                         {result.notes && result.notes.length > 0 && (
                             <div className="bg-white/60 rounded-lg p-3 space-y-2">
-                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Adjustment Factors</p>
+                                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("Adjustment Factors")}</p>
                                 {result.notes.map((note, idx) => (
                                     <div key={idx} className="flex items-center gap-2 text-sm text-gray-700">
                                         <div className={`h-1.5 w-1.5 rounded-full ${note.includes('-') ? 'bg-red-500' : 'bg-green-500'}`}></div>

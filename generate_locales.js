@@ -1,0 +1,252 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const locales = ['en', 'hi', 'mr', 'gu', 'pa', 'ta', 'te', 'kn', 'bn'];
+
+const t = {
+    l: {
+        heroTag: {
+            en: 'Revolutionizing Agriculture',
+            hi: 'कृषि में नई क्रांति',
+            mr: 'शेती क्षेत्रात क्रांती',
+            gu: 'કૃષિમાં ક્રાંતિ',
+            pa: 'ਖੇਤੀਬਾੜੀ ਵਿੱਚ ਕ੍ਰਾਂਤੀ',
+            ta: 'விவசாயத்தில் புரட்சி',
+            te: 'వ్యవసాయంలో విప్లవం',
+            kn: 'ಕೃಷಿಯಲ್ಲಿ ಕ್ರಾಂತಿ',
+            bn: 'কৃষিতে বিপ্লব'
+        },
+        heroTitle1: {
+            en: 'Farming meets', hi: 'खेती और', mr: 'शेती आणि', gu: 'ખેતી અને', pa: 'ਖੇਤੀ ਅਤੇ', ta: 'விவசாயம் மற்றும்', te: 'వ్యవసాయం మరియు', kn: 'ಕೃಷಿ ಮತ್ತು', bn: 'কৃষি এবং'
+        },
+        heroTitle2: {
+            en: 'Future Intelligence.', hi: 'भविष्य की तकनीक।', mr: 'भविष्यातील तंत्रज्ञान.', gu: 'ભવિષ્યની ટેકનોલોજી.', pa: 'ਭਵਿੱਖ ਦੀ ਤਕਨੀਕ।', ta: 'எதிர்கால தொழில்நுட்பம்.', te: 'భవిష్యత్తు సాంకేతికత.', kn: 'ಭವಿಷ್ಯದ ತಂತ್ರಜ್ಞಾನ.', bn: 'ভবিষ্যতের প্রযুক্তি।'
+        },
+        heroDesc: {
+            en: 'Empowering farmers with AI-driven insights, real-time market data, and direct access to government schemes.',
+            hi: 'किसानों को एआई-आधारित जानकारी, रीयल-टाइम मंडी भाव और सरकारी योजनाओं तक सीधी पहुंच के साथ सशक्त बनाना।',
+            mr: 'शेतकऱ्यांना एआय-आधारित माहिती, रिअल-टाइम बाजार भाव आणि सरकारी योजनांच्या थेट प्रवेशासह सक्षम करणे.',
+            gu: 'ખેડૂતોને એઆઈ-આધારિત માહિતી, રીયલ-ટાઇમ બજાર ભાવ અને સરકારી યોજનાઓ સુધી સીધી પહોંચ સાથે સશક્ત બનાવવા.',
+            pa: 'ਕਿਸਾਨਾਂ ਨੂੰ ਏਆਈ-ਅਧਾਰਤ ਜਾਣਕਾਰੀ, ਰੀਅਲ-ਟਾਈਮ ਮਾਰਕੀਟ ਡੇਟਾ ਅਤੇ ਸਰਕਾਰੀ ਯੋਜਨਾਵਾਂ ਤੱਕ ਸਿੱਧੀ ਪਹੁੰਚ ਦੇ ਨਾਲ ਸ਼ਕਤੀਕਰਨ ਕਰਨਾ।',
+            ta: 'ஏஐ-அடிப்படையிலான தகவல்கள், நிகழ்நேர சந்தை தரவுகள் மற்றும் அரசு திட்டங்களுக்கு நேரடி அணுகல் ஆகியவற்றுடன் விவசாயிகளுக்கு அதிகாரமளித்தல்.',
+            te: 'రైతులకు ఏఐ ఆధారిత సమాచారం, రియల్ టైమ్ మార్కెట్ డేటా మరియు ప్రభుత్వ పథకాలకు నేరుగా ప్రాప్యత కల్పించడం.',
+            kn: 'ರೈತರಿಗೆ ಎಐ-ಆಧಾರಿತ ಮಾಹಿತಿ, ನೈಜ-ಸಮಯದ ಮಾರುಕಟ್ಟೆ ಡೇಟಾ ಮತ್ತು ಸರ್ಕಾರಿ ಯೋಜನೆಗಳಿಗೆ ನೇರ ಪ್ರವೇಶವನ್ನು ನೀಡುವುದು.',
+            bn: 'কৃষকদের এআই-ভিত্তিক তথ্য, রিয়েল-টাইম বাজার মূল্য এবং সরকারি স্কিমগুলিতে সরাসরি অ্যাক্সেস দিয়ে ক্ষমতায়ন করা।'
+        },
+        ctaBadge: {
+            en: 'Free for Farmers', hi: 'किसानों के लिए मुफ्त', mr: 'शेतकऱ्यांसाठी मोफत', gu: 'ખેડૂતો માટે મફત', pa: 'ਕਿਸਾਨਾਂ ਲਈ ਮੁਫਤ', ta: 'விவசாயிகளுக்கு இலவசம்', te: 'రైతులకు ఉచితం', kn: 'ರೈತರಿಗೆ ಉಚಿತ', bn: 'কৃষকদের জন্য বিনামূল্যে'
+        },
+        ctaTitle: {
+            en: 'List your crop in seconds.', hi: 'अपनी फसल सेकंडों में लिस्ट करें।', mr: 'आपले पीक सेकंदात लिस्ट करा.', gu: 'તમારો પાક સેકન્ડોમાં લિસ્ટ કરો.', pa: 'ਆਪਣੀ ਫਸਲ ਸਕਿੰਟਾਂ ਵਿੱਚ ਲਿਸਟ ਕਰੋ।', ta: 'உங்கள் பயிரை நொடிகளில் பட்டியலிடுங்கள்.', te: 'మీ పంటను క్షణాల్లో జాబితా చేయండి.', kn: 'ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ಸೆಕೆಂಡುಗಳಲ್ಲಿ ಪಟ್ಟಿ ಮಾಡಿ.', bn: 'সেকেন্ডের মধ্যে আপনার ফসল তালিকাভুক্ত করুন।'
+        },
+        ctaSubtitle: {
+            en: 'Sell for the best price.', hi: 'सर्वोत्तम मूल्य पर बेचें।', mr: 'सर्वोत्तम भावात विका.', gu: 'શ્રેષ્ઠ ભાવે વેચો.', pa: 'ਸਭ ਤੋਂ ਵਧੀਆ ਕੀਮਤ \'ਤੇ ਵੇਚੋ।', ta: 'சிறந்த விலைக்கு விற்கவும்.', te: 'ఉత్తమ ధరకు అమ్మండి.', kn: 'ಉತ್ತಮ ಬೆಲೆಗೆ ಮಾರಿ.', bn: 'সেরা দামে বিক্রি করুন।'
+        },
+        ctaButton: {
+            en: 'Sell My Crop', hi: 'मेरी फसल बेचें', mr: 'माझे पीक विका', gu: 'મારો પાક વેચો', pa: 'ਮੇਰੀ ਫਸਲ ਵੇਚੋ', ta: 'என் பயிரை விற்கவும்', te: 'నా పంటను అమ్మండి', kn: 'ನನ್ನ ಬೆಳೆ ಮಾರಿ', bn: 'আমার ফসল বিক্রি করুন'
+        },
+        nav_login: { en: 'Log In', hi: 'लॉग इन', mr: 'लॉग इन', gu: 'લોગ ઇન', pa: 'ਲਾਗਇਨ', ta: 'உள்நுழைய', te: 'లాగిన్', kn: 'ಲಾಗಿನ್', bn: 'লগ ইন' },
+        nav_getStarted: { en: 'Get Started', hi: 'शुरू करें', mr: 'सुरू करा', gu: 'શરૂ કરો', pa: 'ਸ਼ੁਰੂ ਕਰੋ', ta: 'தொடங்கவும்', te: 'ప్రారంభించండి', kn: 'ಪ್ರಾರಂಭಿಸಿ', bn: 'শুরু করুন' },
+        f1_title: { en: 'Real-Time Market Intelligence', hi: 'रीयल-टाइम मार्केट इंटेलिजेंस', mr: 'रिअल-टाइम मार्केट इंटेलिजन्स', gu: 'રીયલ-ટાઇમ માર્કેટ ઇન્ટેલિજન્સ', pa: 'ਰੀਅਲ-ਟਾਈਮ ਮਾਰਕੀਟ ਇੰਟੈਲੀਜੈਂਸ', ta: 'நிகழ்நேர சந்தை நுண்ணறிவு', te: 'రియల్ టైమ్ మార్కెట్ ఇంటెలిజెన్స్', kn: 'ನೈಜ-ಸಮಯದ ಮಾರುಕಟ್ಟೆ ಬುದ್ಧಿಮತ್ತೆ', bn: 'রিয়েল-টাইম মার্কেট ইন্টেলিজেন্স' },
+        f1_desc: {
+            en: 'Get up-to-the-minute crop prices from mandis across the country. Make informed selling decisions with AI-driven price forecasts.',
+            hi: 'देश भर की मंडियों से नवीनतम फसल की कीमतें प्राप्त करें। एआई-आधारित मूल्य पूर्वानुमानों के साथ बिक्री के सही निर्णय लें।',
+            mr: 'देशभरातील मंडईंमधून नवीनतम पिकाची किंमत मिळवा. एआय-आधारित किंमतीच्या अंदाजांसह योग्य विक्रीचे निर्णय घ्या.',
+            gu: 'દેશભરના બજારોમાંથી નવીનતમ પાકની કિંમતો મેળવો. એઆઈ-આધારિત ભાવની આગાહીઓ સાથે યોગ્ય વેચાણના નિર્ણયો લો.',
+            pa: 'ਦੇਸ਼ ਭਰ ਦੀਆਂ ਮੰਡੀਆਂ ਤੋਂ ਨਵੀਨਤਮ ਫਸਲ ਦੀਆਂ ਕੀਮਤਾਂ ਪ੍ਰਾਪਤ ਕਰੋ। ਏਆਈ-ਅਧਾਰਤ ਕੀਮਤ ਦੀਆਂ ਭਵਿੱਖਬਾਣੀਆਂ ਨਾਲ ਵਿਕਰੀ ਦੇ ਸਹੀ ਫੈਸਲੇ ਲਓ।',
+            ta: 'நாடு முழுவதிலும் உள்ள சந்தைகளிலிருந்து சமீபத்திய பயிர் விலைகளைப் பெறுங்கள். ஏஐ-அடிப்படையிலான விலை முன்னறிவிப்புகளுடன் சரியான விற்பனை முடிவுகளை எடுக்கவும்.',
+            te: 'దేశవ్యాప్తంగా ఉన్న మార్కెట్ల నుండి తాజా పంట ధరలను పొందండి. ఏఐ ఆధారిత అంచనాలతో సరైన విక్రయ నిర్ణయాలు తీసుకోండి.',
+            kn: 'ದೇಶಾದ್ಯಂತದ ಮಾರುಕಟ್ಟೆಗಳಿಂದ ಇತ್ತೀಚಿನ ಬೆಳೆಯ ಬೆಲೆಗಳನ್ನು ಪಡೆಯಿರಿ. ಎಐ-ಆಧಾರಿತ ಬೆಲೆ ಮುನ್ಸೂಚನೆಗಳೊಂದಿಗೆ ಸರಿಯಾದ ಮಾರಾಟ ನಿರ್ಧಾರಗಳನ್ನು ತೆಗೆದುಕೊಳ್ಳಿ.',
+            bn: 'সারা দেশের বাজার থেকে সর্বশেষ ফসলের দাম পান। এআই-ভিত্তিক মূল্যের পূর্বাভাসের সাথে সঠিক বিক্রয়ের সিদ্ধান্ত নিন।'
+        },
+        f2_title: { en: 'Smart Pricing & Inventory', hi: 'स्मार्ट मूल्य निर्धारण और इन्वेंट्री', mr: 'स्मार्ट किंमत आणि इन्व्हेंटरी', gu: 'સ્માર્ટ પ્રાઇસીંગ અને ઇન્વેન્ટરી', pa: 'ਸਮਾਰਟ ਕੀਮਤ ਅਤੇ ਇਨਵੈਂਟਰੀ', ta: 'ஸ்மார்ட் விலை மற்றும் இருப்பு', te: 'స్మార్ట్ ప్రైసింగ్ & ఇన్వెంటరీ', kn: 'ಸ್ಮಾರ್ಟ್ ಬೆಲೆ ಮತ್ತು ದಾಸ್ತಾನು', bn: 'স্মার্ট মূল্য নির্ধারণ এবং ইনভেন্টরি' },
+        f2_desc: {
+            en: 'Manage your crop listings and calculate the perfect selling price using our quality-based price calculator.',
+            hi: 'अपनी फसल सूची प्रबंधित करें और हमारी गुणवत्ता-आधारित मूल्य कैलकुलेटर का उपयोग करके सही बिक्री मूल्य की गणना करें।',
+            mr: 'तुमच्या पीक सूचीचे व्यवस्थापन करा आणि आमच्या गुणवत्ता-आधारित किंमत कॅल्क्युलेटरचा वापर करून योग्य विक्री किंमतीची गणना करा.',
+            gu: 'તમારી પાકની યાદીનું સંચાલન કરો અને અમારા ગુણવત્તા-આધારિત ભાવ કેલ્ક્યુલેટરનો ઉપયોગ કરીને યોગ્ય વેચાણ કિંમતની ગણતરી કરો.',
+            pa: 'ਆਪਣੀ ਫਸਲ ਦੀ ਸੂਚੀ ਦਾ ਪ੍ਰਬੰਧਨ ਕਰੋ ਅਤੇ ਸਾਡੇ ਗੁਣਵत्ता-ਅਧਾਰਤ ਕੀਮਤ ਕੈਲਕੁਲੇਟਰ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਸਹੀ ਵਿਕਰੀ ਕੀਮਤ ਦੀ ਗਣਨਾ ਕਰੋ।',
+            ta: 'உங்கள் பயிர் பட்டியல்களை நிர்வகிக்கவும், எங்கள் தரம் அடிப்படையிலான விலை கால்குலேட்டரைப் பயன்படுத்தி சரியான விற்பனை விலையை கணக்கிடவும்.',
+            te: 'మీ పంట జాబితాను నిర్వహించండి మరియు మా నాణ్యత ఆధారిత ధర కాలిక్యులేటర్‌ను ఉపయోగించి సరైన విక్రయ ధరను లెక్కించండి.',
+            kn: 'ನಿಮ್ಮ ಬೆಳೆ ಪಟ್ಟಿಯನ್ನು ನಿರ್ವಹಿಸಿ ಮತ್ತು ನಮ್ಮ ಗುಣಮಟ್ಟ ಆಧಾರಿತ ಬೆಲೆ ಕ್ಯಾಲ್ಕುಲೇಟರ್ ಬಳಸಿ ಸರಿಯಾದ ಮಾರಾಟ ಬೆಲೆಯನ್ನು ಲೆಕ್ಕ ಹಾಕಿ.',
+            bn: 'আপনার ফসলের তালিকা পরিচালনা করুন এবং আমাদের মান-ভিত্তিক মূল্য ক্যালকুলেটর ব্যবহার করে সঠিক বিক্রয় মূল্য গণনা করুন।'
+        },
+        f3_title: { en: 'Government Schemes', hi: 'सरकारी योजनाएं', mr: 'सरकारी योजना', gu: 'સરકારી યોજનાઓ', pa: 'ਸਰਕਾਰੀ ਯੋਜਨਾਵਾਂ', ta: 'அரசு திட்டங்கள்', te: 'ప్రభుత్వ పథకాలు', kn: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು', bn: 'সরকারি স্কিম' },
+        f3_desc: {
+            en: 'Discover and apply for subsidies, grants, and financial aid tailored to your farming profile. never miss an opportunity.',
+            hi: 'आपकी खेती प्रोफ़ाइल के अनुरूप सब्सिडी, अनुदान और वित्तीय सहायता खोजें और आवेदन करें। कभी कोई अवसर न चूकें।',
+            mr: 'तुमच्या शेतीच्या प्रोफाइलनुसार सबसिडी, अनुदान आणि आर्थिक मदतीचा शोध घ्या आणि अर्ज करा. कधीही कोणतीही संधी गमावू नका.',
+            gu: 'તમારી ખેતીની પ્રોફાઇલ અનુસાર સબસિડી, ગ્રાન્ટ્સ અને આર્થિક સહાય શોધો અને અરજી કરો. ક્યારેય કોઈ તક ચૂકશો નહીં.',
+            pa: 'ਆਪਣੀ ਖੇਤੀ ਪ੍ਰੋਫਾਈਲ ਦੇ ਅਨੁਸਾਰ ਸਬਸਿਡੀਆਂ, ਗ੍ਰਾਂਟਾਂ ਅਤੇ ਵਿੱਤੀ ਸਹਾਇਤਾ ਦੀ ਖੋਜ ਕਰੋ ਅਤੇ ਅਪਲਾਈ ਕਰੋ। ਕਦੇ ਵੀ ਕੋਈ ਮੌਕਾ ਨਾ ਗੁਆਓ।',
+            ta: 'உங்கள் விவசாய சுயவிவரத்திற்கு ஏற்ப மானியங்கள், மானியங்கள் மற்றும் நிதி உதவியைக் கண்டுபிடித்து விண்ணப்பிக்கவும். எந்த வாய்ப்பையும் தவறவிடாதீர்கள்.',
+            te: 'మీ వ్యవసాయ ప్రొఫైల్‌కు తగిన సబ్సిడీలు, గ్రాంట్లు మరియు ఆర్థిక సహాయాన్ని కనుగొని దరఖాస్తు చేసుకోండి. ఏ అవకాశాన్ని కోల్పోకండి.',
+            kn: 'ನಿಮ್ಮ ಕೃಷಿ ಪ್ರೊಫೈಲ್‌ಗೆ ಅನುಗುಣವಾಗಿ ಸಬ್ಸಿಡಿಗಳು, ಅನುದಾನಗಳು ಮತ್ತು ಆರ್ಥಿಕ ಸಹಾಯವನ್ನು ಹುಡುಕಿ ಮತ್ತು ಅರ್ಜಿ ಸಲ್ಲಿಸಿ. ಯಾವುದೇ ಅವಕಾಶವನ್ನು ಕಳೆದುಕೊಳ್ಳಬೇಡಿ.',
+            bn: 'আপনার কৃষি প্রোফাইলের সাথে মানানসই ভর্তুকি, অনুদান এবং আর্থিক সহায়তা খুঁজুন এবং আবেদন করুন। কোনো সুযোগ হাতছাড়া করবেন না।'
+        },
+        f4_title: { en: 'Precision Weather', hi: 'सटीक मौसम', mr: 'अचूक हवामान', gu: 'ચોક્કસ હવામાન', pa: 'ਸਹੀ ਮੌਸਮ', ta: 'துல்லியமான வானிலை', te: 'ఖచ్చితమైన వాతావరణం', kn: 'ನಿಖರವಾದ ಹವಾಮಾನ', bn: 'সঠিক আবহাওয়া' },
+        f4_desc: {
+            en: 'Hyper-local weather forecasts designed for agriculture. Plan your sowing and harvesting with confidence.',
+            hi: 'कृषि के लिए विशेष रूप से डिज़ाइन किए गए हाइपर-लोकल मौसम पूर्वानुमान। विश्वास के साथ अपनी बुवाई और कटाई की योजना बनाएं।',
+            mr: 'शेतीसाठी विशेषतः डिझाइन केलेले हायपर-लोकल हवामानाचे अंदाज. आत्मविश्वासाने तुमच्या पेरणी आणि काढणीची योजना करा.',
+            gu: 'કૃષિ માટે ખાસ ડિઝાઇન કરાયેલા હાઇપર-લોકલ હવામાનની આગાહીઓ. આત્મવિશ્વાસ સાથે તમારી વાવણી અને લણણીની યોજના બનાવો.',
+            pa: 'ਖੇਤੀਬਾੜੀ ਲਈ ਵਿਸ਼ੇਸ਼ ਤੌਰ \'ਤੇ ਡਿਜ਼ਾਈਨ ਕੀਤੇ ਗਏ ਹਾਈਪਰ-ਲੋਕਲ ਮੌਸਮ ਦੀਆਂ ਭਵਿੱਖਬਾਣੀਆਂ। ਭਰੋਸੇ ਨਾਲ ਆਪਣੀ ਬਿਜਾਈ ਅਤੇ ਕਟਾਈ ਦੀ ਯੋਜਨਾ ਬਣਾਓ।',
+            ta: 'விவசாயத்திற்காக சிறப்பாக வடிவமைக்கப்பட்ட ஹைப்பர்-லோக்கல் வானிலை கணிப்புகள். நம்பிக்கையுடன் உங்கள் விதைப்பு மற்றும் அறுவடையை திட்டமிடுங்கள்.',
+            te: 'వ్యవసాయం కోసం ప్రత్యేకంగా రూపొందించబడిన హైపర్-లోకల్ వాతావరణ ఆధారాలు. నమ్మకంతో మీ విత్తనాలు మరియు కోతను ప్లాన్ చేసుకోండి.',
+            kn: 'ಕೃಷಿಗಾಗಿ ವಿಶೇಷವಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ ಹೈಪರ್-ಲೋಕಲ್ ಹವಾಮಾನ ಮುನ್ಸೂಚನೆಗಳು. ವಿಶ್ವಾಸದಿಂದ ನಿಮ್ಮ ಬಿತ್ತನೆ ಮತ್ತು ಕಟಾವು ಯೋಜಿಸಿ.',
+            bn: 'কৃষির জন্য বিশেষভাবে ডিজাইন করা হাইপার-লোকাল আবহাওয়ার পূর্বাভাস। আত্মবিশ্বাসের সাথে আপনার বপন এবং ফসল কাটার পরিকল্পনা করুন।'
+        },
+        trust_joined: { en: 'Farmers in your district joined this week.', hi: 'आपके ज़िले के किसान इस सप्ताह जुड़े।', mr: 'तुमच्या जिल्ह्यातील शेतकरी या आठवड्यात सामील झाले.', gu: 'તમારા જિલ્લાના ખેડૂતો આ અઠવાડિયે જોડાયા.', pa: 'ਤੁਹਾਡੇ ਜ਼ਿਲ੍ਹੇ ਦੇ ਕਿਸਾਨ ਇਸ ਹਫ਼ਤੇ ਸ਼ਾਮਲ ਹੋਏ।', ta: 'இந்த வாரம் உங்கள் மாவட்ட விவசாயிகள் இணைந்தனர்.', te: 'మీ జిల్లా రైతులు ఈ వారం చేరారు.', kn: 'ನಿಮ್ಮ ಜಿಲ್ಲೆಯ ರೈತರು ಈ ವಾರ ಸೇರಿದರು.', bn: 'এই সপ্তাহে আপনার জেলার কৃষকরা যোগ দিয়েছেন।' },
+        trust_trustedBy: { en: 'Trusted by', hi: 'भरोसा करते हैं', mr: 'विश्वास आहे', gu: 'વિશ્વાસ કરે છે', pa: 'ਭਰੋਸਾ ਕਰਦੇ ਹਨ', ta: 'நம்பப்படுகிறார்கள்', te: 'నమ్మకం', kn: 'ನಂಬಲಾಗಿದೆ', bn: 'বিশ্বাসযোগ্য' },
+        trust_farmers: { en: 'farmers', hi: 'किसान', mr: 'शेतकरी', gu: 'ખેડૂતો', pa: 'ਕਿਸਾਨ', ta: 'விவசாயிகள்', te: 'రైతులు', kn: 'ರೈತರು', bn: 'কৃষক' },
+        trust_verified: { en: 'Verified Buyers', hi: 'सत्यापित खरीदार', mr: 'सत्यापित खरेदीदार', gu: 'ચકાસાયેલ ખરીદદારો', pa: 'ਪ੍ਰਮਾਣਿਤ ਖਰੀਦਦਾਰ', ta: 'சரிபார்க்கப்பட்ட வாங்குபவர்கள்', te: 'ధృవీకరించబడిన కొనుగోలుదారులు', kn: 'ಪರಿಶೀಲಿಸಿದ ಖರೀದಿದಾರರು', bn: 'যাচাইকৃত ক্রেতা' },
+        trust_verifiedDesc: { en: '50 successful payments last week', hi: 'पिछले सप्ताह ५० सफल भुगतान', mr: 'गेल्या आठवड्यात ५० यशस्वी पेमेंट', gu: 'ગયા અઠવાડિયે ૫૦ સફળ ચુકવણીઓ', pa: 'ਪਿਛਲੇ ਹਫ਼ਤੇ 50 ਸਫਲ ਭੁਗਤਾਨ', ta: 'கடந்த வாரம் 50 வெற்றிகரமான கொடுப்பனவுகள்', te: 'గత వారం 50 విజయవంతమైన చెల్లింపులు', kn: 'ಕಳೆದ ವಾರ 50 ಯಶಸ್ವಿ ಪಾವತಿಗಳು', bn: 'গত সপ্তাহে ৫০টি সফল অর্থপ্রদান' },
+        trust_dispute: { en: 'Dispute Resolution', hi: 'विवाद समाधान', mr: 'विवाद निवारण', gu: 'વિવાદ નિરાકરણ', pa: 'ਵਿਵਾਦ ਨਿਪਟਾਰਾ', ta: 'சர்ச்சை தீர்வு', te: 'వివాద పరిష్కారం', kn: 'ವಿವಾದ ಪರಿಹಾರ', bn: 'বিরোধ নিষ্পত্তি' },
+        trust_disputeDesc: { en: '24/7 dedicated helpline', hi: '२४/७ समर्पित हेल्पलाइन', mr: '२४/७ समर्पित हेल्पलाइन', gu: '૨૪/૭ સમર્પિત હેલ્પલાઇન', pa: '24/7 ਸਮਰਪਿਤ ਹੈਲਪਲਾਈਨ', ta: '24/7 பிரத்யேக உதவி மையம்', te: '24/7 అంకితమైన హెల్ప్‌లైన్', kn: '24/7 ಮೀಸಲಾದ ಸಹಾಯವಾಣಿ', bn: '২৪/৭ ডেডিকেটেড হেল্পলাইন' },
+        trust_bestPrice: { en: 'Best Price Guarantee', hi: 'सर्वोत्तम मूल्य की गारंटी', mr: 'सर्वोत्तम किमतीची हमी', gu: 'શ્રેષ્ઠ કિંમતની ખાતરી', pa: 'ਸਭ ਤੋਂ ਵਧੀਆ ਕੀਮਤ ਦੀ ਗਰੰਟੀ', ta: 'சிறந்த விலை உத்தரவாதம்', te: 'ఉత్తమ ధర గ్యారెంటీ', kn: 'ಉತ್ತಮ ಬೆಲೆ ಭರವಸೆ', bn: 'সেরা মূল্যের নিশ্চয়তা' },
+        trust_bestPriceDesc: { en: 'AI-matched highest bids', hi: 'एआई द्वारा सुमेलित उच्चतम बोलियाँ', mr: 'एआय ने जुळवलेल्या सर्वोच्च बोलीस', gu: 'એઆઈ દ્વારા મેળવેલી સૌથી ઊંચી બોલીઓ', pa: 'ਏਆਈ ਦੁਆਰਾ ਮੇਲ ਖਾਂਦੀਆਂ ਸਭ ਤੋਂ ਉੱਚੀਆਂ ਬੋਲੀਆਂ', ta: 'ஏஐ மூலம் பொருந்திய அதிக ஏலங்கள்', te: 'ఏఐ ద్వారా సరిపోలిన అత్యధిక బిడ్‌లు', kn: 'ಎಐ ಮೂಲಕ ಹೊಂದಿಕೆಯಾದ ಅತಿ ಹೆಚ್ಚು ಬಿಡ್‌ಗಳು', bn: 'এআই দ্বারা মিলে যাওয়া সর্বোচ্চ বিড' },
+        section_features_title: { en: 'Everything you need to grow better.', hi: 'बेहतर विकास के लिए वो सब जो आपको चाहिए।', mr: 'उत्तम वाढीसाठी जे काही तुम्हाला हवे आहे.', gu: 'વધુ સારા વિકાસ માટે તમને જે પણ જોઈએ છે.', pa: 'ਵਧੀਆ ਵਿਕਾਸ ਲਈ ਜੋ ਕੁਝ ਵੀ ਤੁਹਾਨੂੰ ਚਾਹੀਦਾ ਹੈ।', ta: 'சிறந்த வளர்ச்சிக்கு உங்களுக்கு தேவையான அனைத்தும்.', te: 'మెరుగైన వృద్ధికి మీకు కావలసినదంతా.', kn: 'ಉತ್ತಮ ಬೆಳವಣಿಗೆಗೆ ನಿಮಗೆ ಬೇಕಾದೆಲ್ಲವೂ.', bn: 'উন্নত বৃদ্ধির জন্য আপনার যা কিছু প্রয়োজন।' },
+        section_features_desc: {
+            en: 'AgriWise combines traditional farming wisdom with cutting-edge technology to help you maximize yields and profits.', hi: 'एग्रीवाइज पैदावार बढ़ाने के लिए तकनीक के साथ खेती के ज्ञान को जोड़ता है।', mr: 'अॅग्रीवाइज उत्पन्न वाढविण्यासाठी तंत्रज्ञानासह पारंपारिक शेतीच्या शहाणपणाची जोड देते.', gu: 'એગ્રીવાઈઝ ઉપજ વધારવા માટે અદ્યતન તકનીક સાથે પરંપરાગત ખેતીના જ્ઞાનને જોડે છે.', pa: 'ਐਗਰੀਵਾਈਸ ਪੈਦਾਵਾਰ ਵਧਾਉਣ ਲਈ ਆਧੁਨਿਕ ਤਕਨਾਲੋਜੀ ਦੇ ਨਾਲ ਰਵਾਇਤੀ ਖੇਤੀ ਦੀ ਸਿਆਣਪ ਨੂੰ ਜੋੜਦਾ ਹੈ।', ta: 'அக்ரிவைஸ், மகசூல் மற்றும் லாபத்தை அதிகரிக்க நவீன தொழில்நுட்பத்துடன் பாரம்பரிய விவசாய அறிவியலை இணைக்கிறது.', te: 'అగ్రివైజ్ మీరు దిగుబడి మరియు లాభాలను గరిష్టంగా పెంపొందించుకోవడానికి సహాయపడటానికి ఆధునిక సాంకేతికతతో సాంప్రదాయ వ్యవసాయ జ్ఞానాన్ని కలుపుతుంది.', kn: 'ಅಗ್ರಿ-ವೈಸ್ ಇಳುವರಿ ಮತ್ತು ಲಾಭವನ್ನು ಹೆಚ್ಚಿಸಲು ನಿಮಗೆ ಸಹಾಯ ಮಾಡಲು ಆಧುನಿಕ ತಂತ್ರಜ್ಞಾನದೊಂದಿಗೆ ಸಾಂಪ್ರದಾಯಿಕ ಕೃಷಿ ಜ್ಞಾನವನ್ನು ಸಂಯೋಜಿಸುತ್ತದೆ.', bn: 'এগ্রিওয়াইজ আপনাকে ফলন এবং লাভ সর্বাধিক করতে সাহায্য করার জন্য আধুনিক প্রযুক্তির সাথে ঐতিহ্যবাহী কৃষি জ্ঞানকে সংযুক্ত করে।'
+        },
+        section_cta_title: { en: 'Ready to modernize your farm?', hi: 'क्या आप खेत को आधुनिक बनाने के लिए तैयार हैं?', mr: 'तुम्ही शेती आधुनिक करण्यासाठी तयार आहात का?', gu: 'ખેતરને આધુનિક બનાવવા માટે તૈયાર છો?', pa: 'ਕੀ ਤੁਸੀਂ ਆਪਣੇ ਖੇਤ ਨੂੰ ਆਧੁਨਿਕ ਬਣਾਉਣ ਲਈ ਤਿਆਰ ਹੋ?', ta: 'உங்கள் பண்ணையை நவீனமயமாக்க தயாரா?', te: 'మీ పొలాన్ని ఆధునీకరించడానికి సిద్ధంగా ఉన్నారా?', kn: 'ನಿಮ್ಮ ಜಮೀನನ್ನು ಆಧುನೀಕರಿಸಲು ಸಿದ್ಧರಿದ್ದೀರಾ?', bn: 'আপনি কি আপনার খামারকে আধুনিক করতে প্রস্তুত?' },
+        section_cta_desc: { en: 'Join thousands of farmers.', hi: 'हजारों किसानों से जुड़ें।', mr: 'हजारो शेतकऱ्यांमध्ये सामील व्हा.', gu: 'હજારો ખેડૂતોમાં જોડાઓ.', pa: 'ਹਜ਼ਾਰਾਂ ਕਿਸਾਨਾਂ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਵੋ।', ta: 'ஆயிரக்கணக்கான விவசாயிகளுடன் இணையுங்கள்.', te: 'పదివేల రైతులు వారితో చేరండి.', kn: 'ಸಾವಿರಾರು ರೈತರೊಂದಿಗೆ ಸೇರಿ.', bn: 'হাজার হাজার কৃষকের সাথে যোগ দিন।' },
+        btn_createAccount: { en: 'Create Free Account', hi: 'मुफ़्त खाता बनाएँ', mr: 'मोफत खाते तयार करा', gu: 'મફત ખાતું બનાવો', pa: 'ਮੁਫਤ ਖਾਤਾ ਬਣਾਓ', ta: 'இலவச கணக்கை உருவாக்கவும்', te: 'ఉచిత ఖాతాను సృష్టించండి', kn: 'ಉಚಿತ ಖಾತೆಯನ್ನು ರಚಿಸಿ', bn: 'বিনামূল্যে অ্যাকাউন্ট তৈরি করুন' },
+        mock_marketAlert: { en: 'Market Alert', hi: 'बाज़ार अलर्ट', mr: 'मार्केट अलर्ट', gu: 'માર્કેટ એલર્ટ', pa: 'ਮਾਰਕੀਟ ਅਲਰਟ', ta: 'சந்தை எச்சரிக்கை', te: 'మార్కెట్ అలర్ట్', kn: 'ಮಾರುಕಟ್ಟೆ ಎಚ್ಚರಿಕೆ', bn: 'মার্কেট অ্যালার্ট' },
+        mock_wheatPrice: { en: 'Wheat Prices ▲ 12%', hi: 'गेहूँ की कीमतें ▲ 12%', mr: 'गव्हाच्या किंमती ▲ 12%', gu: 'ઘઉંના ભાવ ▲ 12%', pa: 'ਕਣਕ ਦੀਆਂ ਕੀਮਤਾਂ ▲ 12%', ta: 'கோதுமை விலைகள் ▲ 12%', te: 'గోధుమ ధరలు ▲ 12%', kn: 'ಗೋಧಿ ಬೆಲೆಗಳು ▲ 12%', bn: 'গমের দাম ▲ 12%' },
+        mock_soilMoisture: { en: 'Soil Moisture', hi: 'मिट्टी की नमी', mr: 'मातीतील ओलावा', gu: 'માટીનો ભેજ', pa: 'ਮਿੱਟੀ ਦੀ ਨਮੀ', ta: 'மண் ஈரப்பதம்', te: 'నేల తేమ', kn: 'ಮಣ್ಣಿನ ತೇವಾಂಶ', bn: 'মাটির আর্দ্রতা' },
+        mock_optimal: { en: 'Optimal', hi: 'सर्वोत्तम', mr: 'इष्टतम', gu: 'ઇષ્ટતમ', pa: 'ਸਰਵੋਤਮ', ta: 'உகந்தது', te: 'ఆప్టిమల్', kn: 'ಸೂಕ್ತ', bn: 'অনুকূল' },
+        mock_nextRain: { en: 'Next Rain', hi: 'अगली बारिश', mr: 'पुढचा पाऊस', gu: 'આગળનો વરસાદ', pa: 'ਅਗਲੀ ਬਾਰਿਸ਼', ta: 'அடுத்த மழை', te: 'తదుపరి వర్షం', kn: 'ಮುಂದಿನ ಮಳೆ', bn: 'পরবর্তী বৃষ্টি' },
+        mock_days: { en: '2 Days', hi: '2 दिन', mr: '2 दिवस', gu: '2 દિવસ', pa: '2 ਦਿਨ', ta: '2 நாட்கள்', te: '2 రోజులు', kn: '2 ದಿನಗಳು', bn: '২ দিন' },
+        mock_rainDesc: { en: 'Heavy rainfall expected', hi: 'भारी बारिश', mr: 'मुसळधार पाऊस', gu: 'ભારે વરસાદ', pa: 'ਭਾਰੀ ਬਾਰਿਸ਼', ta: 'கனமழை', te: 'భారీ వర్షపాతం', kn: 'ಭಾರಿ ಮಳೆ', bn: 'ভারী বৃষ্টি' },
+        mock_subsidyAva: { en: 'New Subsidy Available', hi: 'नई सब्सिडी उपलब्ध', mr: 'नवीन सबसिडी उपलब्ध', gu: 'નવી સબસિડી ઉપલબ્ધ', pa: 'ਨਵੀਂ ਸਬਸਿડી ਉਪਲਬਧ', ta: 'புதிய மானியம் கிடைக்கிறது', te: 'కొత్త సబ్సిడీ అందుబాటులో ఉంది', kn: 'ಹೊಸ ಸಬ್ಸಿಡಿ ಲಭ್ಯವಿದೆ', bn: 'নতুন ভর্তুকি উপলব্ধ' },
+        mock_subsidyDesc: { en: 'Fertilizer subsidy scheme 2024', hi: 'उर्वरक सब्सिडी 2024', mr: 'खत सबसिडी 2024', gu: 'ખાતર સબસિડી 2024', pa: 'ਖਾਦ ਸਬਸਿਡੀ 2024', ta: 'உர மானிய திட்டம் 2024', te: 'ఎరువుల సబ్సిడీ పథకం 2024', kn: 'ಗೊಬ್ಬರ ಸಬ್ಸಿಡಿ ಯೋಜನೆ 2024', bn: 'সার ভর্তুকি স্কিম 2024' },
+        footer_about: { en: 'About', hi: 'हमारे बारे में', mr: 'आमच्याबद्दल', gu: 'અમારા વિશે', pa: 'ਸਾਡੇ ਬਾਰੇ', ta: 'எங்களை பற்றி', te: 'మా గురించి', kn: 'ನಮ್ಮ ಬಗ್ಗೆ', bn: 'আমাদের সম্পর্কে' },
+        footer_features: { en: 'Features', hi: 'विशेषताएं', mr: 'वैशिष्ट्ये', gu: 'વિશેષતાઓ', pa: 'ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ', ta: 'அம்சங்கள்', te: 'లక్షణాలు', kn: 'ವೈಶಿಷ್ಟ್ಯಗಳು', bn: 'বৈशिष्ट্য' },
+        footer_privacy: { en: 'Privacy', hi: 'गोपनीयता', mr: 'गोपनीयता', gu: 'ગોપનીયતા', pa: 'ਗੋਪਨੀયਤਾ', ta: 'தனியுரிமை', te: 'గోప్యత', kn: 'ಗೌಪ್ಯತೆ', bn: 'গোপনীয়তা' },
+        footer_contact: { en: 'Contact', hi: 'संपर्क', mr: 'संपर्क', gu: 'સંપર્ક', pa: 'ਸੰਪਰਕ', ta: 'தொடர்பு கொள்ள', te: 'సంప్రదించండి', kn: 'ಸಂಪರ್ಕಿಸಿ', bn: 'যোগাযোগ করুন' },
+        footer_copyright: { en: '© 2024 AgriWise Inc.', hi: '© 2024 एग्रीवाइज इंक.', mr: '© 2024 अॅग्रीवाइज इंक.', gu: '© 2024 એગ્રીવાઇઝ ઇન્ક.', pa: '© 2024 ਐਗਰੀਵਾਈਸ ਇੰਕ।', ta: '© 2024 அக்ரிவைஸ் இன்க்.', te: '© 2024 అగ్రివైజ్ ఇంక్.', kn: '© 2024 ಅಗ್ರಿ-ವೈಸ್ ಇಂಕ್.', bn: '© 2024 এগ্রিওয়াইজ ইনক।' }
+    },
+    d: {
+        dashboard: { en: 'Dashboard', hi: 'डैशबोर्ड', mr: 'डॅशबोर्ड', gu: 'ડેશબોર્ડ', pa: 'ਡੈਸ਼ਬੋਰਡ', ta: 'கட்டுப்பாட்டு பலகம்', te: 'డాష్‌బోర్డ్', kn: 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್', bn: 'ড্যাশবোর্ড' },
+        myFarm: { en: 'My Farm', hi: 'मेरा खेत', mr: 'माझे शेत', gu: 'મારું ખેતર', pa: 'ਮੇਰਾ ਖੇਤ', ta: 'என் பண்ணை', te: 'నా పొలం', kn: 'ನನ್ನ ಜಮೀನು', bn: 'আমার খামার' },
+        marketPlace: { en: 'Market Place', hi: 'बाज़ार', mr: 'मार्केट प्लेस', gu: 'માર્કેટ પ્લેસ', pa: 'ਮਾਰਕੀਟ પਲੇਸ', ta: 'சந்தை', te: 'మార్కెట్ ప్లేస్', kn: 'ಮಾರುಕಟ್ಟೆ', bn: 'মার্কেট প্লেস' },
+        myCrops: { en: 'My Crops', hi: 'मेरी फसलें', mr: 'माझी पिके', gu: 'મારા પાક', pa: 'ਮੇਰੀਆਂ ਫਸਲਾਂ', ta: 'என் பயிர்கள்', te: 'నా పంటలు', kn: 'ನನ್ನ ಬೆಳೆಗಳು', bn: 'আমার ফসল' },
+        govtSchemes: { en: 'Govt Schemes', hi: 'सरकारी योजनाएं', mr: 'सरकारी योजना', gu: 'સરકારી યોજનાઓ', pa: 'ਸਰਕਾਰੀ ਯੋਜਨਾਵਾਂ', ta: 'அரசு திட்டங்கள்', te: 'ప్రభుత్వ పథకాలు', kn: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು', bn: 'সরকারি স্কিম' },
+        weather: { en: 'Weather', hi: 'मौसम', mr: 'हवामान', gu: 'હવામાન', pa: 'ਮੌਸਮ', ta: 'வானிலை', te: 'వాతావరణం', kn: 'ಹವಾಮಾನ', bn: 'আবহাওয়া' },
+        support: { en: 'Support', hi: 'सहायता', mr: 'मदत', gu: 'સહાય', pa: 'ਸਹਾਇਤਾ', ta: 'ஆதரவு', te: 'మద్దతు', kn: 'ಬೆಂಬಲ', bn: 'সহায়তা' },
+        calculator: { en: 'Calculator', hi: 'कैलकुलेटर', mr: 'कॅल्क्युलेटर', gu: 'કેલ્ક્યુલેટર', pa: 'ਕੈਲਕੁਲੇਟਰ', ta: 'கால்குலேட்டர்', te: 'కాలిక్యులేటర్', kn: 'ಕ್ಯಾಲ್ಕುಲೇಟರ್', bn: 'ক্যালকুলেটর' },
+        logout: { en: 'Log Out', hi: 'लॉग आउट', mr: 'लॉग आउट', gu: 'લોગ આઉટ', pa: 'ਲਾਗਆਊਟ', ta: 'வெளியேறு', te: 'లాగ్ అవుట్', kn: 'ಲಾಗ್ ಔಟ್', bn: 'লॉग আউট' },
+        welcomeBack: { en: 'Welcome back, ', hi: 'स्वागत है, ', mr: 'पुन्हा स्वागत आहे, ', gu: 'ફરી સ્વાગત છે, ', pa: 'ਵਾਪਸੀ \'ਤੇ ਸੁਆਗਤ ਹੈ, ', ta: 'மீண்டும் வருக, ', te: 'తిరిగి స్వాగతం, ', kn: 'ಮತ್ತೆ ಸ್ವಾಗತ, ', bn: 'ফিরে স্বাগতম, ' },
+        farmOverview: { en: 'Here is your farm overview', hi: 'आपके खेत का अवलोकन', mr: 'तुमच्या शेताचा आढावा', gu: 'તમારા ખેતરની ઝાંખી', pa: 'ਤੁਹਾਡੇ ਖੇਤ ਦੀ ਸੰਖੇਪ ਜਾਣਕਾਰੀ', ta: 'உங்கள் பண்ணையின் மேலோட்டம்', te: 'మీ ఫార్మ్ యొక్క అవలోకనం', kn: 'ನಿಮ್ಮ ಜಮೀನಿನ ಅವಲೋಕನ', bn: 'আপনার খামারের ওভারভিউ' },
+        buyingOverview: { en: 'Here is your buying overview', hi: 'आपकी खरीदारी का अवलोकन', mr: 'खरेदीचा आढावा', gu: 'ખરીદીની ઝાંખી', pa: 'ਖਰੀਦਦਾਰੀ ਦੀ ਸੰਖੇਪ ਜਾਣਕਾਰੀ', ta: 'வாங்குதல் மேலோட்டம்', te: 'కొనుగోలు అవలోకనం', kn: 'ಖರೀದಿಯ ಅವಲೋಕನ', bn: 'কেনাকাটার ওভারভিউ' },
+        quickActions: { en: 'Quick Actions', hi: 'त्वरित कार्रवाई', mr: 'त्वरित कृती', gu: 'ઝડપી પગલાં', pa: 'ਤੁਰੰਤ ਕਾਰਵਾਈ', ta: 'விரைவான செயல்கள்', te: 'త్వరిత చర్యలు', kn: 'ತ್ವರಿತ ಕಾರ್ಯಗಳು', bn: 'দ্রুত পদক্ষেপ' },
+        searchPlace: { en: 'Search...', hi: 'खोजें...', mr: 'शोधा...', gu: 'શોધો...', pa: 'ਖੋਜ...', ta: 'தேடு...', te: 'శోధించండి...', kn: 'ಹುಡುಕಿ...', bn: 'অনুসন্ধান...' },
+        recentActivities: { en: 'Recent Activities', hi: 'हाल की गतिविधियां', mr: 'अलीकडील घडामोडी', gu: 'તાજેતરની પ્રવૃત્તિઓ', pa: 'ਹਾਲੀਆ ਗਤੀਵਿਧੀਆਂ', ta: 'சமீபத்திய நடவடிக்கைகள்', te: 'ఇటీవలి కార్యకలాపాలు', kn: 'ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆಗಳು', bn: 'সাম্প্রতিক কার্যক্রম' },
+        adminWelcome: { en: 'Welcome back, Admin', hi: 'स्वागत है, एडमिन', mr: 'स्वागत आहे, अॅडमिन', gu: 'સ્વાગત છે, એડમિન', pa: 'ਸੁਆਗਤ ਹੈ, ਐਡਮਿਨ', ta: 'மீண்டும் வருக, நிர்வாகி', te: 'తిరిగి స్వాగతం, అడ్మిన్', kn: 'ಮತ್ತೆ ಸ್ವಾಗತ, ಅಡ್ಮಿನ್', bn: 'স্বাগতম, অ্যাডমিন' },
+        adminOverview: { en: 'System Overview', hi: 'सिस्टम अवलोकन', mr: 'सिस्टम विहंगावलोकन', gu: 'સિસ્ટમ ઝાંખી', pa: 'ਸਿਸਟਮ ਸੰਖੇਪ ਜਾਣਕਾਰੀ', ta: 'கணினி கண்ணோட்டம்', te: 'సిస్టమ్ అవలోకనం', kn: 'ಸಿಸ್ಟಮ್ ಅವಲೋಕನ', bn: 'সিস্টেম ওভারভিউ' },
+        marketPrices: { en: 'Market Prices', hi: 'बाज़ार मूल्य', mr: 'बाजार भाव', gu: 'બજારના ભાવ', pa: 'ਮਾਰਕੀਟ ਦੀਆਂ ਕੀਮਤਾਂ', ta: 'சந்தை விலைகள்', te: 'మార్కెట్ ధరలు', kn: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು', bn: 'বাজারের দাম' },
+        browseCrops: { en: 'Browse Crops', hi: 'फसलें खोजें', mr: 'पिके ब्राउझ करा', gu: 'પાક બ્રાઉઝ કરો', pa: 'ਫਸਲਾਂ ਬ੍ਰਾਊਜ਼ ਕਰੋ', ta: 'பயிர்களை உலாவு', te: 'పంటలను బ్రౌజ్ చేయండి', kn: 'ಬೆಳೆಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ', bn: 'ফসল ব্রাউজ করুন' },
+        myOrders: { en: 'My Orders', hi: 'मेरे आदेश', mr: 'माझे आदेश', gu: 'મારા ઓર્ડર', pa: 'ਮੇਰੇ ਆਰਡਰ', ta: 'என் ஆர்டர்கள்', te: 'నా ఆర్డర్లు', kn: 'ನನ್ನ ಆರ್ಡರ್‌ಗಳು', bn: 'আমার আদেশ' },
+        cart: { en: 'Cart', hi: 'कार्ट', mr: 'कार्ट', gu: 'કાર્ટ', pa: 'ਕਾਰਟ', ta: 'வண்டி', te: 'కార్ట్', kn: 'ಕಾರ್ಟ್', bn: 'কার্ট' },
+        manageUsers: { en: 'Manage Users', hi: 'उपयोगकर्ता प्रबंधित', mr: 'युजर्स व्यवस्थापन', gu: 'વપરાશકર્તા સંચાલન', pa: 'ਉਪਭੋਗਤਾ ਪ੍ਰਬੰਧਨ', ta: 'பயனர்களை நிர்வகிக்கவும்', te: 'వినియోగదారుల నిర్వహణ', kn: 'ಬಳಕೆದಾರ ನಿರ್ವಹಣೆ', bn: 'ব্যবহারকারী পরিচালনা' },
+        settings: { en: 'Settings', hi: 'सेटिंग्स', mr: 'सेटिंग्ज', gu: 'સેટિંગ્સ', pa: 'ਸੈਟਿੰਗਾਂ', ta: 'அமைப்புகள்', te: 'సెట్టింగ్‌లు', kn: 'ಸೆಟ್ಟಿಂಗ್‌ಗಳು', bn: 'সেটিংস' },
+        reports: { en: 'Reports', hi: 'रिपोर्ट', mr: 'अहवाल', gu: 'અહેવાલો', pa: 'ਰਿਪੋਰਟਾਂ', ta: 'அறிக்கைகள்', te: 'నివేదికలు', kn: 'ವರದಿಗಳು', bn: 'রিপোর্ট' },
+        approvals: { en: 'Approvals', hi: 'मंजूरी', mr: 'मंजुरी', gu: 'મંજૂરીઓ', pa: 'ਪ੍ਰਵਾਨਗੀਆਂ', ta: 'ஒப்புதல்கள்', te: 'ఆమోదాలు', kn: 'ಅನುಮೋದನೆಗಳು', bn: 'অনুমোদন' },
+        systemStatus: { en: 'System Status', hi: 'सिस्टम स्थिति', mr: 'सिस्टम स्थिती', gu: 'સિસ્ટમ સ્થિતિ', pa: 'ਸਿਸਟਮ ਸਥਿਤੀ', ta: 'கணினி நிலை', te: 'సిస్టమ్ స్థితి', kn: 'ಸಿಸ್ಟಮ್ ಸ್ಥಿತಿ', bn: 'সিস্টেম স্থিতি' },
+        allServicesOperational: { en: 'All Services Operational', hi: 'सभी सेवाएँ सुचारू हैं', mr: 'सर्व सेवा कार्यरत आहेत', gu: 'તમામ સેવાઓ કાર્યરત છે', pa: 'ਸਾਰੀਆਂ ਸੇਵਾਵਾਂ ਚੱਲ ਰਹੀਆਂ ਹਨ', ta: 'அனைத்து சேவைகளும் இயங்குகின்றன', te: 'అన్ని సేవలు పనిచేస్తున్నాయి', kn: 'ಎಲ್ಲಾ ಸೇವೆಗಳು ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತಿವೆ', bn: 'সমস্ত পরিষেবা চলমান' },
+        activeCrops: { en: 'Active crops', hi: 'सक्रिय फसलें', mr: 'सक्रिय पिके', gu: 'સક્રિય પાક', pa: 'ਸਰਗਰਮ ਫਸਲਾਂ', ta: 'செயலில் உள்ள பயிர்கள்', te: 'క్రియాశీల పంటలు', kn: 'ಸಕ್ರಿಯ ಬೆಳೆಗಳು', bn: 'সক্রিয় ফসল' },
+        totalYield: { en: 'Total yield', hi: 'कुल उपज', mr: 'एकूण उत्पन्न', gu: 'કુલ ઉપજ', pa: 'ਕੁੱਲ ਝਾੜ', ta: 'மொத்த மகசூல்', te: 'మొత్తం దిగుబడి', kn: 'ಒಟ್ಟು ಇಳುವರಿ', bn: 'মোট ফলন' },
+        marketValue: { en: 'Market Value', hi: 'बाज़ार मूल्य', mr: 'बाजार मूल्य', gu: 'બજાર મૂલ્ય', pa: 'બਾਜ਼ਾਰ ਮੁੱਲ', ta: 'சந்தை மதிப்பு', te: 'మార్కెట్ విలువ', kn: 'ಮಾರುಕಟ್ಟೆ ಮೌಲ್ಯ', bn: 'বাজার মূল্য' },
+        estRevenue: { en: 'Est. Revenue', hi: 'अनुमानित राजस्व', mr: 'अंदाजित महसूल', gu: 'અંદાજિત આવક', pa: 'ਅਨੁਮਾਨਿਤ ਆਮਦਨ', ta: 'மதிப்பிடப்பட்ட வருவாய்', te: 'అంచనా ఆదాయం', kn: 'ಅಂದಾಜು ಆದಾಯ', bn: 'আনুমানিক আয়' },
+        totalOrders: { en: 'Total Orders', hi: 'कुल आदेश', mr: 'एकूण ऑर्डर्स', gu: 'કુલ ઓર્ડર', pa: 'ਕੁੱਲ ਆਰਡਰ', ta: 'மொத்த ஆர்டர்கள்', te: 'మొత్తం ఆర్డర్లు', kn: 'ಒಟ್ಟು ಆದೇಶಗಳು', bn: 'মোট অর্ডার' },
+        activeBids: { en: 'Active Bids', hi: 'सक्रिय बोलियाँ', mr: 'सक्रिय बोली', gu: 'સક્રિય બિડ્સ', pa: 'ਸਰਗਰਮ ਬੋਲੀਆਂ', ta: 'செயலில் உள்ள ஏலங்கள்', te: 'యాక్టివ్ బిడ్లు', kn: 'ಸಕ್ರಿಯ ಬಿಡ್‌ಗಳು', bn: 'সক্রিয় বিড' },
+        savedItems: { en: 'Saved Items', hi: 'सहेजे गए आइटम', mr: 'जतन केलेले आयटम', gu: 'સાચવેલી વસ્તુઓ', pa: 'ਸੁਰੱਖਿయਤ ਆਈਟਮਾਂ', ta: 'சேமிக்கப்பட்ட உருப்படிகள்', te: 'సేవ్ చేయబడిన అంశాలు', kn: 'ಉಳಿಸಿದ ವಸ್ತುಗಳು', bn: 'সংরক্ষিত আইটেম' },
+        spentThisMonth: { en: 'Spent this month', hi: 'इस महीने खर्च किए गए', mr: 'या महिन्यात खर्च', gu: 'આ મહિને ખર્ચ્યા', pa: 'ਇਸ ਮਹੀਨੇ ਖਰਚਿਆ', ta: 'இந்த மாதம் செலவிடப்பட்டது', te: 'ఈ నెల గడిచింది', kn: 'ಈ ತಿಂಗಳು ಖರ್ಚು', bn: 'এই মাসে ব্যয় করা হয়েছে' },
+        totalUsers: { en: 'Total Users', hi: 'कुल उपयोगकर्ता', mr: 'एकूण वापरकर्ते', gu: 'કુલ વપરાશકર્તાઓ', pa: 'ਕੁੱਲ ਉਪਭੋਗਤਾ', ta: 'மொத்த பயனர்கள்', te: 'మొత్తం వినియోగదారులు', kn: 'ಒಟ್ಟು ಬಳಕೆದಾರರು', bn: 'মোট ব্যবহারকারী' },
+        activeList: { en: 'Active Listings', hi: 'सक्रिय सूची', mr: 'सक्रिय सूची', gu: 'સક્રિય યાદીઓ', pa: 'ਸਰਗਰਮ ਸੂਚੀਆਂ', ta: 'செயலில் உள்ள பட்டியல்கள்', te: 'యాక్టివ్ లిస్టింగ్స్', kn: 'ಸಕ್ರಿಯ ಪಟ್ಟಿಗಳು', bn: 'সক্রিয় তালিকা' },
+        totalTrans: { en: 'Total Transactions', hi: 'कुल लेनदेन', mr: 'एकूण व्यवहार', gu: 'કુલ વ્યવહારો', pa: 'ਕੁੱਲ ਲੈਣ-ਦੇਣ', ta: 'மொத்த பரிவர்த்தனைகள்', te: 'మొత్తం లావాదేవీలు', kn: 'ಒಟ್ಟು ವಹಿವಾಟುಗಳು', bn: 'মোট লেনদেন' },
+        supportTickets: { en: 'Support Tickets', hi: 'समर्थन टिकट', mr: 'मदत तिकिटे', gu: 'સપોર્ટ ટિકિટ', pa: 'ਸਹਾਇਤਾ ਟਿਕਟਾਂ', ta: 'ஆதரவு டிக்கெட்டுகள்', te: 'మద్దతు టిక్కెట్లు', kn: 'ಬೆಂಬಲ ಟಿಕೆಟ್‌ಗಳು', bn: 'সহায়তা টিকিট' },
+        manageSchemes: { en: "Manage Schemes", hi: "योजनाएं प्रबंधित करें", mr: "Manage Schemes", gu: "Manage Schemes", pa: "Manage Schemes", ta: "Manage Schemes", te: "Manage Schemes", kn: "Manage Schemes", bn: "Manage Schemes" },
+        manageSchemesDesc: { en: "Add or edit govt schemes", hi: "सरकारी योजनाएं जोड़ें या संपादित करें", mr: "Add or edit govt schemes", gu: "Add or edit govt schemes", pa: "Add or edit govt schemes", ta: "Add or edit govt schemes", te: "Add or edit govt schemes", kn: "Add or edit govt schemes", bn: "Add or edit govt schemes" },
+        badgeCore: { en: "Core", hi: "मुख्य", mr: "Core", gu: "Core", pa: "Core", ta: "Core", te: "Core", kn: "Core", bn: "Core" },
+        farmingTips: { en: "Farming Tips", hi: "खेती के सुझाव", mr: "Farming Tips", gu: "Farming Tips", pa: "Farming Tips", ta: "Farming Tips", te: "Farming Tips", kn: "Farming Tips", bn: "Farming Tips" },
+        farmingTipsDesc: { en: "Update expert advice", hi: "विशेषज्ञ सलाह अपडेट करें", mr: "Update expert advice", gu: "Update expert advice", pa: "Update expert advice", ta: "Update expert advice", te: "Update expert advice", kn: "Update expert advice", bn: "Update expert advice" },
+        latestUpdates: { en: "Latest Updates", hi: "नवीनतम अपडेट", mr: "Latest Updates", gu: "Latest Updates", pa: "Latest Updates", ta: "Latest Updates", te: "Latest Updates", kn: "Latest Updates", bn: "Latest Updates" },
+        latestUpdatesDesc: { en: "Broadcast news", hi: "समाचार प्रसारित करें", mr: "Broadcast news", gu: "Broadcast news", pa: "Broadcast news", ta: "Broadcast news", te: "Broadcast news", kn: "Broadcast news", bn: "Broadcast news" },
+        badgeLive: { en: "Live", hi: "लाइव", mr: "Live", gu: "Live", pa: "Live", ta: "Live", te: "Live", kn: "Live", bn: "Live" },
+        financeData: { en: "Finance Data", hi: "वित्त डेटा", mr: "Finance Data", gu: "Finance Data", pa: "Finance Data", ta: "Finance Data", te: "Finance Data", kn: "Finance Data", bn: "Finance Data" },
+        financeDataDesc: { en: "Manage financial records", hi: "वित्तीय रिकॉर्ड प्रबंधित करें", mr: "Manage financial records", gu: "Manage financial records", pa: "Manage financial records", ta: "Manage financial records", te: "Manage financial records", kn: "Manage financial records", bn: "Manage financial records" },
+        supportTickets: { en: "Support Tickets", hi: "Support Tickets", mr: "Support Tickets", gu: "Support Tickets", pa: "Support Tickets", ta: "Support Tickets", te: "Support Tickets", kn: "Support Tickets", bn: "Support Tickets" },
+        supportTicketsDesc: { en: "Manage disputes & queries", hi: "विवाद और प्रश्न प्रबंधित करें", mr: "Manage disputes & queries", gu: "Manage disputes & queries", pa: "Manage disputes & queries", ta: "Manage disputes & queries", te: "Manage disputes & queries", kn: "Manage disputes & queries", bn: "Manage disputes & queries" },
+        badgeAction: { en: "Action Req", hi: "कार्रवाई आवश्यक", mr: "Action Req", gu: "Action Req", pa: "Action Req", ta: "Action Req", te: "Action Req", kn: "Action Req", bn: "Action Req" },
+        adminPortal: { en: "Admin Portal", hi: "एडमिन पोर्टल", mr: "Admin Portal", gu: "Admin Portal", pa: "Admin Portal", ta: "Admin Portal", te: "Admin Portal", kn: "Admin Portal", bn: "Admin Portal" },
+        admin: { en: "Admin", hi: "एडमिन", mr: "Admin", gu: "Admin", pa: "Admin", ta: "Admin", te: "Admin", kn: "Admin", bn: "Admin" },
+        localTime: { en: "Local Time", hi: "स्थानीय समय", mr: "Local Time", gu: "Local Time", pa: "Local Time", ta: "Local Time", te: "Local Time", kn: "Local Time", bn: "Local Time" },
+        temp: { en: "Temp", hi: "तापमान", mr: "Temp", gu: "Temp", pa: "Temp", ta: "Temp", te: "Temp", kn: "Temp", bn: "Temp" },
+        systemStatus: { en: "System Status", hi: "सिस्टम स्थिति", mr: "System Status", gu: "System Status", pa: "System Status", ta: "System Status", te: "System Status", kn: "System Status", bn: "System Status" },
+        allSystemsAre: { en: "All systems are", hi: "सभी सिस्टम हैं", mr: "All systems are", gu: "All systems are", pa: "All systems are", ta: "All systems are", te: "All systems are", kn: "All systems are", bn: "All systems are" },
+        operational: { en: "operational", hi: "सुचारू", mr: "operational", gu: "operational", pa: "operational", ta: "operational", te: "operational", kn: "operational", bn: "operational" },
+        systemStatusDesc: { en: "User activity is normal. Support ticket volume is low.", hi: "उपयोगकर्ता गतिविधि सामान्य है। सपोर्ट टिकट की मात्रा कम है।", mr: "User activity is normal. Support ticket volume is low.", gu: "User activity is normal. Support ticket volume is low.", pa: "User activity is normal. Support ticket volume is low.", ta: "User activity is normal. Support ticket volume is low.", te: "User activity is normal. Support ticket volume is low.", kn: "User activity is normal. Support ticket volume is low.", bn: "User activity is normal. Support ticket volume is low." },
+        checkReports: { en: "Check Reports", hi: "रिपोर्ट जांचें", mr: "Check Reports", gu: "Check Reports", pa: "Check Reports", ta: "Check Reports", te: "Check Reports", kn: "Check Reports", bn: "Check Reports" },
+        searchAdmin: { en: "Search admin modules...", hi: "एडमिन मॉड्यूल खोजें...", mr: "Search admin modules...", gu: "Search admin modules...", pa: "Search admin modules...", ta: "Search admin modules...", te: "Search admin modules...", kn: "Search admin modules...", bn: "Search admin modules..." },
+        openModule: { en: "Open Module", hi: "मॉड्यूल खोलें", mr: "Open Module", gu: "Open Module", pa: "Open Module", ta: "Open Module", te: "Open Module", kn: "Open Module", bn: "Open Module" },
+        noModulesFound: { en: "No modules found", hi: "कोई मॉड्यूल नहीं मिला", mr: "No modules found", gu: "No modules found", pa: "No modules found", ta: "No modules found", te: "No modules found", kn: "No modules found", bn: "No modules found" },
+        clearSearch: { en: "Clear search", hi: "खोज साफ़ करें", mr: "Clear search", gu: "Clear search", pa: "Clear search", ta: "Clear search", te: "Clear search", kn: "Clear search", bn: "Clear search" },
+        marketPrices: { en: "Market Prices", hi: "मंडी भाव", mr: "Market Prices", gu: "Market Prices", pa: "Market Prices", ta: "Market Prices", te: "Market Prices", kn: "Market Prices", bn: "Market Prices" },
+        marketPricesDesc: { en: "Real-time crop rates", hi: "रीयल-टाइम फसल दरें", mr: "Real-time crop rates", gu: "Real-time crop rates", pa: "Real-time crop rates", ta: "Real-time crop rates", te: "Real-time crop rates", kn: "Real-time crop rates", bn: "Real-time crop rates" },
+        myCrops: { en: "My Crops", hi: "मेरी फसलें", mr: "My Crops", gu: "My Crops", pa: "My Crops", ta: "My Crops", te: "My Crops", kn: "My Crops", bn: "My Crops" },
+        myCropsDesc: { en: "Track your growth", hi: "अपनी वृद्धि ट्रैक करें", mr: "Track your growth", gu: "Track your growth", pa: "Track your growth", ta: "Track your growth", te: "Track your growth", kn: "Track your growth", bn: "Track your growth" },
+        govtSchemes: { en: "Govt Schemes", hi: "सरकारी योजनाएं", mr: "Govt Schemes", gu: "Govt Schemes", pa: "Govt Schemes", ta: "Govt Schemes", te: "Govt Schemes", kn: "Govt Schemes", bn: "Govt Schemes" },
+        govtSchemesDesc: { en: "Subsidy & Grants", hi: "सब्सिडी और अनुदान", mr: "Subsidy & Grants", gu: "Subsidy & Grants", pa: "Subsidy & Grants", ta: "Subsidy & Grants", te: "Subsidy & Grants", kn: "Subsidy & Grants", bn: "Subsidy & Grants" },
+        badgeNew: { en: "New", hi: "नया", mr: "New", gu: "New", pa: "New", ta: "New", te: "New", kn: "New", bn: "New" },
+        orderManagement: { en: "Order Management", hi: "आदेश प्रबंधन", mr: "Order Management", gu: "Order Management", pa: "Order Management", ta: "Order Management", te: "Order Management", kn: "Order Management", bn: "Order Management" },
+        orderManagementDesc: { en: "View Buyer Orders", hi: "खरीदार आदेश देखें", mr: "View Buyer Orders", gu: "View Buyer Orders", pa: "View Buyer Orders", ta: "View Buyer Orders", te: "View Buyer Orders", kn: "View Buyer Orders", bn: "View Buyer Orders" },
+        badgeActive: { en: "Active", hi: "सक्रिय", mr: "Active", gu: "Active", pa: "Active", ta: "Active", te: "Active", kn: "Active", bn: "Active" },
+        marketplace: { en: "Marketplace", hi: "बाज़ार", mr: "Marketplace", gu: "Marketplace", pa: "Marketplace", ta: "Marketplace", te: "Marketplace", kn: "Marketplace", bn: "Marketplace" },
+        marketplaceDesc: { en: "Equipment & Seeds", hi: "उपकरण और बीज", mr: "Equipment & Seeds", gu: "Equipment & Seeds", pa: "Equipment & Seeds", ta: "Equipment & Seeds", te: "Equipment & Seeds", kn: "Equipment & Seeds", bn: "Equipment & Seeds" },
+        support: { en: "Support", hi: "सहायता", mr: "Support", gu: "Support", pa: "Support", ta: "Support", te: "Support", kn: "Support", bn: "Support" },
+        supportDesc: { en: "Expert help", hi: "विशेषज्ञ की मदद", mr: "Expert help", gu: "Expert help", pa: "Expert help", ta: "Expert help", te: "Expert help", kn: "Expert help", bn: "Expert help" },
+        dashboard: { en: "Dashboard", hi: "डैशबोर्ड", mr: "Dashboard", gu: "Dashboard", pa: "Dashboard", ta: "Dashboard", te: "Dashboard", kn: "Dashboard", bn: "Dashboard" },
+        farmer: { en: "Farmer", hi: "किसान", mr: "Farmer", gu: "Farmer", pa: "Farmer", ta: "Farmer", te: "Farmer", kn: "Farmer", bn: "Farmer" },
+        searchFarmer: { en: "Search for crops, mandi rates, or expert advice...", hi: "फसलें, मंडी भाव, या विशेषज्ञ सलाह खोजें...", mr: "Search for crops, mandi rates, or expert advice...", gu: "Search for crops, mandi rates, or expert advice...", pa: "Search for crops, mandi rates, or expert advice...", ta: "Search for crops, mandi rates, or expert advice...", te: "Search for crops, mandi rates, or expert advice...", kn: "Search for crops, mandi rates, or expert advice...", bn: "Search for crops, mandi rates, or expert advice..." },
+        marketIntelligence: { en: "Market Intelligence", hi: "बाज़ार की जानकारी", mr: "Market Intelligence", gu: "Market Intelligence", pa: "Market Intelligence", ta: "Market Intelligence", te: "Market Intelligence", kn: "Market Intelligence", bn: "Market Intelligence" },
+        pricesAre: { en: "prices are", hi: "की कीमतें", mr: "prices are", gu: "prices are", pa: "prices are", ta: "prices are", te: "prices are", kn: "prices are", bn: "prices are" },
+        priceUp: { en: "up", hi: "बढ़ी हैं", mr: "up", gu: "up", pa: "up", ta: "up", te: "up", kn: "up", bn: "up" },
+        priceDown: { en: "down", hi: "गिरी हैं", mr: "down", gu: "down", pa: "down", ta: "down", te: "down", kn: "down", bn: "down" },
+        inYourRegion: { en: "in your region.", hi: "आपके क्षेत्र में।", mr: "in your region.", gu: "in your region.", pa: "in your region.", ta: "in your region.", te: "in your region.", kn: "in your region.", bn: "in your region." },
+        viewMarketTrends: { en: "View Market Trends", hi: "बाज़ार रुझान देखें", mr: "View Market Trends", gu: "View Market Trends", pa: "View Market Trends", ta: "View Market Trends", te: "View Market Trends", kn: "View Market Trends", bn: "View Market Trends" },
+        enterDashboard: { en: "Enter Dashboard", hi: "डैशबोर्ड खोलें", mr: "Enter Dashboard", gu: "Enter Dashboard", pa: "Enter Dashboard", ta: "Enter Dashboard", te: "Enter Dashboard", kn: "Enter Dashboard", bn: "Enter Dashboard" },
+        noToolsFound: { en: "No tools found", hi: "कोई उपकरण नहीं मिला", mr: "No tools found", gu: "No tools found", pa: "No tools found", ta: "No tools found", te: "No tools found", kn: "No tools found", bn: "No tools found" },
+        navStats: { en: "Stats", hi: "आँकड़े", mr: "Stats", gu: "Stats", pa: "Stats", ta: "Stats", te: "Stats", kn: "Stats", bn: "Stats" },
+        navShop: { en: "Shop", hi: "दुकान", mr: "Shop", gu: "Shop", pa: "Shop", ta: "Shop", te: "Shop", kn: "Shop", bn: "Shop" },
+        navHelp: { en: "Help", hi: "मदद", mr: "Help", gu: "Help", pa: "Help", ta: "Help", te: "Help", kn: "Help", bn: "Help" },
+        navLocal: { en: "Local", hi: "स्थानीय", mr: "Local", gu: "Local", pa: "Local", ta: "Local", te: "Local", kn: "Local", bn: "Local" },
+        buyEquipmentDesc: { en: "Buy Equipment & Seeds", hi: "उपकरण और बीज खरीदें", mr: "Buy Equipment & Seeds", gu: "Buy Equipment & Seeds", pa: "Buy Equipment & Seeds", ta: "Buy Equipment & Seeds", te: "Buy Equipment & Seeds", kn: "Buy Equipment & Seeds", bn: "Buy Equipment & Seeds" },
+        logisticsForecast: { en: "Logistics Forecast", hi: "रसद पूर्वानुमान", mr: "Logistics Forecast", gu: "Logistics Forecast", pa: "Logistics Forecast", ta: "Logistics Forecast", te: "Logistics Forecast", kn: "Logistics Forecast", bn: "Logistics Forecast" },
+        transportWeatherDesc: { en: "Transport Weather", hi: "परिवहन मौसम", mr: "Transport Weather", gu: "Transport Weather", pa: "Transport Weather", ta: "Transport Weather", te: "Transport Weather", kn: "Transport Weather", bn: "Transport Weather" },
+        buyerSupport: { en: "Buyer Support", hi: "क्रेता सहायता", mr: "Buyer Support", gu: "Buyer Support", pa: "Buyer Support", ta: "Buyer Support", te: "Buyer Support", kn: "Buyer Support", bn: "Buyer Support" },
+        procurementHelpDesc: { en: "Procurement Help", hi: "खरीद सहायता", mr: "Procurement Help", gu: "Procurement Help", pa: "Procurement Help", ta: "Procurement Help", te: "Procurement Help", kn: "Procurement Help", bn: "Procurement Help" },
+        procurementDashboard: { en: "Procurement Dashboard", hi: "खरीद डैशबोर्ड", mr: "Procurement Dashboard", gu: "Procurement Dashboard", pa: "Procurement Dashboard", ta: "Procurement Dashboard", te: "Procurement Dashboard", kn: "Procurement Dashboard", bn: "Procurement Dashboard" },
+        buyer: { en: "Buyer", hi: "क्रेता", mr: "Buyer", gu: "Buyer", pa: "Buyer", ta: "Buyer", te: "Buyer", kn: "Buyer", bn: "Buyer" }
+    }
+};
+
+const outputDir = path.join(__dirname, 'public', 'locales');
+if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+
+locales.forEach(lang => {
+    const langDir = path.join(outputDir, lang);
+    if (!fs.existsSync(langDir)) fs.mkdirSync(langDir, { recursive: true });
+
+    const langJson = {
+        ...Object.fromEntries(Object.entries(t.l).map(([k, v]) => [k, v[lang] || v['en']])),
+        ...Object.fromEntries(Object.entries(t.d).map(([k, v]) => [k, v[lang] || v['en']]))
+    };
+
+    fs.writeFileSync(path.join(langDir, 'translation.json'), JSON.stringify(langJson, null, 2));
+});
+console.log('Locales successfully generated via node!');
