@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from './LanguageContext';
 
 const Weather = () => {
-  const navigate = useNavigate(); // HMR Test
+  const navigate = useNavigate();
+  const { langCode: lang } = useLanguage(); // Use global language state
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [lang, setLang] = useState('en');
 
   const translations = {
     en: {

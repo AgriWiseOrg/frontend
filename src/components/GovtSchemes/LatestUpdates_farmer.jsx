@@ -2,9 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Bell, Calendar, ArrowLeft, ExternalLink, Loader2, Globe, Radio, Rss } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useLanguage } from '../LanguageContext';
+
+const luT = {
+  en: { back: 'Back to Hub', title: 'Latest Updates', sub: 'Official announcements from PIB & Ministry of Agriculture.', agri: 'AgriWise', live: 'Live Feed', portals: 'Gov Portals', noData: 'No internal updates found.', loading: 'Fetching official PIB releases...', visit: 'Visit Official Portal', official: 'OFFICIAL RELEASE' },
+  hi: { back: 'हब पर वापस', title: 'नवीनतम अपडेट', sub: 'PIB और कृषि मंत्रालय घोषणाएं।', agri: 'एग्रीवाइज़', live: 'लाइव फ़ीड', portals: 'सरकारी पोर्टल', noData: 'कोई अपडेट नहीं।', loading: 'PIB लोड हो रही है...', visit: 'आधिकारिक पोर्टल देखें', official: 'सरकारी घोषणा' },
+  te: { back: 'హబ్‌కు వెనక్కి', title: 'తాజా అప్‌డేట్‌లు', sub: 'PIB మరియు వ్యవసాయ మంత్రిత్వం ప్రకటనలు.', agri: 'అగ్రీవైస్', live: 'లైవ్ ఫీడ్', portals: 'ప్రభుత్వ పోర్టల్', noData: 'అప్‌డేట్‌లు లేవు.', loading: 'PIB లోడ్...', visit: 'అధికారిక పోర్టల్', official: 'అధికారిక ప్రకటన' },
+  ta: { back: 'மையத்திற்கு திரும்பு', title: 'சமீப புதுப்பிக்கள்', sub: 'PIB மற்றும் அரசு அறிவிப்புகள்.', agri: 'அக்ரிவைஸ்', live: 'நேர் முறை', portals: 'அரசு போர்டல்', noData: '஑தும் மேம்படுத்தங்கள் இல்லை.', loading: 'PIB விடுதல்கள் ஏற்றுகிறது...', visit: 'அதிகார போர்டல் பார்க்க', official: 'அரசு அறிவிப்பு' },
+  mr: { back: 'हबवर परत', title: 'ताजे अपडेट', sub: 'PIB आणि कृषी मंत्रालय घोषणा.', agri: 'अॅग्रीवाइज़', live: 'लाइव फीड', portals: 'सरकारी पोर्टल', noData: 'अंतर्गत अपडेट नाहीत.', loading: 'PIB प्रकाशने लोड...', visit: 'अधिकृत पोर्टल पहा', official: 'अधिकृत घोषणा' },
+  kn: { back: 'ಹಬ್‌ಗೆ ಹಿಂತಿರುಗಿ', title: 'ಇಟೀಚಿನ ಅಪ್‌ಡೇಟ್ಗಳು', sub: 'PIB ಮತ್ತು ಕೃಷಿ ಸಾತ್ತ್ವದ ಅಧಿಕೃತ ಹೇಳಿಕೆಗಳು.', agri: 'ಅಗ್ರಿವೈಸ್', live: 'ಲೈವ್ ಫೀಡ್', portals: 'ಸರ್ಕಾರಿ ಪೋರ್ಟಲ್', noData: 'ಅಪ್‌ಡೇಟ್ ಇಲ್ಲ.', loading: 'PIB ಬಿಡುಗಡೆಗಳು ಲೋಡ್...', visit: 'ಅಧಿಕೃತ ಪೋರ್ಟಲ್ ನೋಡಿ', official: 'ಅಧಿಕೃತ ಪ್ರಕಟನೆ' },
+  pa: { back: 'ਹੱਬ ਤੇ ਵਾਪਸ', title: 'ਤਾਜ਼ੇ ਅਪਡੇਟ', sub: 'PIB ਅਤੇ ਖੇਤੀਬਾੜੀ ਮੰਤਰਾਲੀ ਘੋ਷ਣਾਵਾਂ.', agri: 'ਏਗ੍ਰੀਵਾਈਜ਼', live: 'ਲਾਈਵ ਫੀਡ', portals: 'ਸਰਕਾਰੀ ਪੋਰਟਲ', noData: 'ਕੋਈ ਅਪਡੇਟ ਨਹੀਂ।', loading: 'PIB ਜਾਰੀ ਲੋਡ...', visit: 'ਅਧਿਕਾਰਿਕ ਪੋਰਟਲ ਦੇਖੋ', official: 'ਸਰਕਾਰੀ ਜਾਰੀ' },
+  ml: { back: 'ഹബ്ബിലേക്ക് മടങ്ങൽ', title: 'ഏറ്റവും പുതിയ അപ്പ്ഡേറ്റുകൾ', sub: 'PIB ത്തിൽ നിന്നുള്ള ഔദ്യോഗിക പ്രകടനങ്ങൾ.', agri: 'അഗ്രിവൈസ്', live: 'ലൈവ് ഫീഡ്', portals: 'സർക്കാർ പോർട്ടലുകൾ', noData: 'അപ്പ്ഡേറ്റുകൾ ഇല്ല.', loading: 'PIB രിലീസുകൾ ലോഡ്...', visit: 'ഔദ്യോഗിക പോർട്ടൽ സന്ദർശിക്കുക', official: 'ഔദ്യോഗിക പ്രകടനം' },
+};
 
 const LatestUpdates = () => {
   const navigate = useNavigate();
+  const { langCode } = useLanguage();
+  const t = luT[langCode] || luT.en;
   const [activeTab, setActiveTab] = useState('local');
   const [localUpdates, setLocalUpdates] = useState([]);
   const [liveUpdates, setLiveUpdates] = useState([]);
@@ -17,10 +31,10 @@ const LatestUpdates = () => {
       try {
         const res = await axios.get('http://localhost:5001/api/latest-updates');
         setLocalUpdates(Array.isArray(res.data) ? res.data : []);
-      } catch (err) { 
-        console.error("Error fetching local updates:", err); 
-      } finally { 
-        setLoadingLocal(false); 
+      } catch (err) {
+        console.error("Error fetching local updates:", err);
+      } finally {
+        setLoadingLocal(false);
       }
     };
     fetchLocal();
@@ -30,7 +44,7 @@ const LatestUpdates = () => {
   useEffect(() => {
     if (activeTab === 'live' && liveUpdates.length === 0) {
       setLoadingLive(true);
-      
+
       // PIB RSS for Ministry of Agriculture (Lang=1: English, Regid=3: Agriculture)
       const pibRssUrl = "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3";
       // We use rss2json to bypass CORS and get a clean JSON object
@@ -75,12 +89,12 @@ const LatestUpdates = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <button onClick={() => navigate('/govt-schemes')} className="flex items-center gap-2 mb-3 text-slate-500 hover:text-orange-600 font-bold transition-colors">
-              <ArrowLeft size={20} /> Back to Hub
+              <ArrowLeft size={20} /> {t.back}
             </button>
             <h1 className="text-4xl font-black text-slate-900 flex items-center gap-3">
-              <Bell className="text-orange-500 fill-orange-500" /> Latest Updates
+              <Bell className="text-orange-500 fill-orange-500" /> {t.title}
             </h1>
-            <p className="text-slate-500 mt-1">Official announcements from PIB & Ministry of Agriculture.</p>
+            <p className="text-slate-500 mt-1">{t.sub}</p>
           </div>
 
           {/* TABS */}
@@ -89,19 +103,19 @@ const LatestUpdates = () => {
               onClick={() => setActiveTab('local')}
               className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'local' ? 'bg-orange-500 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
             >
-              <Bell size={16} /> AgriWise
+              <Bell size={16} /> {t.agri}
             </button>
             <button
               onClick={() => setActiveTab('live')}
               className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'live' ? 'bg-orange-500 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
             >
-              <Rss size={16} /> Live Feed
+              <Rss size={16} /> {t.live}
             </button>
             <button
               onClick={() => setActiveTab('links')}
               className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'links' ? 'bg-orange-500 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'}`}
             >
-              <Globe size={16} /> Gov Portals
+              <Globe size={16} /> {t.portals}
             </button>
           </div>
         </div>
@@ -115,7 +129,7 @@ const LatestUpdates = () => {
               {loadingLocal ? (
                 <div className="text-center p-20"><Loader2 className="animate-spin mx-auto text-orange-500 w-10 h-10" /></div>
               ) : localUpdates.length === 0 ? (
-                <div className="text-center p-10 text-slate-400 font-bold">No internal updates found.</div>
+                <div className="text-center p-10 text-slate-400 font-bold">{t.noData}</div>
               ) : (
                 localUpdates.map((item) => (
                   <div key={item._id} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-orange-200 hover:shadow-md transition-all group">
@@ -159,10 +173,10 @@ const LatestUpdates = () => {
                     <h3 className="text-lg font-bold text-slate-900 mb-1 leading-snug">{news.title}</h3>
                     <div className="flex justify-between items-end mt-4">
                       <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Source: {news.source}</span>
-                      <a 
-                        href={news.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href={news.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="p-2 bg-slate-50 rounded-full hover:bg-orange-100 hover:text-orange-600 text-slate-600 transition-colors"
                       >
                         <ExternalLink size={16} />
@@ -195,7 +209,7 @@ const LatestUpdates = () => {
                     {link.name}
                   </h3>
                   <div className="flex items-center gap-2 text-xs font-bold text-slate-400 mt-4 group-hover:text-blue-600 transition-colors">
-                    Visit Official Portal <ExternalLink size={12} />
+                    {t.visit} <ExternalLink size={12} />
                   </div>
                 </a>
               ))}

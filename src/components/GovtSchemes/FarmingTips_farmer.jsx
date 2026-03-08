@@ -2,9 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Sprout, Droplets, Sun, Bug, ArrowLeft, Loader2, Lightbulb, Thermometer, Wind, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useLanguage } from '../LanguageContext';
+
+const ftTranslations = {
+  en: { back: 'Back to Hub', title: 'Farming Insights', liveAdvisory: 'Live Advisory', expertTips: 'Expert Tips', noAdvisory: 'No advisory data found.' },
+  hi: { back: 'हब पर वापस', title: 'खेती की जानकारी', liveAdvisory: 'लाइव सलाह', expertTips: 'विशेषज्ञ सुझाव', noAdvisory: 'कोई सलाह डेटा नहीं मिला।' },
+  te: { back: 'హబ్‌కు వెనక్కి', title: 'వ్యవసాయ అంతర్దృష్టులు', liveAdvisory: 'లైవ్ సలహా', expertTips: 'నిపుణుల చిట్కాలు', noAdvisory: 'సలహా డేటా కనుగొనబడలేదు.' },
+  ta: { back: 'மையத்திற்கு திரும்பு', title: 'விவசாய நுண்ணறிவு', liveAdvisory: 'நேரடி ஆலோசனை', expertTips: 'நிபுணர் குறிப்புகள்', noAdvisory: 'ஆலோசனை தரவு இல்லை.' },
+  mr: { back: 'हबवर परत', title: 'शेती माहिती', liveAdvisory: 'थेट सल्ला', expertTips: 'तज्ज्ञ टिपा', noAdvisory: 'सल्ला माहिती आढळली नाही.' },
+  kn: { back: 'ಹಬ್‌ಗೆ ಹಿಂತಿರುಗಿ', title: 'ಕೃಷಿ ಒಳನೋಟಗಳು', liveAdvisory: 'ನೇರ ಸಲಹೆ', expertTips: 'ತಜ್ಞರ ಸಲಹೆಗಳು', noAdvisory: 'ಸಲಹೆ ಡೇಟಾ ಇಲ್ಲ.' },
+  pa: { back: 'ਹੱਬ ਤੇ ਵਾਪਸ', title: 'ਖੇਤੀ ਜਾਣਕਾਰੀ', liveAdvisory: 'ਲਾਈਵ ਸਲਾਹ', expertTips: 'ਮਾਹਰ ਸੁਝਾਅ', noAdvisory: 'ਕੋਈ ਸਲਾਹ ਡੇਟਾ ਨਹੀਂ ਮਿਲਿਆ।' },
+  ml: { back: 'ഹബ്ബിലേക്ക് മടങ്ങൽ', title: 'കൃഷി ഉൾക്കാഴ്ചകൾ', liveAdvisory: 'ലൈവ് ഉപദേശം', expertTips: 'വിദഗ്ദ്ധ നുറുങ്ങുകൾ', noAdvisory: 'ഉപദേശ ഡാറ്റ കണ്ടെത്തിയില്ല.' },
+};
 
 const FarmingTips = () => {
   const navigate = useNavigate();
+  const { langCode } = useLanguage();
+  const t = ftTranslations[langCode] || ftTranslations.en;
   const [advisory, setAdvisory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('advisory');
@@ -69,13 +83,13 @@ const FarmingTips = () => {
 
   const getAdvisoryIcon = (type) => {
     switch (type) {
-      case 'water': 
+      case 'water':
         return <Droplets />; // Show water icon
-      case 'sun': 
+      case 'sun':
         return <Sun />; // Show sun icon
-      case 'bug': 
+      case 'bug':
         return <Bug />; // Show pest icon
-      default: 
+      default:
         return <Sprout />; // Default icon if none matches
     }
   };
@@ -86,28 +100,28 @@ const FarmingTips = () => {
       {/* Full screen container with padding */}
 
       <div className="max-w-4xl mx-auto">
-        <button 
-          onClick={() => navigate('/govt-schemes')} 
+        <button
+          onClick={() => navigate('/govt-schemes')}
           className="flex items-center gap-2 mb-6 text-slate-500 font-bold hover:text-slate-800 transition-colors"
         >
-          <ArrowLeft size={20} /> Back to Hub
+          <ArrowLeft size={20} /> {t.back}
         </button>
 
-        <h1 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">Farming Insights</h1>
+        <h1 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">{t.title}</h1>
 
         {/* Tab Switcher */}
         <div className="flex gap-2 mb-8 bg-gray-100 p-1 rounded-2xl w-fit">
-          <button 
+          <button
             onClick={() => setActiveTab('advisory')}
             className={`px-6 py-2 rounded-xl font-bold transition-all ${activeTab === 'advisory' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
           >
-            Live Advisory
+            {t.liveAdvisory}
           </button>
-          <button 
+          <button
             onClick={() => setActiveTab('tips')}
             className={`px-6 py-2 rounded-xl font-bold transition-all ${activeTab === 'tips' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
           >
-            Expert Tips
+            {t.expertTips}
           </button>
         </div>
 
@@ -128,12 +142,12 @@ const FarmingTips = () => {
                     <p className="text-gray-600 mt-1">{item.desc}</p>
                   </div>
                 </div>
-              )) : <p className="text-center text-slate-400 py-10">No advisory data found.</p>
+              )) : <p className="text-center text-slate-400 py-10">{t.noAdvisory}</p>
             ) : (
               // Rendering Hardcoded Tips
               hardcodedTips.map((tip) => (
                 <div key={tip.id} className="group relative overflow-hidden flex items-start gap-5 p-6 rounded-3xl border border-gray-100 hover:border-emerald-200 hover:shadow-lg transition-all bg-white">
-                  <div className={`absolute top-0 left-0 w-1 h-full ${tip.color.replace('bg-', 'bg-')}`} style={{backgroundColor: 'currentColor'}} />
+                  <div className={`absolute top-0 left-0 w-1 h-full ${tip.color.replace('bg-', 'bg-')}`} style={{ backgroundColor: 'currentColor' }} />
                   <div className={`p-4 rounded-2xl ${tip.color}`}>
                     {tip.icon}
                   </div>
@@ -156,5 +170,5 @@ const FarmingTips = () => {
   );
 };
 
-export default FarmingTips; 
+export default FarmingTips;
 // Export component so it can be used in routing
