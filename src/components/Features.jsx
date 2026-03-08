@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import React from 'react';
 import { ArrowLeft, TrendingUp, Calculator, ShieldCheck, CloudSun, ShoppingCart, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Features = () => {
+  const { t } = useTranslation();
+
     const navigate = useNavigate();
 
     const features = [
@@ -53,15 +56,15 @@ const Features = () => {
                         className="flex items-center gap-2 text-slate-600 hover:text-emerald-600 transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
-                        Back to Home
+                        {t("Back to Home")}
                     </button>
                 </div>
             </nav>
 
             <div className="max-w-7xl mx-auto px-6 py-16">
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h1 className="text-4xl font-black text-slate-900 mb-4">Powerful Tools for Modern Farmers</h1>
-                    <p className="text-xl text-slate-600">Everything you need to manage your farm, finances, and future in one app.</p>
+                    <h1 className="text-4xl font-black text-slate-900 mb-4">{t("Powerful Tools for Modern Farmers")}</h1>
+                    <p className="text-xl text-slate-600">{t("Everything you need to manage your farm, finances, and future in one app.")}</p>
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

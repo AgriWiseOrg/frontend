@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext'; // Import hook
 
 const Support = ({ user }) => {
     const navigate = useNavigate();
-    const { language: lang, setLanguage: setLang } = useLanguage(); // Use global state
+    const { langCode: lang, setLanguage: setLang } = useLanguage(); // Use global state
 
     const [showDisputeForm, setShowDisputeForm] = useState(false);
     const [formStatus, setFormStatus] = useState('');

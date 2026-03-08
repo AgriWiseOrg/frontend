@@ -43,6 +43,7 @@ import Profile from './components/Profile';
 import OrderManagement from './components/OrderManagement';
 import OrderDetails from './components/OrderDetails';
 import MyOrders from './components/MyOrders';
+import Payments from './components/Payments';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -113,6 +114,7 @@ function App() {
                   <Route path="/orders" element={<OrderManagement user={user} />} />
                   <Route path="/order/:id" element={<OrderDetails />} />
                   <Route path="/my-orders" element={<MyOrders user={user} />} />
+                  <Route path="/payment" element={<Payments user={user} />} />
                   <Route path="/market-prices" element={<MarketPrices />} />
                   <Route path="/my-crops" element={<MyCrops user={user} />} />
                   <Route path="/govt-schemes" element={<GovtSchemes />} />

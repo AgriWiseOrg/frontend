@@ -1,0 +1,132 @@
+PASS src/components/Weather.test.jsx
+  ● Console
+
+    console.error
+      An update to Weather inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      464 |       const res = await fetch(`http://localhost:5001/api/support/weather?lat=${lat}&lon=${lon}&crop=${crop}&lang=${currentLang}`);
+      465 |       const json = await res.json();
+    > 466 |       if (json.success) setData(json.data);
+          |                         ^
+      467 |     } catch (err) {
+      468 |       console.error("Failed to fetch weather", err);
+      469 |     } finally {
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at setData (src/components/Weather.jsx:466:25)
+      at Generator.call (src/components/Weather.jsx:2:1)
+      at Generator._invoke [as next] (src/components/Weather.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.jsx:2:1)
+
+    console.error
+      An update to Weather inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      468 |       console.error("Failed to fetch weather", err);
+      469 |     } finally {
+    > 470 |       setLoading(false);
+          |       ^
+      471 |     }
+      472 |   };
+      473 |
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at setLoading (src/components/Weather.jsx:470:7)
+      at Generator.call (src/components/Weather.jsx:2:1)
+      at Generator._invoke [as next] (src/components/Weather.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.jsx:2:1)
+      at asyncGeneratorStep (src/components/Weather.jsx:2:1)
+
+PASS src/components/Support.test.jsx
+  ● Console
+
+    console.error
+      An update to Support inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      22 |                 .then(res => res.json())
+      23 |                 .then(data => {
+    > 24 |                     if (data.success) setMyReports(data.data);
+         |                                       ^
+      25 |                 })
+      26 |                 .catch(err => console.error("Failed to fetch reports:", err));
+      27 |         }
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at setMyReports (src/components/Support.jsx:24:39)
+
+    console.error
+      An update to Support inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      22 |                 .then(res => res.json())
+      23 |                 .then(data => {
+    > 24 |                     if (data.success) setMyReports(data.data);
+         |                                       ^
+      25 |                 })
+      26 |                 .catch(err => console.error("Failed to fetch reports:", err));
+      27 |         }
+
+      at node_modules/react-dom/cjs/react-dom-client.development.js:18758:19
+      at runWithFiberInDEV (node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-dom/cjs/react-dom-client.development.js:18757:9)
+      at scheduleUpdateOnFiber (node_modules/react-dom/cjs/react-dom-client.development.js:16409:11)
+      at dispatchSetStateInternal (node_modules/react-dom/cjs/react-dom-client.development.js:9170:13)
+      at dispatchSetState (node_modules/react-dom/cjs/react-dom-client.development.js:9127:7)
+      at setMyReports (src/components/Support.jsx:24:39)
+
+
+Test Suites: 2 passed, 2 total
+Tests:       6 passed, 6 total
+Snapshots:   0 total
+Time:        3.005 s
+Ran all test suites matching src/components/Support.test.jsx|src/components/Weather.test.jsx.

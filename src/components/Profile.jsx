@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import { User, Phone, MapPin, Briefcase, Building, Key, LayoutDashboard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = ({ user }) => {
+  const { t } = useTranslation();
+
     const navigate = useNavigate();
     const [profileData, setProfileData] = useState({
         name: '',
@@ -75,7 +78,7 @@ const Profile = ({ user }) => {
     };
 
     if (loading) {
-        return <div className="min-h-screen flex justify-center items-center bg-gray-50 text-green-700 font-bold">Loading Profile...</div>;
+        return <div className="min-h-screen flex justify-center items-center bg-gray-50 text-green-700 font-bold">{t("Loading Profile...")}</div>;
     }
 
     return (
@@ -87,7 +90,7 @@ const Profile = ({ user }) => {
                         onClick={() => navigate(-1)}
                         className="absolute top-6 left-6 text-white hover:text-green-200 flex items-center gap-2"
                     >
-                        &larr; Back
+                        {t("&larr; Back")}
                     </button>
                     <div className="flex flex-col items-center mt-6">
                         <div className="w-24 h-24 bg-white text-green-700 rounded-full flex items-center justify-center text-4xl mb-4 shadow-lg border-4 border-green-200">
@@ -101,48 +104,48 @@ const Profile = ({ user }) => {
 
                 {/* Form Section */}
                 <form onSubmit={handleSubmit} className="p-8">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Basic Information</h2>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">{t("Basic Information")}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         <div>
                             <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                <User size={18} className="text-green-600" /> Full Name
+                                <User size={18} className="text-green-600" /> {t("Full Name")}
                             </label>
-                            <input type="text" name="name" value={profileData.name} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder="John Doe" />
+                            <input type="text" name="name" value={profileData.name} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder={t("John Doe")} />
                         </div>
                         <div>
                             <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                <Phone size={18} className="text-green-600" /> Phone Number
+                                <Phone size={18} className="text-green-600" /> {t("Phone Number")}
                             </label>
                             <input type="text" name="phone" value={profileData.phone} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder="+1 234 567 8900" />
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                <MapPin size={18} className="text-green-600" /> Address
+                                <MapPin size={18} className="text-green-600" /> {t("Address")}
                             </label>
-                            <input type="text" name="address" value={profileData.address} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder="123 Farm Lane, Agriculture City" />
+                            <input type="text" name="address" value={profileData.address} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder={t("123 Farm Lane, Agriculture City")} />
                         </div>
                     </div>
 
                     {user?.role === 'farmer' && (
                         <>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Farm Details</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">{t("Farm Details")}</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                        <MapPin size={18} className="text-green-600" /> Farm Size (Acres)
+                                        <MapPin size={18} className="text-green-600" /> {t("Farm Size (Acres)")}
                                     </label>
-                                    <input type="text" name="farmSize" value={profileData.farmSize} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder="e.g., 50" />
+                                    <input type="text" name="farmSize" value={profileData.farmSize} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder={t("e.g., 50")} />
                                 </div>
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                        <Briefcase size={18} className="text-green-600" /> Farming Type
+                                        <Briefcase size={18} className="text-green-600" /> {t("Farming Type")}
                                     </label>
                                     <select name="farmingType" value={profileData.farmingType} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-white">
-                                        <option value="">Select Type</option>
-                                        <option value="Organic">Organic</option>
-                                        <option value="Traditional">Traditional</option>
-                                        <option value="Mixed">Mixed</option>
-                                        <option value="Commercial">Commercial</option>
+                                        <option value="">{t("Select Type")}</option>
+                                        <option value="Organic">{t("Organic")}</option>
+                                        <option value="Traditional">{t("Traditional")}</option>
+                                        <option value="Mixed">{t("Mixed")}</option>
+                                        <option value="Commercial">{t("Commercial")}</option>
                                     </select>
                                 </div>
                             </div>
@@ -151,24 +154,24 @@ const Profile = ({ user }) => {
 
                     {user?.role === 'buyer' && (
                         <>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Business Details</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">{t("Business Details")}</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                        <Building size={18} className="text-green-600" /> Company Name
+                                        <Building size={18} className="text-green-600" /> {t("Company Name")}
                                     </label>
-                                    <input type="text" name="companyName" value={profileData.companyName} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder="Fresh Foods Inc." />
+                                    <input type="text" name="companyName" value={profileData.companyName} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder={t("Fresh Foods Inc.")} />
                                 </div>
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                        <Briefcase size={18} className="text-green-600" /> Business Type
+                                        <Briefcase size={18} className="text-green-600" /> {t("Business Type")}
                                     </label>
                                     <select name="businessType" value={profileData.businessType} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none bg-white">
-                                        <option value="">Select Type</option>
-                                        <option value="Retailer">Retailer</option>
-                                        <option value="Wholesaler">Wholesaler</option>
-                                        <option value="Processor">Processor</option>
-                                        <option value="Exporter">Exporter</option>
+                                        <option value="">{t("Select Type")}</option>
+                                        <option value="Retailer">{t("Retailer")}</option>
+                                        <option value="Wholesaler">{t("Wholesaler")}</option>
+                                        <option value="Processor">{t("Processor")}</option>
+                                        <option value="Exporter">{t("Exporter")}</option>
                                     </select>
                                 </div>
                             </div>
@@ -177,19 +180,19 @@ const Profile = ({ user }) => {
 
                     {user?.role === 'admin' && (
                         <>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Administrative Details</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">{t("Administrative Details")}</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                        <LayoutDashboard size={18} className="text-green-600" /> Department
+                                        <LayoutDashboard size={18} className="text-green-600" /> {t("Department")}
                                     </label>
-                                    <input type="text" name="department" value={profileData.department} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder="e.g., Support, Management" />
+                                    <input type="text" name="department" value={profileData.department} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder={t("e.g., Support, Management")} />
                                 </div>
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2 flex items-center gap-2">
-                                        <Key size={18} className="text-green-600" /> Employee ID
+                                        <Key size={18} className="text-green-600" /> {t("Employee ID")}
                                     </label>
-                                    <input type="text" name="employeeId" value={profileData.employeeId} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder="EMP-12345" />
+                                    <input type="text" name="employeeId" value={profileData.employeeId} onChange={handleChange} className="w-full border p-3 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition-all" placeholder={t("EMP-12345")} />
                                 </div>
                             </div>
                         </>

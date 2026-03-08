@@ -1,20 +1,55 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "./CartContext"; 
-import { 
-  ArrowLeft, Trash2, Plus, Minus, 
-  ShoppingBag, ShieldCheck, Truck, ChevronRight 
+import { useCart } from "./CartContext";
+import {
+  ArrowLeft, Trash2, Plus, Minus,
+  ShoppingBag, ShieldCheck, Truck, ChevronRight
 } from "lucide-react";
 
 const Cart = () => {
   const navigate = useNavigate();
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   // Added 'loading' to handle the transition while fetching from MongoDB
-  const { cartItems, removeFromCart, updateQuantity, totalPrice, totalItems, loading, fetchCart } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, totalPrice, totalItems, loading, fetchCart, userEmail } = useCart();
 
   // IMPORTANT: Re-fetch the cart when the component mounts to ensure data is fresh
   useEffect(() => {
     if (fetchCart) fetchCart();
   }, []);
+
+  const handleCheckout = async () => {
+    try {
+      setCheckoutLoading(true);
+      // Determine user email
+      const email = userEmail || localStorage.getItem('userEmail');
+
+      if (!email) {
+        alert("Please log in to checkout.");
+        navigate('/login');
+        return;
+      }
+
+      const response = await fetch('http://localhost:5001/api/stripe/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cartItems, email })
+      });
+
+      const session = await response.json();
+
+      if (response.ok && session.url) {
+        // Redirect to Stripe Checkout URL
+        window.location.href = session.url;
+      } else {
+        alert(`Checkout Failed: ${session.message}`);
+      }
+    } catch (error) {
+      console.error("Checkout Error:", error);
+      alert("Error reaching the checkout server.");
+    } finally {
+      setCheckoutLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -28,8 +63,8 @@ const Cart = () => {
     <div className="bg-slate-50 min-h-screen pb-20 font-sans text-slate-900">
       {/* --- Header --- */}
       <nav className="bg-emerald-800 text-white sticky top-0 z-50 px-4 py-4 flex items-center gap-4 shadow-md">
-        <button 
-          onClick={() => navigate(-1)} 
+        <button
+          onClick={() => navigate(-1)}
           className="p-1 hover:bg-emerald-700 rounded-full transition-colors"
         >
           <ArrowLeft size={24} />
@@ -47,7 +82,7 @@ const Cart = () => {
             <p className="text-slate-500 mt-2 text-center max-w-xs">
               Looks like you haven't added any fresh harvest to your basket yet.
             </p>
-            <button 
+            <button
               onClick={() => navigate("/marketplace")}
               className="mt-8 bg-emerald-600 text-white px-8 py-3 rounded-full font-bold hover:bg-emerald-700 transition-all active:scale-95 shadow-lg"
             >
@@ -65,12 +100,12 @@ const Cart = () => {
                   {cartItems.map((item) => (
                     // FIXED: Using item.productId (from your MongoDB schema) instead of item.id
                     <div key={item.productId || item._id} className="py-6 flex gap-4 first:pt-0 last:pb-0">
-                      <img 
-                        src={item.imageUrl} 
-                        alt={item.crop} 
+                      <img
+                        src={item.imageUrl}
+                        alt={item.crop}
                         className="w-24 h-24 lg:w-32 lg:h-32 object-cover rounded-2xl bg-slate-100"
                       />
-                      
+
                       <div className="flex-1 flex flex-col justify-between">
                         <div>
                           <div className="flex justify-between items-start">
@@ -83,7 +118,7 @@ const Cart = () => {
 
                         <div className="flex items-center justify-between mt-4">
                           <div className="flex items-center gap-3 bg-slate-100 rounded-xl px-2 py-1 border border-slate-200">
-                            <button 
+                            <button
                               // FIXED: Passing productId to match backend removal logic
                               onClick={() => updateQuantity(item.productId, -1)}
                               className="p-1 hover:bg-white rounded-md transition-colors text-slate-600"
@@ -91,7 +126,7 @@ const Cart = () => {
                               <Minus size={16} />
                             </button>
                             <span className="font-black text-sm w-4 text-center">{item.quantity}</span>
-                            <button 
+                            <button
                               onClick={() => updateQuantity(item.productId, 1)}
                               className="p-1 hover:bg-white rounded-md transition-colors text-slate-600"
                             >
@@ -99,7 +134,7 @@ const Cart = () => {
                             </button>
                           </div>
 
-                          <button 
+                          <button
                             onClick={() => removeFromCart(item.productId)}
                             className="text-red-500 hover:bg-red-50 rounded-lg p-2 transition-colors flex items-center gap-1 text-xs font-bold uppercase tracking-wider"
                           >
@@ -133,10 +168,14 @@ const Cart = () => {
                   <span className="text-2xl font-black text-emerald-800">₹{totalPrice}</span>
                 </div>
 
-                <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2">
-                  Checkout Now <ChevronRight size={20} />
+                <button
+                  onClick={handleCheckout}
+                  disabled={checkoutLoading}
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-70 disabled:active:scale-100"
+                >
+                  {checkoutLoading ? "Preparing Checkout..." : "Checkout Now"} <ChevronRight size={20} />
                 </button>
-                
+
                 <div className="mt-4 bg-emerald-50 p-3 rounded-xl flex items-center gap-3">
                   <Truck size={20} className="text-emerald-600 shrink-0" />
                   <p className="text-[10px] text-emerald-800 font-bold leading-tight uppercase">

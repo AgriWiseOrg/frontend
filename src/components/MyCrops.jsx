@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -7,6 +8,8 @@ import {
 } from 'lucide-react';
 
 const MyCrops = ({ user }) => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -130,15 +133,15 @@ const MyCrops = ({ user }) => {
           <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white shadow-lg">
             <Sprout size={24} />
           </div>
-          <span className="font-black text-xl tracking-tight hidden lg:block text-slate-800">AgriPro</span>
+          <span className="font-black text-xl tracking-tight hidden lg:block text-slate-800">{t("AgriPro")}</span>
         </div>
         
         <nav className="space-y-2">
           <button className="w-full flex items-center gap-4 p-3 bg-emerald-50 text-emerald-700 rounded-xl font-bold transition-all">
-            <LayoutGrid size={20} /> <span className="hidden lg:block">Inventory</span>
+            <LayoutGrid size={20} /> <span className="hidden lg:block">{t("Inventory")}</span>
           </button>
           <button onClick={() => navigate('/')} className="w-full flex items-center gap-4 p-3 text-slate-400 hover:bg-slate-50 hover:text-slate-600 rounded-xl font-medium transition-all">
-            <ChevronLeft size={20} /> <span className="hidden lg:block">Exit Panel</span>
+            <ChevronLeft size={20} /> <span className="hidden lg:block">{t("Exit Panel")}</span>
           </button>
         </nav>
       </aside>
@@ -146,27 +149,27 @@ const MyCrops = ({ user }) => {
       <main className="flex-1 p-4 md:p-10 overflow-y-auto">
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div>
-            <h1 className="text-3xl font-black text-slate-900">Crop Inventory</h1>
+            <h1 className="text-3xl font-black text-slate-900">{t("Crop Inventory")}</h1>
             <p className="text-slate-500 font-medium tracking-tight">
-                Manage your marketplace listings for <span className="text-emerald-600">{user?.email || 'Farmer'}</span>
+                {t("Manage your marketplace listings for")} <span className="text-emerald-600">{user?.email || 'Farmer'}</span>
             </p>
           </div>
           <button 
             onClick={() => setShowForm(true)}
             className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-xl shadow-emerald-100 active:scale-95"
           >
-            <Plus size={20} /> Add New Crop
+            <Plus size={20} /> {t("Add New Crop")}
           </button>
         </header>
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5">
             <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center"><Package /></div>
-            <div><p className="text-slate-400 text-xs font-black uppercase tracking-widest">Active Listings</p><h4 className="text-2xl font-black">{products.length}</h4></div>
+            <div><p className="text-slate-400 text-xs font-black uppercase tracking-widest">{t("Active Listings")}</p><h4 className="text-2xl font-black">{products.length}</h4></div>
           </div>
           <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5">
             <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center"><TrendingUp /></div>
-            <div><p className="text-slate-400 text-xs font-black uppercase tracking-widest">Seller Status</p><h4 className="text-2xl font-black text-emerald-600">Verified</h4></div>
+            <div><p className="text-slate-400 text-xs font-black uppercase tracking-widest">{t("Seller Status")}</p><h4 className="text-2xl font-black text-emerald-600">{t("Verified")}</h4></div>
           </div>
         </section>
 
@@ -233,12 +236,12 @@ const MyCrops = ({ user }) => {
           <div className="relative w-full max-w-md h-full bg-white shadow-2xl p-8 flex flex-col animate-in slide-in-from-right duration-300 overflow-y-auto">
             <button onClick={resetForm} className="self-end p-2 hover:bg-slate-100 rounded-full mb-8"><X /></button>
             <h2 className="text-3xl font-black mb-2">{formData.id ? 'Edit Crop' : 'New Listing'}</h2>
-            <p className="text-slate-500 mb-8">Upload an image from your computer or use a URL.</p>
+            <p className="text-slate-500 mb-8">{t("Upload an image from your computer or use a URL.")}</p>
             
             <form onSubmit={handleSubmit} className="space-y-6 pb-10">
               {/* IMAGE UPLOAD SECTION */}
               <div className="space-y-4">
-                <label className="text-xs font-black uppercase text-slate-400 block">Crop Image</label>
+                <label className="text-xs font-black uppercase text-slate-400 block">{t("Crop Image")}</label>
                 
                 {formData.imageUrl ? (
                   <div className="relative w-full h-40 rounded-2xl overflow-hidden group border-2 border-emerald-100">
@@ -256,13 +259,13 @@ const MyCrops = ({ user }) => {
                     {/* PC Upload Option */}
                     <label className="w-full h-32 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/30 transition-all">
                       <Upload size={24} className="text-slate-400" />
-                      <span className="text-xs font-bold text-slate-500">Upload from PC</span>
+                      <span className="text-xs font-bold text-slate-500">{t("Upload from PC")}</span>
                       <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
                     </label>
                     
                     <div className="flex items-center gap-2">
                       <div className="h-[1px] bg-slate-100 flex-1"></div>
-                      <span className="text-[10px] font-black text-slate-300 uppercase">OR</span>
+                      <span className="text-[10px] font-black text-slate-300 uppercase">{t("OR")}</span>
                       <div className="h-[1px] bg-slate-100 flex-1"></div>
                     </div>
 
@@ -270,7 +273,7 @@ const MyCrops = ({ user }) => {
                     <div className="relative">
                       <ImageIcon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                       <input 
-                        placeholder="Paste image URL instead" 
+                        placeholder={t("Paste image URL instead")} 
                         className="w-full bg-slate-50 border-2 border-slate-50 pl-11 pr-4 py-4 rounded-2xl focus:border-emerald-500 outline-none text-sm" 
                         value={formData.imageUrl} 
                         onChange={e => setFormData({...formData, imageUrl: e.target.value})} 
@@ -281,23 +284,23 @@ const MyCrops = ({ user }) => {
               </div>
 
               <div>
-                <label className="text-xs font-black uppercase text-slate-400 mb-2 block">Crop Name</label>
-                <input required placeholder="e.g. Basmati Rice" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Crop Name")}</label>
+                <input required placeholder={t("e.g. Basmati Rice")} className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">Price (₹/qtl)</label>
+                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Price (₹/qtl)")}</label>
                   <input type="number" required placeholder="₹" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
                 </div>
                 <div>
-                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">Quantity (qtl)</label>
-                  <input type="number" required placeholder="Qty" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.quantity} onChange={e => setFormData({...formData, quantity: e.target.value})} />
+                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Quantity (qtl)")}</label>
+                  <input type="number" required placeholder={t("Qty")} className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.quantity} onChange={e => setFormData({...formData, quantity: e.target.value})} />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-black uppercase text-slate-400 mb-2 block">Description</label>
+                <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Description")}</label>
                 <textarea rows="3" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all resize-none" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
               </div>
               <button 
