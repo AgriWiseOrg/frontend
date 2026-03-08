@@ -52,7 +52,7 @@ export const CartProvider = ({ children }) => {
         email: userEmail,
         product: product
       });
-      
+
       // CRITICAL: Re-fetch the cart data from the server to ensure UI is in sync with DB
       await fetchCart();
       alert(`${product.crop} added to basket!`);
@@ -82,7 +82,7 @@ export const CartProvider = ({ children }) => {
     if (!userEmail) return;
 
     // Local update for immediate UI response
-    setCartItems(prev => prev.map(item => 
+    setCartItems(prev => prev.map(item =>
       item.productId === id ? { ...item, quantity: Math.max(1, item.quantity + amount) } : item
     ));
 
@@ -101,24 +101,25 @@ export const CartProvider = ({ children }) => {
   };
 
   // 6. Global Derived Stats
-  const totalItems = Array.isArray(cartItems) 
-    ? cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0) 
+  const totalItems = Array.isArray(cartItems)
+    ? cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0)
     : 0;
 
-  const totalPrice = Array.isArray(cartItems) 
-    ? cartItems.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 0)), 0) 
+  const totalPrice = Array.isArray(cartItems)
+    ? cartItems.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 0)), 0)
     : 0;
 
   return (
-    <CartContext.Provider value={{ 
-      cartItems, 
-      addToCart, 
-      removeFromCart, 
-      updateQuantity, 
-      totalItems, 
+    <CartContext.Provider value={{
+      cartItems,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      totalItems,
       totalPrice,
       loading,
-      fetchCart // Exporting this allows manual refresh
+      fetchCart, // Exporting this allows manual refresh
+      userEmail // Important for checkout
     }}>
       {children}
     </CartContext.Provider>
