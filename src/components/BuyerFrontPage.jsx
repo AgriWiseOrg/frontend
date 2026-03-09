@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     TrendingUp, Sprout, Landmark, ShoppingBag,
     CloudSun, LifeBuoy, Search, LogOut, ShoppingCart,
-    ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ChevronDown
+    ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ChevronDown, Package
 } from 'lucide-react';
 import { useCart } from './CartContext';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +35,7 @@ const BuyerFrontPage = ({ onLogout }) => {
     useEffect(() => {
         const fetchMarketTicker = async () => {
             try {
-                const response = await fetch('http://localhost:5001/api/market/prices');
+                const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/prices`);
                 const data = await response.json();
 
                 if (data && data.length > 0) {
@@ -87,7 +87,7 @@ const BuyerFrontPage = ({ onLogout }) => {
         setLoadingWeather(true);
         try {
             const response = await fetch(
-                `http://localhost:5001/api/support/weather?lat=${lat}&lon=${lon}`
+                `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/support/weather?lat=${lat}&lon=${lon}`
             );
             const json = await response.json();
             if (json.success) {
@@ -125,8 +125,8 @@ const BuyerFrontPage = ({ onLogout }) => {
 
     const menuItems = [
         { title: t('marketPrices', 'Market Prices'), icon: <TrendingUp />, desc: t('marketPricesDesc', 'Real-time crop rates'), color: 'bg-blue-600', path: '/market-prices', badge: t('badgeLive', 'Live') },
-        // Removed My Crops and Govt Schemes for Buyer
         { title: t('marketplace', 'Marketplace'), icon: <ShoppingBag />, desc: t('buyEquipmentDesc', 'Buy Equipment & Seeds'), color: 'bg-purple-600', path: '/marketplace' },
+        { title: t('trackOrders', 'Track Orders'), icon: <Package />, desc: t('trackOrdersDesc', 'View and track your purchases'), color: 'bg-amber-500', path: '/my-orders' },
         { title: t('logisticsForecast', 'Logistics Forecast'), icon: <CloudSun />, desc: t('transportWeatherDesc', 'Transport Weather'), color: 'bg-sky-600', path: '/weather' },
         { title: t('buyerSupport', 'Buyer Support'), icon: <LifeBuoy />, desc: t('procurementHelpDesc', 'Procurement Help'), color: 'bg-rose-600', path: '/support' },
     ];

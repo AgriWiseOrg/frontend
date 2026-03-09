@@ -17,8 +17,8 @@ const LoginPage = ({ onLogin }) => {
     setError('');
 
     const endpoint = isRegistering
-      ? 'http://localhost:5001/api/auth/register'
-      : 'http://localhost:5001/api/auth/login';
+      ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/auth/register`
+      : `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/auth/login`;
 
     const payload = isRegistering
       ? { email, password, role }

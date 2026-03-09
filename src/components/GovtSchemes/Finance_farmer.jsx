@@ -49,11 +49,11 @@ const FinanceFarmer = ({ user }) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const schemesRes = await axios.get('http://localhost:5001/api/finance');
+        const schemesRes = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/finance`);
         setProviders(Array.isArray(schemesRes.data) ? schemesRes.data : []);
 
         if (user && user.email) {
-          const appsRes = await axios.get(`http://localhost:5001/api/finance/user-applications?email=${user.email}`);
+          const appsRes = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/finance/user-applications?email=${user.email}`);
           const appliedIds = appsRes.data.map(app => app.schemeId);
           setAppliedSchemes(appliedIds);
         }
@@ -97,7 +97,7 @@ const FinanceFarmer = ({ user }) => {
         schemeId: scheme._id,
         interestRate: scheme.interest
       };
-      const response = await axios.post('http://localhost:5001/api/finance/apply', payload);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/finance/apply`, payload);
       if (response.status === 201) {
         setAppliedSchemes((prev) => [...prev, scheme._id]);
       }

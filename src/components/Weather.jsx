@@ -462,7 +462,7 @@ const Weather = () => {
 
   const fetchWeather = async (lat = 28.6139, lon = 77.2090, crop = 'General', currentLang = 'en') => {
     try {
-      const res = await fetch(`http://localhost:5001/api/support/weather?lat=${lat}&lon=${lon}&crop=${crop}&lang=${currentLang}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/support/weather?lat=${lat}&lon=${lon}&crop=${crop}&lang=${currentLang}`);
       const json = await res.json();
       if (json.success) setData(json.data);
     } catch (err) {

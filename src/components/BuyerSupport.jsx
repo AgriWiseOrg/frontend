@@ -13,7 +13,7 @@ const BuyerSupport = ({ user }) => {
 
     React.useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:5001/api/support/my-reports?email=${user.email}`)
+            fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/support/my-reports?email=${user.email}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) setMyReports(data.data);
@@ -586,7 +586,7 @@ const BuyerSupport = ({ user }) => {
 
         try {
             const endpoint = type === 'dispute' ? 'dispute' : 'query';
-            const res = await fetch(`http://localhost:5001/api/support/${endpoint}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/support/${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -597,7 +597,7 @@ const BuyerSupport = ({ user }) => {
                 setTimeout(() => setFormStatus(''), 3000);
                 // Refresh reports
                 if (user?.email) {
-                    fetch(`http://localhost:5001/api/support/my-reports?email=${user.email}`)
+                    fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/support/my-reports?email=${user.email}`)
                         .then(r => r.json())
                         .then(d => d.success && setMyReports(d.data));
                 }

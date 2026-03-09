@@ -15,7 +15,7 @@ const FarmingTips = () => {
 
   const fetchTips = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/farming-tips');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/farming-tips`);
       setTips(Array.isArray(res.data) ? res.data : []);
     } catch (err) { console.error("Error fetching tips"); }
   };
@@ -23,7 +23,7 @@ const FarmingTips = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/farming-tips/add', newTip);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/farming-tips/add`, newTip);
       setTips([res.data, ...tips]);
       setShowAddForm(false);
       setNewTip({ title: '', desc: '', iconType: 'sprout', color: 'text-green-600' });
@@ -32,7 +32,7 @@ const FarmingTips = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm("Delete this tip?")) {
-      await axios.delete(`http://localhost:5001/api/farming-tips/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/farming-tips/${id}`);
       setTips(tips.filter(t => t._id !== id));
     }
   };

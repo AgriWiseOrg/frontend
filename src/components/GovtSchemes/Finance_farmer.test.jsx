@@ -83,7 +83,7 @@ describe('FinanceFarmer Component', () => {
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
-        'http://localhost:5001/api/finance/apply',
+        `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/finance/apply`,
         expect.objectContaining({
           farmerEmail: 'farmer@test.com',
           schemeName: 'Crop Loan',

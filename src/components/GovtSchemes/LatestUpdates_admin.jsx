@@ -16,7 +16,7 @@ const LatestUpdates = () => {
 
   const fetchUpdates = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/latest-updates');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/latest-updates`);
       setUpdates(Array.isArray(res.data) ? res.data : []);
     } catch (err) { console.error("Error fetching updates"); }
     finally { setLoading(false); }
@@ -25,7 +25,7 @@ const LatestUpdates = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/latest-updates/add', newUpdate);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/latest-updates/add`, newUpdate);
       setUpdates([res.data, ...updates]);
       setShowAddForm(false);
       setNewUpdate({ title: '', desc: '', tag: 'General', date: '', priority: 'medium' });
@@ -34,7 +34,7 @@ const LatestUpdates = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm("Delete this update?")) {
-      await axios.delete(`http://localhost:5001/api/latest-updates/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/latest-updates/${id}`);
       setUpdates(updates.filter(u => u._id !== id));
     }
   };

@@ -114,7 +114,7 @@ describe('FarmingTips Admin Component', () => {
     fireEvent.click(deleteBtn);
 
     expect(axios.delete).toHaveBeenCalledWith(
-      'http://localhost:5001/api/farming-tips/1'
+      `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/farming-tips/1`
     );
   });
 });
