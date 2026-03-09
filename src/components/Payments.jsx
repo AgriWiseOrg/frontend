@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
-import { CheckCircle2, XCircle, Loader2 } from 'lucide-react';
+import { CheckCircle2, XCircle, Loader2, CreditCard, Smartphone, ShieldCheck, ChevronRight } from 'lucide-react';
 
 const Payments = ({ user }) => {
-    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const { fetchCart, cartItems, userEmail } = useCart();
+    const { fetchCart, cartItems, userEmail, totalPrice } = useCart();
 
-    const [status, setStatus] = useState('processing');
+    const [status, setStatus] = useState('method_selection'); // method_selection, processing, success, error
     const [errorMessage, setErrorMessage] = useState('');
+    const [paymentMethod, setPaymentMethod] = useState('card'); // card, upi
 
-    const isSuccess = searchParams.get('success') === 'true';
+    // Mock Form States
+    const [cardDetails, setCardDetails] = useState({ number: '', name: '', expiry: '', cvv: '' });
+    const [upiId, setUpiId] = useState('');
 
-    useEffect(() => {
-        // Run order processing logic once when returning successfully
-        if (isSuccess && status === 'processing') {
-            processOrder();
-        } else if (!isSuccess) {
-            setStatus('cancelled');
+    const processOrder = async (shouldSucceed = true) => {
+        setStatus('processing');
+
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        if (!shouldSucceed) {
+            setStatus('error');
+            setErrorMessage('Payment was declined by the simulated bank.');
+            return;
         }
-    }, [isSuccess]);
 
-    const processOrder = async () => {
         try {
-            // 1. Ensure we have the latest cart items (in case of stale state)
+            // 1. Ensure we have the latest cart items
             await fetchCart();
             const email = userEmail || localStorage.getItem('userEmail');
 
@@ -32,10 +36,8 @@ const Payments = ({ user }) => {
                 throw new Error("User session expired during payment.");
             }
 
-            // Check current state cart items. If empty, maybe already processed
-            // We'll proceed with creating orders.
             if (!cartItems || cartItems.length === 0) {
-                setStatus('success'); // Assume already handled if cart empty on success page
+                setStatus('success'); // Assume already handled if cart empty
                 return;
             }
 
@@ -70,12 +72,31 @@ const Payments = ({ user }) => {
         }
     };
 
+    const handleSimulatePayment = (e) => {
+        e.preventDefault();
+
+        // Basic validation
+        if (paymentMethod === 'card') {
+            if (!cardDetails.number || !cardDetails.name || !cardDetails.expiry || !cardDetails.cvv) {
+                alert("Please fill in all card details for simulation.");
+                return;
+            }
+        } else {
+            if (!upiId) {
+                alert("Please enter a UPI ID for simulation.");
+                return;
+            }
+        }
+
+        processOrder(true);
+    };
+
     if (status === 'processing') {
         return (
             <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center p-4">
                 <Loader2 className="w-16 h-16 text-emerald-600 animate-spin mb-6" />
-                <h1 className="text-2xl font-black text-slate-800 tracking-tight">Processing your order...</h1>
-                <p className="text-slate-500 mt-2 font-medium">Please do not close this window.</p>
+                <h1 className="text-2xl font-black text-slate-800 tracking-tight">Processing Payment...</h1>
+                <p className="text-slate-500 mt-2 font-medium">Securing your transaction, please do not close this window.</p>
             </div>
         );
     }
@@ -83,8 +104,8 @@ const Payments = ({ user }) => {
     if (status === 'success') {
         return (
             <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4">
-                <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100 max-w-md w-full text-center">
-                    <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+                <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-emerald-900/5 border border-slate-100 max-w-md w-full text-center">
+                    <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-[bounce_1s_ease-in-out_infinite]">
                         <CheckCircle2 size={48} className="text-emerald-600" />
                     </div>
                     <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-4">Payment Successful!</h1>
@@ -110,27 +131,173 @@ const Payments = ({ user }) => {
         );
     }
 
-    // Cancelled or Error state
-    return (
-        <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4">
-            <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100 max-w-md w-full text-center">
-                <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-8">
-                    <XCircle size={48} className="text-red-500" />
+    if (status === 'error') {
+        return (
+            <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4">
+                <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-2xl shadow-red-900/5 border border-slate-100 max-w-md w-full text-center">
+                    <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                        <XCircle size={48} className="text-red-500" />
+                    </div>
+                    <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-4">Payment Failed</h1>
+                    <p className="text-slate-500 font-medium mb-10 leading-relaxed">
+                        There was an issue processing your order: {errorMessage}
+                    </p>
+                    <div className="space-y-4">
+                        <button
+                            onClick={() => setStatus('method_selection')}
+                            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-xl font-bold shadow-lg shadow-emerald-200 transition-all active:scale-95"
+                        >
+                            Try Again
+                        </button>
+                        <button
+                            onClick={() => navigate('/cart')}
+                            className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-xl font-bold transition-all active:scale-95"
+                        >
+                            Return to Cart
+                        </button>
+                    </div>
                 </div>
-                <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-4">
-                    {status === 'error' ? 'Order Failed' : 'Payment Cancelled'}
-                </h1>
-                <p className="text-slate-500 font-medium mb-10 leading-relaxed">
-                    {status === 'error'
-                        ? `There was an issue processing your order: ${errorMessage}`
-                        : 'Your payment was cancelled. No charges were made and your cart is safe.'}
-                </p>
-                <button
-                    onClick={() => navigate('/cart')}
-                    className="w-full bg-slate-900 hover:bg-slate-800 text-white py-4 rounded-xl font-bold shadow-lg transition-all active:scale-95"
-                >
-                    Return to Cart
-                </button>
+            </div>
+        );
+    }
+
+    // method_selection state
+    return (
+        <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+            <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-8">
+
+                {/* Left Column: Payment Methods & Form */}
+                <div className="flex-1 space-y-6">
+                    <div>
+                        <h2 className="text-3xl font-black text-slate-900 tracking-tight">Checkout</h2>
+                        <p className="text-slate-500 mt-2 font-medium">Select a payment method to complete your order.</p>
+                    </div>
+
+                    <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                        {/* Tab Selection */}
+                        <div className="flex gap-4 p-1 bg-slate-100 rounded-2xl">
+                            <button
+                                onClick={() => setPaymentMethod('card')}
+                                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all ${paymentMethod === 'card' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                            >
+                                <CreditCard size={20} /> Card
+                            </button>
+                            <button
+                                onClick={() => setPaymentMethod('upi')}
+                                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all ${paymentMethod === 'upi' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                            >
+                                <Smartphone size={20} /> UPI
+                            </button>
+                        </div>
+
+                        {/* Payment Forms */}
+                        <form onSubmit={handleSimulatePayment} className="space-y-6">
+                            {paymentMethod === 'card' ? (
+                                <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 block">Card Number</label>
+                                        <input
+                                            type="text"
+                                            placeholder="0000 0000 0000 0000"
+                                            value={cardDetails.number}
+                                            onChange={(e) => setCardDetails({ ...cardDetails, number: e.target.value })}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 block">Cardholder Name</label>
+                                        <input
+                                            type="text"
+                                            placeholder="John Doe"
+                                            value={cardDetails.name}
+                                            onChange={(e) => setCardDetails({ ...cardDetails, name: e.target.value })}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
+                                        />
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <div className="flex-1 space-y-2">
+                                            <label className="text-sm font-bold text-slate-700 block">Expiry Date</label>
+                                            <input
+                                                type="text"
+                                                placeholder="MM/YY"
+                                                value={cardDetails.expiry}
+                                                onChange={(e) => setCardDetails({ ...cardDetails, expiry: e.target.value })}
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
+                                            />
+                                        </div>
+                                        <div className="flex-1 space-y-2">
+                                            <label className="text-sm font-bold text-slate-700 block">CVV</label>
+                                            <input
+                                                type="text"
+                                                placeholder="123"
+                                                value={cardDetails.cvv}
+                                                onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-bold text-slate-700 block">UPI ID</label>
+                                        <input
+                                            type="text"
+                                            placeholder="username@bank"
+                                            value={upiId}
+                                            onChange={(e) => setUpiId(e.target.value)}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
+                                        />
+                                        <p className="text-xs text-slate-500 font-medium mt-1">Enter your Virtual Payment Address (VPA)</p>
+                                    </div>
+                                    <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-100 flex items-start gap-3">
+                                        <Smartphone className="text-emerald-600 mt-0.5" size={20} />
+                                        <div className="text-sm text-emerald-800 font-medium">
+                                            A payment request will be sent to your UPI app. Please approve it to complete the transaction.
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row gap-4">
+                                <button
+                                    type="submit"
+                                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-xl font-black shadow-lg shadow-emerald-200 transition-all active:scale-95 flex items-center justify-center gap-2"
+                                >
+                                    Proceed to Pay <ChevronRight size={20} />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => processOrder(false)}
+                                    className="sm:w-auto w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 px-6 rounded-xl font-bold transition-all active:scale-95 border border-slate-200"
+                                >
+                                    Simulate Failure
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                {/* Right Column: Order Summary (Simplified) */}
+                <div className="md:w-[350px]">
+                    <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm sticky top-6">
+                        <h3 className="font-black text-xl mb-6">Order Summary</h3>
+
+                        <div className="flex justify-between items-center border-b border-slate-100 pb-6 mb-6">
+                            <span className="font-bold text-slate-600 text-sm">Total to Pay</span>
+                            <span className="text-3xl font-black text-emerald-800">₹{totalPrice || 0}</span>
+                        </div>
+
+                        <div className="bg-slate-50 p-4 rounded-xl flex items-center gap-3">
+                            <ShieldCheck size={24} className="text-emerald-600 shrink-0" />
+                            <div>
+                                <p className="text-sm font-bold text-slate-800">Secure Payment Simulation</p>
+                                <p className="text-xs text-slate-500 mt-0.5">This is a mock gateway. No real charges will be made.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

@@ -29,23 +29,12 @@ const Cart = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5001/api/stripe/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cartItems, email })
-      });
+      // Navigate directly to the simulated payment gateway
+      navigate('/payment');
 
-      const session = await response.json();
-
-      if (response.ok && session.url) {
-        // Redirect to Stripe Checkout URL
-        window.location.href = session.url;
-      } else {
-        alert(`Checkout Failed: ${session.message}`);
-      }
     } catch (error) {
       console.error("Checkout Error:", error);
-      alert("Error reaching the checkout server.");
+      alert("Error starting checkout.");
     } finally {
       setCheckoutLoading(false);
     }
