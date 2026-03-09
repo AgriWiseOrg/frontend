@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from './CartContext';
-import { CheckCircle2, XCircle, Loader2, CreditCard, Smartphone, ShieldCheck, ChevronRight } from 'lucide-react';
+import { CheckCircle2, XCircle, Loader2, CreditCard, Smartphone, ShieldCheck, ChevronRight, ArrowLeft, MapPin, User, Phone } from 'lucide-react';
 
 const Payments = ({ user }) => {
     const navigate = useNavigate();
@@ -11,9 +11,35 @@ const Payments = ({ user }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [paymentMethod, setPaymentMethod] = useState('card'); // card, upi
 
+    // Delivery Details Form State
+    const [deliveryDetails, setDeliveryDetails] = useState({ name: '', phone: '', address: '' });
+
     // Mock Form States
     const [cardDetails, setCardDetails] = useState({ number: '', name: '', expiry: '', cvv: '' });
     const [upiId, setUpiId] = useState('');
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            if (user?.id) {
+                try {
+                    const response = await fetch(`http://localhost:5001/api/users/${user.id}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.profile) {
+                            setDeliveryDetails(prev => ({
+                                name: data.profile.name || prev.name,
+                                phone: data.profile.phone || prev.phone,
+                                address: data.profile.address || prev.address
+                            }));
+                        }
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch profile for pre-filling delivery details", error);
+                }
+            }
+        };
+        fetchProfile();
+    }, [user]);
 
     const processOrder = async (shouldSucceed = true) => {
         setStatus('processing');
@@ -41,15 +67,20 @@ const Payments = ({ user }) => {
                 return;
             }
 
-            // 2. Create Orders for each farmer
+            // 2. Create Orders for each farmer, passing in the delivery details explicitly
             const orderRes = await fetch('http://localhost:5001/api/orders', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ buyerEmail: email, items: cartItems })
+                body: JSON.stringify({
+                    buyerEmail: email,
+                    items: cartItems,
+                    deliveryDetails
+                })
             });
 
             if (!orderRes.ok) {
-                throw new Error("Failed to generate order documents.");
+                const errData = await orderRes.json();
+                throw new Error(errData.message || "Failed to generate order documents.");
             }
 
             // 3. Clear Cart
@@ -75,7 +106,13 @@ const Payments = ({ user }) => {
     const handleSimulatePayment = (e) => {
         e.preventDefault();
 
-        // Basic validation
+        // Validation - Delivery details
+        if (!deliveryDetails.name || !deliveryDetails.phone || !deliveryDetails.address) {
+            alert("Please fill in all Delivery Details.");
+            return;
+        }
+
+        // Validation - Payment Details
         if (paymentMethod === 'card') {
             if (!cardDetails.number || !cardDetails.name || !cardDetails.expiry || !cardDetails.cvv) {
                 alert("Please fill in all card details for simulation.");
@@ -163,35 +200,106 @@ const Payments = ({ user }) => {
 
     // method_selection state
     return (
-        <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+        <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8 font-sans">
             <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-8">
 
-                {/* Left Column: Payment Methods & Form */}
+                {/* Left Column: Form Sections */}
                 <div className="flex-1 space-y-6">
-                    <div>
-                        <h2 className="text-3xl font-black text-slate-900 tracking-tight">Checkout</h2>
-                        <p className="text-slate-500 mt-2 font-medium">Select a payment method to complete your order.</p>
+                    {/* Header with Back Button */}
+                    <div className="flex items-center gap-4 mb-2">
+                        <button
+                            onClick={() => navigate('/cart')}
+                            className="p-2 bg-white rounded-full shadow-sm border border-slate-200 hover:bg-slate-100 transition-colors text-slate-600"
+                            aria-label="Back to Cart"
+                        >
+                            <ArrowLeft size={20} />
+                        </button>
+                        <div>
+                            <h2 className="text-3xl font-black text-slate-900 tracking-tight">Checkout</h2>
+                            <p className="text-slate-500 text-sm font-medium mt-1">Complete your order below.</p>
+                        </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
-                        {/* Tab Selection */}
-                        <div className="flex gap-4 p-1 bg-slate-100 rounded-2xl">
-                            <button
-                                onClick={() => setPaymentMethod('card')}
-                                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all ${paymentMethod === 'card' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                            >
-                                <CreditCard size={20} /> Card
-                            </button>
-                            <button
-                                onClick={() => setPaymentMethod('upi')}
-                                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all ${paymentMethod === 'upi' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                            >
-                                <Smartphone size={20} /> UPI
-                            </button>
+                    <form onSubmit={handleSimulatePayment} className="space-y-6">
+                        {/* 1. Delivery Details Section */}
+                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+                            <h3 className="font-black text-xl flex items-center gap-2 text-slate-800">
+                                <MapPin size={22} className="text-emerald-600" /> Delivery Details
+                            </h3>
+
+                            <div className="space-y-4 pt-2">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-bold text-slate-700 block">Full Name</label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                            <User size={18} />
+                                        </div>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your name"
+                                            value={deliveryDetails.name}
+                                            onChange={(e) => setDeliveryDetails({ ...deliveryDetails, name: e.target.value })}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium transition-shadow"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-sm font-bold text-slate-700 block">Phone Number</label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                            <Phone size={18} />
+                                        </div>
+                                        <input
+                                            type="tel"
+                                            placeholder="10-digit mobile number"
+                                            value={deliveryDetails.phone}
+                                            onChange={(e) => setDeliveryDetails({ ...deliveryDetails, phone: e.target.value })}
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium transition-shadow"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-sm font-bold text-slate-700 block">Complete Address</label>
+                                    <textarea
+                                        placeholder="House No, Building, Street, Area, City, Pincode"
+                                        value={deliveryDetails.address}
+                                        onChange={(e) => setDeliveryDetails({ ...deliveryDetails, address: e.target.value })}
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium min-h-[100px] transition-shadow resize-y"
+                                        required
+                                    />
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Payment Forms */}
-                        <form onSubmit={handleSimulatePayment} className="space-y-6">
+                        {/* 2. Payment Method Section */}
+                        <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                            <h3 className="font-black text-xl flex items-center gap-2 text-slate-800">
+                                <CreditCard size={22} className="text-emerald-600" /> Payment
+                            </h3>
+
+                            {/* Tab Selection */}
+                            <div className="flex gap-4 p-1 bg-slate-100 rounded-2xl">
+                                <button
+                                    type="button"
+                                    onClick={() => setPaymentMethod('card')}
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all ${paymentMethod === 'card' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                >
+                                    <CreditCard size={20} /> Card
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setPaymentMethod('upi')}
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-bold transition-all ${paymentMethod === 'upi' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                >
+                                    <Smartphone size={20} /> UPI
+                                </button>
+                            </div>
+
+                            {/* Payment Method Forms */}
                             {paymentMethod === 'card' ? (
                                 <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
                                     <div className="space-y-2">
@@ -259,6 +367,7 @@ const Payments = ({ user }) => {
                                 </div>
                             )}
 
+                            {/* Action Buttons */}
                             <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row gap-4">
                                 <button
                                     type="submit"
@@ -274,11 +383,11 @@ const Payments = ({ user }) => {
                                     Simulate Failure
                                 </button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
 
-                {/* Right Column: Order Summary (Simplified) */}
+                {/* Right Column: Order Summary */}
                 <div className="md:w-[350px]">
                     <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm sticky top-6">
                         <h3 className="font-black text-xl mb-6">Order Summary</h3>
@@ -288,11 +397,13 @@ const Payments = ({ user }) => {
                             <span className="text-3xl font-black text-emerald-800">₹{totalPrice || 0}</span>
                         </div>
 
-                        <div className="bg-slate-50 p-4 rounded-xl flex items-center gap-3">
-                            <ShieldCheck size={24} className="text-emerald-600 shrink-0" />
-                            <div>
-                                <p className="text-sm font-bold text-slate-800">Secure Payment Simulation</p>
-                                <p className="text-xs text-slate-500 mt-0.5">This is a mock gateway. No real charges will be made.</p>
+                        <div className="space-y-3">
+                            <div className="bg-slate-50 p-4 rounded-xl flex items-center gap-3">
+                                <ShieldCheck size={24} className="text-emerald-600 shrink-0" />
+                                <div>
+                                    <p className="text-sm font-bold text-slate-800">Secure Payment Simulation</p>
+                                    <p className="text-xs text-slate-500 mt-0.5">This is a mock gateway. No real charges are processed.</p>
+                                </div>
                             </div>
                         </div>
                     </div>

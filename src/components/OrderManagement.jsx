@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Package, Clock, CheckCircle, Truck, XCircle, Search, Calendar, User, ArrowLeft, Sprout } from 'lucide-react';
+import { Package, Clock, CheckCircle, Truck, XCircle, Search, Calendar, User, ArrowLeft, Sprout, MapPin } from 'lucide-react';
 import { useLanguage } from './LanguageContext';
 
 const omTranslations = {
@@ -174,6 +174,21 @@ const OrderManagement = ({ user }) => {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Delivery Info */}
+                                    {order.deliveryDetails && (
+                                        <div className="hidden md:flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-700">
+                                                <MapPin size={20} />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Ship To</p>
+                                                <p className="font-bold text-slate-800 line-clamp-1 max-w-[150px]" title={order.deliveryDetails.address}>
+                                                    {order.deliveryDetails.name}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* Order Total & Status Control */}
                                     <div className="flex flex-wrap items-center gap-4 lg:gap-8 bg-slate-50 p-4 rounded-2xl border border-slate-100">

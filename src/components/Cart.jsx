@@ -53,7 +53,7 @@ const Cart = () => {
       {/* --- Header --- */}
       <nav className="bg-emerald-800 text-white sticky top-0 z-50 px-4 py-4 flex items-center gap-4 shadow-md">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/')}
           className="p-1 hover:bg-emerald-700 rounded-full transition-colors"
         >
           <ArrowLeft size={24} />

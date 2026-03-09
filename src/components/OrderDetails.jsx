@@ -122,8 +122,8 @@ const OrderDetails = () => {
                                 <div>
                                     <p className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">Current Status</p>
                                     <h3 className={`text-2xl font-black flex items-center gap-3 ${order.status === 'Cancelled' ? 'text-red-600' :
-                                            order.status === 'Delivered' ? 'text-emerald-600' :
-                                                'text-slate-800'
+                                        order.status === 'Delivered' ? 'text-emerald-600' :
+                                            'text-slate-800'
                                         }`}>
                                         {order.status}
                                     </h3>
@@ -219,10 +219,32 @@ const OrderDetails = () => {
                                     </div>
                                     <div>
                                         <p className="font-bold text-slate-800">{order.buyerEmail}</p>
-                                        <p className="text-xs font-medium text-sky-700 mt-1">Delivery Address Registered</p>
+                                        <p className="text-xs font-medium text-sky-700 mt-1">Registered User</p>
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Delivery Address Details */}
+                            {order.deliveryDetails && (
+                                <div>
+                                    <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider mb-4">Delivery Information</h3>
+                                    <div className="p-5 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-indigo-600 shadow-sm shrink-0">
+                                            <MapPin size={24} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <p className="font-black text-slate-800 text-lg">{order.deliveryDetails.name}</p>
+                                            <p className="text-sm font-bold text-slate-600 flex items-center gap-2">
+                                                <span className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-md text-xs">Phone</span>
+                                                {order.deliveryDetails.phone}
+                                            </p>
+                                            <p className="text-sm font-medium text-slate-500 mt-2 leading-relaxed max-w-[250px]">
+                                                {order.deliveryDetails.address}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                         </div>
 

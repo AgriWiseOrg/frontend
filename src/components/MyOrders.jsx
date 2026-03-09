@@ -11,7 +11,7 @@ const MyOrders = ({ user }) => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                if (!user || user.role !== 'buyer') {
+                if (!user) {
                     setLoading(false);
                     return;
                 }
@@ -63,12 +63,12 @@ const MyOrders = ({ user }) => {
         return <div className="min-h-screen flex items-center justify-center bg-slate-50 text-emerald-700 font-bold">Loading Orders...</div>;
     }
 
-    if (!user || user.role !== 'buyer') {
+    if (!user) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-6 text-center">
                 <ShoppingBag size={64} className="text-slate-300 mb-6" />
                 <h2 className="text-2xl font-black text-slate-800 mb-2">Access Denied</h2>
-                <p className="text-slate-500 mb-8 max-w-md">Only registered buyers have access to their order history.</p>
+                <p className="text-slate-500 mb-8 max-w-md">Please log in to view your order history.</p>
                 <button onClick={() => navigate(-1)} className="bg-emerald-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:bg-emerald-700 transition-all flex items-center gap-2">
                     <ArrowLeft size={20} /> Go Back
                 </button>
@@ -140,6 +140,21 @@ const MyOrders = ({ user }) => {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Delivery Info */}
+                                    {order.deliveryDetails && (
+                                        <div className="hidden md:flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-700">
+                                                <MapPin size={20} />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Delivered To</p>
+                                                <p className="font-bold text-slate-800 line-clamp-1 max-w-[150px]" title={order.deliveryDetails.address}>
+                                                    {order.deliveryDetails.name}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* Order Total & Status Control */}
                                     <div className="flex flex-wrap items-center gap-4 lg:gap-8 bg-slate-50 p-4 rounded-2xl border border-slate-100">
