@@ -136,7 +136,7 @@ const MyOrders = ({ user }) => {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Sold By</p>
-                                                <p className="font-bold text-slate-800">{order.farmerEmail}</p>
+                                                <p className="font-bold text-slate-800 capitalize">{order.farmerName || order.farmerEmail}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -170,7 +170,7 @@ const OrderManagement = ({ user }) => {
                                             </div>
                                             <div>
                                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">{t.buyerDetails}</p>
-                                                <p className="font-bold text-slate-800">{order.buyerEmail}</p>
+                                                <p className="font-bold text-slate-800 capitalize">{order.buyerName || order.buyerEmail}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -80,21 +80,21 @@ const OrderDetails = () => {
     return (
         <div className="min-h-screen bg-[#F8FAFC] pb-24 text-slate-900 font-sans">
             {/* Header */}
-            <div className="bg-emerald-800 text-white pt-8 pb-32 px-6">
+            <div className="bg-emerald-700 text-white pt-8 pb-32 px-6">
                 <div className="max-w-5xl mx-auto">
                     <button onClick={() => navigate(-1)} className="text-emerald-100 hover:text-white font-bold mb-8 flex items-center gap-2 transition-colors">
-                        <ArrowLeft size={20} /> Back
+                        <ArrowLeft size={20} /> Back to Orders
                     </button>
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                         <div>
-                            <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-3">
+                            <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-3 text-white">
                                 Order Details
                             </h1>
                             <div className="flex items-center gap-4 text-emerald-100 font-medium">
-                                <span className="flex items-center gap-1.5 bg-emerald-700/50 px-3 py-1.5 rounded-lg border border-emerald-600/50">
+                                <span className="flex items-center gap-1.5 bg-emerald-800/60 px-3 py-1.5 rounded-lg border border-emerald-600/40 shadow-sm">
                                     <ShoppingBag size={16} /> ID: {order._id.slice(-8).toUpperCase()}
                                 </span>
-                                <span className="flex items-center gap-1.5 bg-emerald-700/50 px-3 py-1.5 rounded-lg border border-emerald-600/50">
+                                <span className="flex items-center gap-1.5 bg-emerald-800/60 px-3 py-1.5 rounded-lg border border-emerald-600/40 shadow-sm">
                                     <Calendar size={16} /> {new Date(order.createdAt).toLocaleDateString()}
                                 </span>
                             </div>
@@ -199,13 +199,13 @@ const OrderDetails = () => {
                             {/* Farmer */}
                             <div>
                                 <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider mb-4">Farmer Details</h3>
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-100">
-                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-emerald-600 shadow-sm">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-emerald-300 transition-colors">
+                                    <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 shrink-0">
                                         <Sprout size={24} />
                                     </div>
                                     <div>
-                                        <p className="font-bold text-slate-800">{order.farmerEmail}</p>
-                                        <p className="text-xs font-medium text-emerald-700 mt-1">Verified Seller</p>
+                                        <p className="font-bold text-slate-800 text-lg capitalize">{order.farmerName}</p>
+                                        <p className="text-xs font-medium text-slate-500">{order.farmerEmail}</p>
                                     </div>
                                 </div>
                             </div>
@@ -213,13 +213,13 @@ const OrderDetails = () => {
                             {/* Buyer */}
                             <div>
                                 <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider mb-4">Buyer Details</h3>
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-sky-50 border border-sky-100">
-                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-sky-600 shadow-sm">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-emerald-300 transition-colors">
+                                    <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 shrink-0">
                                         <User size={24} />
                                     </div>
                                     <div>
-                                        <p className="font-bold text-slate-800">{order.buyerEmail}</p>
-                                        <p className="text-xs font-medium text-sky-700 mt-1">Registered User</p>
+                                        <p className="font-bold text-slate-800 text-lg capitalize">{order.buyerName}</p>
+                                        <p className="text-xs font-medium text-slate-500">{order.buyerEmail}</p>
                                     </div>
                                 </div>
                             </div>
@@ -228,17 +228,17 @@ const OrderDetails = () => {
                             {order.deliveryDetails && (
                                 <div>
                                     <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider mb-4">Delivery Information</h3>
-                                    <div className="p-5 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-start gap-4">
-                                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-indigo-600 shadow-sm shrink-0">
+                                    <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-emerald-300 transition-colors flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 shrink-0">
                                             <MapPin size={24} />
                                         </div>
                                         <div className="space-y-1">
-                                            <p className="font-black text-slate-800 text-lg">{order.deliveryDetails.name}</p>
-                                            <p className="text-sm font-bold text-slate-600 flex items-center gap-2">
-                                                <span className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-md text-xs">Phone</span>
+                                            <p className="font-bold text-slate-800 text-lg capitalize">{order.deliveryDetails.name}</p>
+                                            <p className="text-sm font-medium text-slate-600 flex items-center gap-2">
+                                                <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-md text-xs font-bold border border-slate-200">Phone</span>
                                                 {order.deliveryDetails.phone}
                                             </p>
-                                            <p className="text-sm font-medium text-slate-500 mt-2 leading-relaxed max-w-[250px]">
+                                            <p className="text-sm text-slate-500 mt-2 leading-relaxed">
                                                 {order.deliveryDetails.address}
                                             </p>
                                         </div>
