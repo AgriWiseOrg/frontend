@@ -146,18 +146,17 @@ const VoiceReader = () => {
             if (!selectedVoice) {
                 selectedVoice = voices.find(v => v.lang.toLowerCase().includes(shortCode));
             }
-        }
-
-        // 3. If no regional voice found OR if the target is English, find the best English voice
-        if (!selectedVoice) {
+        } else {
+            // It explicitly IS English
             selectedVoice = voices.find(v => v.name.includes('Google US English'));
             if (!selectedVoice) {
                 selectedVoice = voices.find(v => v.lang.toLowerCase().startsWith('en'));
             }
         }
 
-        // 4. Absolute Last resort fallback (browser default)
-        if (!selectedVoice && voices.length > 0) {
+        // 3. Absolute Last resort: Only fallback to the first default voice if we are looking for English
+        // If we are looking for a regional language, forcing an English voice causes it to read gibberish.
+        if (!selectedVoice && shortCode === 'en' && voices.length > 0) {
             selectedVoice = voices.find(v => v.default) || voices[0];
         }
 
@@ -165,7 +164,8 @@ const VoiceReader = () => {
             utterance.voice = selectedVoice;
             utterance.lang = selectedVoice.lang;
         } else {
-            // Fallback required by Windows/Mac standard API if voices array somehow isn't populated
+            // Crucial: If no local voice is found for Telugu/Malayalam etc., we MUST only set the lang tag.
+            // This forces browsers like Chrome/Safari to hit their cloud TTS APIs for the correct regional accent.
             utterance.lang = targetCode;
         }
 
