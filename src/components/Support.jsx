@@ -1042,7 +1042,6 @@ const Support = ({ user }) => {
     };
 
     const t = translations[lang] || translations['en'];
-    };
 
     // Diagnostic Wizard Data - Dependent on translations
     const diagnosticSymptoms = [
