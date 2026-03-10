@@ -182,7 +182,15 @@ const ProductDetails = ({ user }) => {
 
 
 
+            <div className="space-y-2">
+              <h3 className="font-black text-lg border-b-2 border-emerald-500 w-fit pb-1">{t("Description")}</h3>
+              <p className="text-slate-600 text-sm leading-relaxed italic">
+                "{localProduct.description || t("Fresh harvest from local fields.")}"
+              </p>
+            </div>
+
             <div className="space-y-4 mt-2">
+
               <h3 className="font-black text-lg border-b-2 border-emerald-500 w-fit pb-1">{t("Product Specifications")}</h3>
               <table className="w-full text-sm text-slate-600">
                 <tbody>
