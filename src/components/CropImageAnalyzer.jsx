@@ -3,25 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, ScanSearch, CheckCircle, AlertTriangle, ShieldCheck, Cpu } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-// Expanded simulated AI Knowledge Base
-const cropDatabase = [
-    { name: 'Tomato', translationKey: 'tomato', basePrice: 2000, keywords: ['red', 'round', 'tomato'] },
-    { name: 'Onion', translationKey: 'onion', basePrice: 1800, keywords: ['purple', 'white', 'onion', 'bulb'] },
-    { name: 'Potato', translationKey: 'potato', basePrice: 1500, keywords: ['brown', 'potato', 'tuber'] },
-    { name: 'Apple', translationKey: 'apple', basePrice: 8000, keywords: ['apple', 'red', 'green', 'fruit'] },
-    { name: 'Banana', translationKey: 'banana', basePrice: 3500, keywords: ['yellow', 'banana'] },
-    { name: 'Wheat', translationKey: 'wheat', basePrice: 2200, keywords: ['wheat', 'grain', 'yellow'] },
-    { name: 'Rice / Paddy', translationKey: 'rice', basePrice: 3000, keywords: ['rice', 'paddy', 'white'] },
-    { name: 'Mango', translationKey: 'mango', basePrice: 6000, keywords: ['mango', 'yellow', 'alphonso'] },
-    { name: 'Chili', translationKey: 'chili', basePrice: 12000, keywords: ['chili', 'red', 'green', 'spice'] },
-    { name: 'Cotton', translationKey: 'cotton', basePrice: 7000, keywords: ['cotton', 'white', 'fluffy'] },
-];
 
-const gradeDatabase = {
-    'A': { title: 'Premium (Export Quality)', multiplier: 1.3, color: 'text-emerald-400', bg: 'bg-emerald-500/20', desc: 'Optimal size, zero visible bruising, perfect color.' },
-    'B': { title: 'Standard (Domestic Market)', multiplier: 1.0, color: 'text-blue-400', bg: 'bg-blue-500/20', desc: 'Average size, minor superficial blemishes.' },
-    'C': { title: 'Processing (Industrial Use)', multiplier: 0.7, color: 'text-amber-400', bg: 'bg-amber-500/20', desc: 'Overripe or visible physical damage.' },
-};
 
 const CropImageAnalyzer = () => {
     const { t } = useTranslation();
@@ -30,16 +12,6 @@ const CropImageAnalyzer = () => {
     const [analysisState, setAnalysisState] = useState('IDLE'); // IDLE, SCANNING, COMPLETE, ERROR
     const [result, setResult] = useState(null);
     const fileInputRef = useRef(null);
-
-    // Simulated AI Processing trigger
-    useEffect(() => {
-        if (analysisState === 'SCANNING') {
-            const scanTimer = setTimeout(() => {
-                generateMockAnalysis();
-            }, 3500); // 3.5 seconds of "analyzing"
-            return () => clearTimeout(scanTimer);
-        }
-    }, [analysisState]);
 
     const handleDrag = (e) => {
         e.preventDefault();
@@ -67,7 +39,7 @@ const CropImageAnalyzer = () => {
         }
     };
 
-    const processFile = (file) => {
+    const processFile = async (file) => {
         // Simple validation
         if (!file.type.match('image.*')) {
             alert("Please upload an image file (JPG, PNG).");
@@ -83,39 +55,42 @@ const CropImageAnalyzer = () => {
         const reader = new FileReader();
         reader.onloadend = () => {
             setImagePreview(reader.result);
-            setAnalysisState('SCANNING');
         };
         reader.readAsDataURL(file);
-    };
 
-    const generateMockAnalysis = () => {
-        // Pick a random crop
-        const randomCrop = cropDatabase[Math.floor(Math.random() * cropDatabase.length)];
+        setAnalysisState('SCANNING');
 
-        // Randomize the Quality Grade based on weighted probability
-        const randomRoll = Math.random();
-        let gradeKey = 'B';
-        if (randomRoll > 0.7) gradeKey = 'A'; // 30% chance for Premium
-        if (randomRoll < 0.2) gradeKey = 'C'; // 20% chance for Low Grade
+        const formData = new FormData();
+        formData.append('image', file);
 
-        const gradeData = gradeDatabase[gradeKey];
-        const finalPrice = Math.round(randomCrop.basePrice * gradeData.multiplier);
+        try {
+            const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5001";
+            const response = await fetch(`${apiUrl}/api/ml/analyze-crop`, {
+                method: 'POST',
+                body: formData,
+            });
 
-        // Generate dynamic mock insights
-        const confidence = Math.floor(Math.random() * (99 - 88 + 1)) + 88; // 88% - 99%
-        const moisture = Math.floor(Math.random() * (30 - 10 + 1)) + 10;
+            if (!response.ok) {
+                throw new Error("Failed to analyze image");
+            }
 
-        setResult({
-            crop: randomCrop.name,
-            translationKey: randomCrop.translationKey,
-            grade: gradeData,
-            gradeLetter: gradeKey,
-            price: finalPrice,
-            confidence: confidence,
-            moisture: moisture
-        });
-
-        setAnalysisState('COMPLETE');
+            const data = await response.json();
+            setResult({
+                crop: data.crop,
+                translationKey: data.translationKey || data.crop.toLowerCase(),
+                gradeLetter: data.gradeLetter,
+                grade: data.grade,
+                price: data.price,
+                confidence: data.confidence,
+                moisture: data.moisture
+            });
+            setAnalysisState('COMPLETE');
+        } catch (error) {
+            console.error(error);
+            alert("Error analyzing image. Please try again.");
+            setAnalysisState('IDLE');
+            setImagePreview(null);
+        }
     };
 
     const resetAnalyzer = () => {
