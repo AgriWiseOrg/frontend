@@ -3,6 +3,115 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext'; // Import hook
 
+const MainView = ({ t, setActiveView, showDisputeForm, setShowDisputeForm, subsidyStep, setSubsidyStep, navigate, setFormType }) => (
+    <div className="space-y-8 animate-in fade-in duration-500">
+        {/* Title Section */}
+        <section className="text-center space-y-2">
+            <h1 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">{t.title} 📞</h1>
+            <p className="text-slate-500 font-medium text-lg">{t.subtitle}</p>
+        </section>
+
+        {/* Multimodal Action Bar */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="tel:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-rose-600 to-rose-700 text-white rounded-[2.5rem] shadow-2xl shadow-rose-200 hover:scale-105 transition-all group">
+                <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📞</span>
+                <span className="font-black text-xl">{t.voiceCall}</span>
+                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">Available 24/7</span>
+            </a>
+            <a href="https://wa.me/916301230747" target="_blank" rel="noreferrer" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-[2.5rem] shadow-2xl shadow-emerald-200 hover:scale-105 transition-all group">
+                <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">💬</span>
+                <span className="font-black text-xl">{t.whatsapp}</span>
+                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">Fast Response</span>
+            </a>
+            <a href="sms:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-[2.5rem] shadow-2xl shadow-slate-300 hover:scale-105 transition-all group">
+                <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📱</span>
+                <span className="font-black text-xl">{t.smsIvr}</span>
+                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">Dial *123#</span>
+            </a>
+        </section>
+
+        <hr className="border-slate-200" />
+
+        {/* Feature Cards Grid */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Market Insight Module Card */}
+            <div onClick={() => setActiveView('market')} className="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-100 rounded-[3rem] p-10 cursor-pointer hover:shadow-2xl hover:border-orange-300 transition-all group relative overflow-hidden">
+                <div className="relative z-10">
+                    <span className="text-6xl block mb-6 group-hover:scale-110 transition-transform">📈</span>
+                    <h3 className="text-2xl font-black text-slate-800 mb-2">{t.marketTitle}</h3>
+                    <p className="text-slate-500 font-bold mb-6">{t.marketDesc}</p>
+                    <span className="inline-block bg-orange-600 text-white font-black px-6 py-3 rounded-xl text-sm">{t.portalBtn}</span>
+                </div>
+                <div className="absolute -right-10 -bottom-10 text-[12rem] opacity-5 group-hover:opacity-10 transition-opacity">💹</div>
+            </div>
+
+            {/* Crop Health Interactive Card */}
+            <div onClick={() => setActiveView('diagnostic')} className="bg-gradient-to-br from-emerald-50 to-white border-2 border-emerald-100 rounded-[3rem] p-10 cursor-pointer hover:shadow-2xl hover:border-emerald-300 transition-all group relative overflow-hidden">
+                <div className="relative z-10">
+                    <span className="text-6xl block mb-6 group-hover:scale-110 transition-transform">🌱</span>
+                    <h3 className="text-2xl font-black text-slate-800 mb-2">{t.diagnosticTitle}</h3>
+                    <p className="text-slate-500 font-bold mb-6">{t.diagnosticDesc}</p>
+                    <span className="inline-block bg-emerald-600 text-white font-black px-6 py-3 rounded-xl text-sm">{t.diagnosticBtn}</span>
+                </div>
+                <div className="absolute -right-10 -bottom-10 text-[12rem] opacity-5 group-hover:opacity-10 transition-opacity">🩺</div>
+            </div>
+
+            {/* Premium Scheme Portal Card */}
+            <div onClick={() => setActiveView('schemes')} className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-100 rounded-[3rem] p-10 cursor-pointer hover:shadow-2xl hover:border-blue-300 transition-all group relative overflow-hidden">
+                <div className="relative z-10">
+                    <span className="text-6xl block mb-6 group-hover:scale-110 transition-transform">🏛️</span>
+                    <h3 className="text-2xl font-black text-slate-800 mb-2">{t.schemeTitle}</h3>
+                    <p className="text-slate-500 font-bold mb-6">{t.schemeDesc}</p>
+                    <span className="inline-block bg-blue-600 text-white font-black px-6 py-3 rounded-xl text-sm">{t.schemeBtn}</span>
+                </div>
+                <div className="absolute -right-10 -bottom-10 text-[12rem] opacity-5 group-hover:opacity-10 transition-opacity">📜</div>
+            </div>
+
+            {/* Subsidy Eligibility Wizard Card (Moved or kept as secondary) */}
+            <div className="bg-white border-2 border-emerald-100 rounded-[3rem] p-10 shadow-xl shadow-emerald-50 relative overflow-hidden">
+                <div className="flex items-center gap-4 mb-8">
+                    <div className="w-16 h-16 bg-emerald-600 rounded-[1.5rem] flex items-center justify-center text-3xl shadow-lg shadow-emerald-200">💰</div>
+                    <div>
+                        <h3 className="font-black text-2xl text-slate-800">{t.subsidyTitle}</h3>
+                        <p className="text-slate-400 text-xs font-black uppercase tracking-widest">{t.subsidyDesc}</p>
+                    </div>
+                </div>
+
+                {subsidyStep === 0 ? (
+                    <div className="space-y-6">
+                        <p className="text-slate-500 font-bold leading-relaxed text-lg">{t.subsidyText}</p>
+                        <button onClick={() => setSubsidyStep(1)} className="w-full bg-emerald-600 text-white font-black py-5 rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-100">
+                            {t.findNow} →
+                        </button>
+                    </div>
+                ) : (
+                    <div className="bg-emerald-50 p-6 rounded-[2rem] border-2 border-emerald-100 animate-in zoom-in duration-300">
+                        <ul className="space-y-3 mb-6">
+                            <li className="text-slate-700 font-bold flex items-center gap-3">🎯 {t.quickLinks?.pmKisan || 'PM-Kisan'}</li>
+                            <li className="text-slate-700 font-bold flex items-center gap-3">🎯 {t.quickLinks?.pmfby || 'PMFBY'}</li>
+                            <li className="text-slate-700 font-bold flex items-center gap-3">🎯 {t.quickLinks?.kcc || 'KCC'}</li>
+                        </ul>
+                        <button onClick={() => setSubsidyStep(0)} className="text-emerald-700 font-black uppercase text-xs underline">{t.quickLinks?.back || 'Back'}</button>
+                    </div>
+                )}
+            </div>
+        </section>
+
+
+        {/* Dispute Link */}
+        <section className="bg-slate-900 rounded-[3rem] p-10 text-white flex flex-col md:flex-row items-center justify-between gap-8 group overflow-hidden relative">
+            <div className="relative z-10 max-w-xl">
+                <h2 className="text-3xl font-black mb-2">{t.disputeTitle} ⚖️</h2>
+                <p className="text-slate-400 font-medium text-lg">{t.disputeDesc}</p>
+            </div>
+            <button onClick={() => { setShowDisputeForm(!showDisputeForm); setFormType('dispute'); }} className="relative z-10 bg-white text-slate-900 font-black px-10 py-5 rounded-2xl hover:bg-rose-50 hover:text-rose-600 transition-all shadow-2xl">
+                {showDisputeForm ? t.closeBtn : t.reportBtn}
+            </button>
+            <div className="absolute -right-10 -bottom-10 text-[15rem] opacity-5 group-hover:rotate-12 transition-transform duration-1000">🛡️</div>
+        </section>
+    </div>
+);
+
 const Support = ({ user }) => {
     const navigate = useNavigate();
     const { langCode: lang, setLanguage: setLang } = useLanguage(); // Use global state
@@ -1002,248 +1111,6 @@ const Support = ({ user }) => {
         }
     };
 
-    const MainView = () => (
-        <div className="space-y-8 animate-in fade-in duration-500">
-            {/* Title Section */}
-            <section className="text-center space-y-2">
-                <h1 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">{t.title} 📞</h1>
-                <p className="text-slate-500 font-medium text-lg">{t.subtitle}</p>
-            </section>
-
-            {/* Multimodal Action Bar */}
-            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="tel:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-rose-600 to-rose-700 text-white rounded-[2.5rem] shadow-2xl shadow-rose-200 hover:scale-105 transition-all group">
-                    <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📞</span>
-                    <span className="font-black text-xl">{t.voiceCall}</span>
-                    <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">Available 24/7</span>
-                </a>
-                <a href="https://wa.me/916301230747" target="_blank" rel="noreferrer" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-[2.5rem] shadow-2xl shadow-emerald-200 hover:scale-105 transition-all group">
-                    <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">💬</span>
-                    <span className="font-black text-xl">{t.whatsapp}</span>
-                    <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">Fast Response</span>
-                </a>
-                <a href="sms:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-[2.5rem] shadow-2xl shadow-slate-300 hover:scale-105 transition-all group">
-                    <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📱</span>
-                    <span className="font-black text-xl">{t.smsIvr}</span>
-                    <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">Dial *123#</span>
-                </a>
-            </section>
-
-            <hr className="border-slate-200" />
-
-            {/* Feature Cards Grid */}
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Market Insight Module Card */}
-                <div onClick={() => setActiveView('market')} className="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-100 rounded-[3rem] p-10 cursor-pointer hover:shadow-2xl hover:border-orange-300 transition-all group relative overflow-hidden">
-                    <div className="relative z-10">
-                        <span className="text-6xl block mb-6 group-hover:scale-110 transition-transform">📈</span>
-                        <h3 className="text-2xl font-black text-slate-800 mb-2">{t.marketTitle}</h3>
-                        <p className="text-slate-500 font-bold mb-6">{t.marketDesc}</p>
-                        <span className="inline-block bg-orange-600 text-white font-black px-6 py-3 rounded-xl text-sm">{t.portalBtn}</span>
-                    </div>
-                    <div className="absolute -right-10 -bottom-10 text-[12rem] opacity-5 group-hover:opacity-10 transition-opacity">💹</div>
-                </div>
-
-                {/* Crop Health Interactive Card */}
-                <div onClick={() => setActiveView('diagnostic')} className="bg-gradient-to-br from-emerald-50 to-white border-2 border-emerald-100 rounded-[3rem] p-10 cursor-pointer hover:shadow-2xl hover:border-emerald-300 transition-all group relative overflow-hidden">
-                    <div className="relative z-10">
-                        <span className="text-6xl block mb-6 group-hover:scale-110 transition-transform">🌱</span>
-                        <h3 className="text-2xl font-black text-slate-800 mb-2">{t.diagnosticTitle}</h3>
-                        <p className="text-slate-500 font-bold mb-6">{t.diagnosticDesc}</p>
-                        <span className="inline-block bg-emerald-600 text-white font-black px-6 py-3 rounded-xl text-sm">{t.diagnosticBtn}</span>
-                    </div>
-                    <div className="absolute -right-10 -bottom-10 text-[12rem] opacity-5 group-hover:opacity-10 transition-opacity">🩺</div>
-                </div>
-
-                {/* Premium Scheme Portal Card */}
-                <div onClick={() => setActiveView('schemes')} className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-100 rounded-[3rem] p-10 cursor-pointer hover:shadow-2xl hover:border-blue-300 transition-all group relative overflow-hidden">
-                    <div className="relative z-10">
-                        <span className="text-6xl block mb-6 group-hover:scale-110 transition-transform">🏛️</span>
-                        <h3 className="text-2xl font-black text-slate-800 mb-2">{t.schemeTitle}</h3>
-                        <p className="text-slate-500 font-bold mb-6">{t.schemeDesc}</p>
-                        <span className="inline-block bg-blue-600 text-white font-black px-6 py-3 rounded-xl text-sm">{t.schemeBtn}</span>
-                    </div>
-                    <div className="absolute -right-10 -bottom-10 text-[12rem] opacity-5 group-hover:opacity-10 transition-opacity">📜</div>
-                </div>
-
-                {/* Subsidy Eligibility Wizard Card (Moved or kept as secondary) */}
-                <div className="bg-white border-2 border-emerald-100 rounded-[3rem] p-10 shadow-xl shadow-emerald-50 relative overflow-hidden">
-                    <div className="flex items-center gap-4 mb-8">
-                        <div className="w-16 h-16 bg-emerald-600 rounded-[1.5rem] flex items-center justify-center text-3xl shadow-lg shadow-emerald-200">💰</div>
-                        <div>
-                            <h3 className="font-black text-2xl text-slate-800">{t.subsidyTitle}</h3>
-                            <p className="text-slate-400 text-xs font-black uppercase tracking-widest">{t.subsidyDesc}</p>
-                        </div>
-                    </div>
-
-                    {subsidyStep === 0 ? (
-                        <div className="space-y-6">
-                            <p className="text-slate-500 font-bold leading-relaxed text-lg">{t.subsidyText}</p>
-                            <button onClick={() => setSubsidyStep(1)} className="w-full bg-emerald-600 text-white font-black py-5 rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-100">
-                                {t.findNow} →
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="bg-emerald-50 p-6 rounded-[2rem] border-2 border-emerald-100 animate-in zoom-in duration-300">
-                            <ul className="space-y-3 mb-6">
-                                <li className="text-slate-700 font-bold flex items-center gap-3">🎯 {t.quickLinks?.pmKisan || 'PM-Kisan'}</li>
-                                <li className="text-slate-700 font-bold flex items-center gap-3">🎯 {t.quickLinks?.pmfby || 'PMFBY'}</li>
-                                <li className="text-slate-700 font-bold flex items-center gap-3">🎯 {t.quickLinks?.kcc || 'KCC'}</li>
-                            </ul>
-                            <button onClick={() => setSubsidyStep(0)} className="text-emerald-700 font-black uppercase text-xs underline">{t.quickLinks?.back || 'Back'}</button>
-                        </div>
-                    )}
-                </div>
-            </section>
-
-
-            {/* Dispute Link */}
-            <section className="bg-slate-900 rounded-[3rem] p-10 text-white flex flex-col md:flex-row items-center justify-between gap-8 group overflow-hidden relative">
-                <div className="relative z-10 max-w-xl">
-                    <h2 className="text-3xl font-black mb-2">{t.disputeTitle} ⚖️</h2>
-                    <p className="text-slate-400 font-medium text-lg">{t.disputeDesc}</p>
-                </div>
-                <button onClick={() => setShowDisputeForm(!showDisputeForm)} className="relative z-10 bg-white text-slate-900 font-black px-10 py-5 rounded-2xl hover:bg-rose-50 hover:text-rose-600 transition-all shadow-2xl">
-                    {showDisputeForm ? t.closeBtn : t.reportBtn}
-                </button>
-                <div className="absolute -right-10 -bottom-10 text-[15rem] opacity-5 group-hover:rotate-12 transition-transform duration-1000">🛡️</div>
-            </section>
-        </div>
-    );
-
-    const DiagnosticView = () => (
-        <div className="animate-in slide-in-from-bottom duration-500 space-y-8">
-            <button onClick={() => setActiveView('main')} className="text-indigo-600 font-black flex items-center gap-2 mb-4 bg-indigo-50 px-6 py-3 rounded-2xl hover:bg-indigo-100 transition-all">
-                ← {t.back}
-            </button>
-
-            <div className="bg-white rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-2 border-emerald-50 overflow-hidden relative">
-                <div className="max-w-2xl relative z-10">
-                    <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tighter">{t.doctorTitle}</h2>
-                    <p className="text-slate-500 font-bold text-lg mb-10">{t.diagnosticDesc}</p>
-
-                    {diagnosticStep === 0 ? (
-                        <div className="space-y-8">
-                            <h3 className="text-xl font-black uppercase tracking-widest text-slate-400">{t.step1}</h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {diagnosticSymptoms.map(s => (
-                                    <button
-                                        key={s.id}
-                                        onClick={() => setSymptoms(prev => prev.includes(s.id) ? prev.filter(i => i !== s.id) : [...prev, s.id])}
-                                        className={`flex items-center gap-4 p-6 rounded-[2rem] border-2 transition-all text-left ${symptoms.includes(s.id) ? 'bg-emerald-600 border-emerald-600 text-white shadow-xl shadow-emerald-200' : 'bg-slate-50 border-slate-100 hover:border-emerald-300'}`}
-                                    >
-                                        <span className="text-3xl">{s.icon}</span>
-                                        <span className="font-black text-lg">{s.label}</span>
-                                    </button>
-                                ))}
-                            </div>
-                            <button
-                                onClick={() => setDiagnosticStep(1)}
-                                disabled={symptoms.length === 0}
-                                className="w-full bg-slate-900 text-white py-6 rounded-[2rem] font-black text-xl disabled:opacity-30 disabled:cursor-not-allowed shadow-2xl"
-                            >
-                                {t.stepAnalyze}
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="space-y-8 animate-in zoom-in duration-500">
-                            <div className="bg-emerald-50 rounded-[2.5rem] p-10 border-2 border-emerald-100 relative overflow-hidden">
-                                <span className="text-xs font-black uppercase tracking-[0.3em] text-emerald-600 block mb-6">{t.analysisResult}</span>
-                                <h3 className="text-3xl font-black text-slate-900 mb-2">{t.likelyCase} <span className="text-emerald-700">{getDiagnosis().title}</span></h3>
-                                <p className="text-slate-600 font-bold text-lg leading-relaxed mb-8">{getDiagnosis().remedy}</p>
-
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <button onClick={() => window.open('https://wa.me/916301230747', '_blank')} className="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-black shadow-lg">{t.chatExpert}</button>
-                                    <button onClick={() => { setDiagnosticStep(0); setSymptoms([]); }} className="bg-white border-2 border-slate-200 text-slate-600 px-8 py-4 rounded-2xl font-black">{t.resetTool}</button>
-                                </div>
-                                <div className="absolute right-[-20px] bottom-[-20px] text-[15rem] opacity-5">🧬</div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-                <div className="hidden lg:block absolute right-10 top-20 text-[20rem] opacity-5 font-black group-hover:rotate-12 transition-transform">🌱</div>
-            </div>
-        </div>
-    );
-
-    const MarketView = () => (
-        <div className="animate-in slide-in-from-bottom duration-500 space-y-8">
-            <button onClick={() => setActiveView('main')} className="text-orange-600 font-black flex items-center gap-2 mb-4 bg-orange-50 px-6 py-3 rounded-2xl hover:bg-orange-100 transition-all">
-                ← {t.back}
-            </button>
-
-            <div className="bg-white rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-2 border-orange-50 relative overflow-hidden">
-                <div className="max-w-3xl relative z-10">
-                    <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">{t.mkTitle}</h2>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                        <div className="space-y-4">
-                            <h3 className="text-xl font-black text-slate-800">{t.officialLinksTitle}</h3>
-                            <p className="text-slate-500 font-bold text-sm">{t.officialLinksDesc}</p>
-                            <div className="flex flex-col gap-3">
-                                {t.officialLinks.map((l, i) => (
-                                    <a key={i} href={l.url} target="_blank" rel="noreferrer" className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-orange-200 transition-all group">
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-2xl">{l.icon}</span>
-                                            <span className="font-black text-slate-700">{l.label}</span>
-                                        </div>
-                                        <span className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm group-hover:bg-orange-600 group-hover:text-white transition-all">↗</span>
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="bg-orange-50 rounded-[2.5rem] p-8 border-2 border-orange-100 flex flex-col justify-center">
-                            <div className="text-4xl mb-4">💡</div>
-                            <h3 className="text-xl font-black text-orange-900 mb-3">{t.pricingStrategyTitle}</h3>
-                            <p className="text-orange-800 font-bold text-sm leading-relaxed">
-                                {t.pricingStrategyDesc}
-                            </p>
-                            <button onClick={() => navigate('/market-prices')} className="mt-6 bg-orange-600 text-white font-black py-4 rounded-xl shadow-lg shadow-orange-200 hover:scale-105 transition-transform">{t.viewTrends}</button>
-                        </div>
-                    </div>
-                </div>
-                <div className="absolute right-[-20px] top-[-20px] text-[20rem] opacity-5 font-black grayscale pointer-events-none">📈</div>
-            </div>
-        </div>
-    );
-
-    const SchemePortalView = () => (
-        <div className="animate-in slide-in-from-bottom duration-500 space-y-8">
-            <button onClick={() => setActiveView('main')} className="text-blue-600 font-black flex items-center gap-2 mb-4 bg-blue-50 px-6 py-3 rounded-2xl hover:bg-blue-100 transition-all">
-                ← {t.back}
-            </button>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-6">
-                    <div className="bg-white rounded-[3rem] p-10 shadow-2xl border-b-8 border-blue-600">
-                        <h2 className="text-4xl font-black text-slate-900 mb-6">{t.centralSchemes}</h2>
-                        <div className="space-y-4">
-                            {t.schemesList.map((s, i) => (
-                                <div key={i} className="group flex items-center justify-between p-6 bg-slate-50 rounded-2xl border-2 border-transparent hover:border-blue-200 transition-all">
-                                    <div>
-                                        <h4 className="font-black text-slate-800 text-lg">{s.name}</h4>
-                                        <p className="text-blue-600 font-bold text-sm">{s.benefit}</p>
-                                    </div>
-                                    <a href={s.link} target="_blank" rel="noreferrer" className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">↗</a>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="space-y-6">
-                    <div className="bg-gradient-to-br from-indigo-700 to-blue-900 rounded-[3rem] p-8 text-white shadow-2xl h-full">
-                        <span className="text-4xl block mb-6">🛡️</span>
-                        <h3 className="text-2xl font-black mb-4">{t.needHelp}</h3>
-                        <p className="text-blue-100 font-bold mb-8 leading-relaxed">{t.helpDesc}</p>
-                        <a href="https://wa.me/916301230747" target="_blank" rel="noreferrer" className="block text-center bg-white text-blue-900 font-black py-4 rounded-xl shadow-xl hover:scale-105 transition-transform">{t.getHelp}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-
     return (
         <div className="min-h-screen bg-slate-50 pb-20 selection:bg-indigo-100">
             {/* Nav Header */}
@@ -1284,10 +1151,10 @@ const Support = ({ user }) => {
             </div>
 
             <div className="max-w-5xl mx-auto p-6 md:p-10">
-                {activeView === 'main' && <MainView />}
-                {activeView === 'diagnostic' && <DiagnosticView />}
-                {activeView === 'schemes' && <SchemePortalView />}
-                {activeView === 'market' && <MarketView />}
+                {activeView === 'main' && <MainView t={t} setActiveView={setActiveView} showDisputeForm={showDisputeForm} setShowDisputeForm={setShowDisputeForm} subsidyStep={subsidyStep} setSubsidyStep={setSubsidyStep} navigate={navigate} setFormType={setFormType}/>}
+                {activeView === 'diagnostic' && <DiagnosticView t={t} setActiveView={setActiveView} diagnosticStep={diagnosticStep} setDiagnosticStep={setDiagnosticStep} symptoms={symptoms} setSymptoms={setSymptoms} getDiagnosis={getDiagnosis} />}
+                {activeView === 'schemes' && <SchemePortalView t={t} setActiveView={setActiveView} />}
+                {activeView === 'market' && <MarketView t={t} setActiveView={setActiveView} navigate={navigate} />}
 
                 {/* Dispute Form (Shared) */}
                 {showDisputeForm && (

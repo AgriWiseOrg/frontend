@@ -224,7 +224,7 @@ const Marketplace = () => {
                             </div>
                             <div className="text-right">
                               <p className="text-emerald-700 font-black text-2xl tracking-tighter">₹{p.price}</p>
-                              <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{t.quintal}</p>
+                              <p className="text-[9px] text-slate-400 font-black uppercase tracking-widest">{p.unit || 'qtl'}</p>
                             </div>
                           </div>
 
@@ -241,7 +241,7 @@ const Marketplace = () => {
                               </div>
                               <div className="text-right leading-tight">
                                 <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{t.stockLabel}</p>
-                                <span className="text-emerald-600 font-black text-xs">{p.quantity} qtl</span>
+                                <span className="text-emerald-600 font-black text-xs">{p.quantity} {p.unit || 'qtl'}</span>
                               </div>
                             </div>
 

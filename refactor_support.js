@@ -4,7 +4,7 @@ const filePath = 'src/components/Support.jsx';
 let content = fs.readFileSync(filePath, 'utf-8');
 
 // The english object is everything between `en: {` and `},` before `hi: {`
-const enMatch = content.match(/en:\s*(\{[\s\S]*?\n        \}),\s*\n\s*hi:/);
+const enMatch = content.match(/en:\s*(\{[\s\S]*?\n {8}\}),\s*\n\s*hi:/);
 if (!enMatch) {
     console.log("Could not match english translations.");
     process.exit(1);
@@ -15,7 +15,7 @@ const enStr = enMatch[1];
 const enObj = eval('(' + enStr + ')');
 
 // Remove the massive translations dictionary from the code
-content = content.replace(/const translations = \{[\s\S]*?};\n\n    const t = translations\[lang\] \|\| translations\['en'\];/, `
+content = content.replace(/const translations = \{[\s\S]*?};\n\n {4}const t = translations\[lang\] \|\| translations\['en'\];/, `
     const { t: globalT } = useTranslation();
     
     const englishSupportStrings = ${enStr};
