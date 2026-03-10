@@ -196,7 +196,7 @@ const ProductDetails = ({ user }) => {
                 <tbody>
                   <tr className="border-b border-slate-50"><td className="py-2 font-bold w-1/3">{t("Farmer")}</td><td>{localProduct.farmerName || localProduct.farmer}</td></tr>
                   <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Origin")}</td><td>{localProduct.location || "Kerala, India"}</td></tr>
-                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Stock")}</td><td>{product.quantity} Quintals</td></tr>
+                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Stock")}</td><td>{localProduct.quantity} {localProduct.unit || 'Quintals'}</td></tr>
                   <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Grade")}</td><td>{t("Grade A (Export Quality)")}</td></tr>
                 </tbody>
               </table>
@@ -206,7 +206,7 @@ const ProductDetails = ({ user }) => {
           {/* --- Right: Sticky Purchase Sidebar --- */}
           <div className="hidden lg:block lg:w-[25%]">
             <div className="border border-slate-200 p-6 rounded-3xl sticky top-24 shadow-sm bg-white">
-              <p className="text-2xl font-bold">₹{localProduct.price}</p>
+              <p className="text-2xl font-bold">₹{localProduct.price} <span className="text-sm font-normal text-slate-500">/ {localProduct.unit || 'qtl'}</span></p>
               <p className="text-emerald-600 text-sm font-bold mt-2 flex items-center gap-1 underline cursor-pointer">
                 {t("FREE Delivery")} <ChevronRight size={14} />
               </p>
@@ -216,7 +216,7 @@ const ProductDetails = ({ user }) => {
                 <div className="bg-slate-100 p-2 rounded-lg flex items-center justify-between text-sm font-bold">
                   <span>{t("Quantity:")}</span>
                   <select className="bg-transparent outline-none">
-                    {[...Array(5)].map((_, i) => <option key={i + 1}>{i + 1} Quintal</option>)}
+                    {[...Array(5)].map((_, i) => <option key={i + 1}>{i + 1} {localProduct.unit || 'Quintal'}</option>)}
                   </select>
                 </div>
               </div>

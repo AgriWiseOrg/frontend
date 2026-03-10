@@ -19,6 +19,7 @@ const MyCrops = ({ user }) => {
     price: '',
     description: '',
     quantity: '',
+    unit: 'Quintal',
     imageUrl: '',
     location: '',
     id: null
@@ -74,6 +75,7 @@ const MyCrops = ({ user }) => {
       crop: formData.name,
       price: Number(formData.price),
       quantity: Number(formData.quantity),
+      unit: formData.unit || "Quintal",
       description: formData.description || "Fresh harvest from local fields.",
       imageUrl: formData.imageUrl,
       farmerId: userId,
@@ -123,7 +125,7 @@ const MyCrops = ({ user }) => {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', price: '', description: '', quantity: '', imageUrl: '', location: '', id: null });
+    setFormData({ name: '', price: '', description: '', quantity: '', unit: 'Quintal', imageUrl: '', location: '', id: null });
     setShowForm(false);
   };
 
@@ -191,7 +193,7 @@ const MyCrops = ({ user }) => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                   <h3 className="text-xl font-black text-slate-800 tracking-tight">{product.name}</h3>
                   <span className="bg-emerald-100 text-emerald-700 px-4 py-1 rounded-full text-sm font-black">
-                    ₹{product.price} / qtl
+                    ₹{product.price} / {product.unit || 'qtl'}
                   </span>
                 </div>
                 <p className="text-slate-400 text-sm mb-4 line-clamp-1">{product.description || "Fresh harvest listing."}</p>
@@ -203,6 +205,7 @@ const MyCrops = ({ user }) => {
                         price: product.price,
                         description: product.description,
                         quantity: product.quantity,
+                        unit: product.unit || 'Quintal',
                         imageUrl: product.imageUrl || '',
                         location: product.location || '',
                         id: product._id
@@ -291,12 +294,25 @@ const MyCrops = ({ user }) => {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Select Unit")}</label>
+                  <select
+                    className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all"
+                    value={formData.unit}
+                    onChange={e => setFormData({ ...formData, unit: e.target.value })}
+                  >
+                    <option value="Quintal">Quintal</option>
+                    <option value="kg">kg</option>
+                    <option value="g">g</option>
+                    <option value="ton">ton</option>
+                  </select>
+                </div>
                 <div>
-                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Price (₹/qtl)")}</label>
+                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Price (₹/")}{formData.unit === 'Quintal' ? 'qtl' : formData.unit}{")"}</label>
                   <input type="number" required placeholder="₹" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} />
                 </div>
                 <div>
-                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Quantity (qtl)")}</label>
+                  <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Quantity (")}{formData.unit === 'Quintal' ? 'qtl' : formData.unit}{")"}</label>
                   <input type="number" required placeholder={t("Qty")} className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.quantity} onChange={e => setFormData({ ...formData, quantity: e.target.value })} />
                 </div>
               </div>

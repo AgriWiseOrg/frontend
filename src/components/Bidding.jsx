@@ -105,7 +105,7 @@ const Bidding = ({ product, user, onClose }) => {
                                     {currentProduct.crop}
                                 </h2>
                                 <p className="text-emerald-800/60 font-bold uppercase text-[10px] tracking-widest ml-1 flex items-center gap-2">
-                                    <TrendingUp size={12} /> Market Value: ₹{currentProduct.price}
+                                    <TrendingUp size={12} /> Market Value: ₹{currentProduct.price} / {currentProduct.unit || 'qtl'}
                                 </p>
                             </div>
                             <button onClick={onClose} className="p-3 bg-white/50 hover:bg-white rounded-2xl transition-all shadow-sm border border-white md:hidden">
@@ -127,7 +127,7 @@ const Bidding = ({ product, user, onClose }) => {
                                     <Trophy size={12} className="text-yellow-400" /> Current Bid
                                 </p>
                                 <p className="text-3xl font-black tracking-tight">
-                                    ₹{currentProduct.currentBid || currentProduct.price}
+                                    ₹{currentProduct.currentBid || currentProduct.price} <span className="text-xs font-normal opacity-50">/ {currentProduct.unit || 'qtl'}</span>
                                 </p>
                             </div>
                         </div>
