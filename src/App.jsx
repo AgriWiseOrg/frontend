@@ -123,7 +123,7 @@ function App() {
                   <Route path="/govt-schemes" element={<GovtSchemes />} />
                   <Route path="/marketplace" element={<MarketPlace />} />
                   <Route path="/cart" element={<Cart />} />
-                  <Route path="/product/:id" element={<ProductDetails />} />
+                  <Route path="/product/:id" element={<ProductDetails user={user} />} />
                   <Route path="/weather" element={<Weather />} />
                   <Route path="/admin-support" element={<AdminSupport />} />
                   <Route
