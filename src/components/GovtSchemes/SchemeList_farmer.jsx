@@ -68,10 +68,12 @@ const SchemeList = ({ user }) => { // Component receives logged-in user as prop
       return;
     }
 
+    const land = Number(landSize);
+    const min = Number(scheme.minLand) || 0;
+    const max = Number(scheme.maxLand) || 9999;
+
     // Check eligibility based on min and max land range
-    const isEligible =
-      landSize >= (scheme.minLand || 0) &&
-      landSize <= (scheme.maxLand || 9999);
+    const isEligible = land >= min && land <= max;
 
     if (!isEligible) return; // Stop if not eligible
 
@@ -204,11 +206,12 @@ const SchemeList = ({ user }) => { // Component receives logged-in user as prop
 
           {!loading && schemes.map(scheme => {
 
-            const min = scheme.minLand || 0;
-            const max = scheme.maxLand || 10000;
+            const min = Number(scheme.minLand) || 0;
+            const max = Number(scheme.maxLand) || 10000;
+            const land = Number(landSize);
 
             const isEligible =
-              landSize && landSize >= min && landSize <= max;
+              landSize !== '' && land >= min && land <= max;
 
             const isApplied =
               myApplications.includes(scheme._id);
@@ -225,16 +228,19 @@ const SchemeList = ({ user }) => { // Component receives logged-in user as prop
               <div key={scheme._id} className="flex flex-col h-full bg-white rounded-3xl border">
 
                 {/* Top Benefit Section */}
-                <div className="px-6 py-4 border-b flex justify-between items-start">
+                <div className={`px-6 py-4 border-b flex justify-between items-start rounded-t-3xl ${cardStatus === 'eligible' ? 'bg-emerald-50 border-emerald-100 text-emerald-800' :
+                    cardStatus === 'ineligible' ? 'bg-rose-50 border-rose-100 text-rose-800' :
+                      'bg-slate-50 border-slate-100 text-slate-800'
+                  }`}>
                   <div>
-                    <span className="text-xs font-bold uppercase">
+                    <span className="text-xs font-bold uppercase opacity-80">
                       {t.benefit}
                     </span>
                     <p className="font-bold text-lg mt-1">
                       {scheme.benefit || "View Details"}
                     </p>
                   </div>
-                  <ShieldCheck size={20} />
+                  <ShieldCheck size={20} className={cardStatus === 'eligible' ? 'text-emerald-500' : cardStatus === 'ineligible' ? 'text-rose-400' : 'text-slate-400'} />
                 </div>
 
                 {/* Body */}
@@ -254,14 +260,14 @@ const SchemeList = ({ user }) => { // Component receives logged-in user as prop
                     {isApplied ? (
                       <>
                         {/* Already applied */}
-                        <button disabled className="w-full py-3 bg-emerald-100">
+                        <button disabled className="w-full py-3 bg-emerald-100 text-emerald-700 font-bold rounded-2xl flex items-center justify-center gap-2">
                           <CheckCircle2 size={18} /> {t.applied}
                         </button>
 
                         <button
                           onClick={() => handleCancel(scheme._id)}
                           disabled={isSubmitting}
-                          className="w-full py-2 bg-red-50"
+                          className="w-full py-2 bg-red-50 text-red-600 font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-red-100 transition-colors"
                         >
                           {isSubmitting ? <Loader2 size={14} className="animate-spin" /> : <XCircle size={14} />}
                           {t.cancelApp}
@@ -270,7 +276,12 @@ const SchemeList = ({ user }) => { // Component receives logged-in user as prop
                     ) : (
                       <button
                         onClick={() => handleApply(scheme)}
-                        className="w-full py-3"
+                        className={`w-full py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${cardStatus === 'neutral'
+                            ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                            : cardStatus === 'eligible'
+                              ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-100 active:scale-95'
+                              : 'bg-rose-50 text-rose-400 cursor-not-allowed'
+                          }`}
                       >
                         {isSubmitting && <Loader2 className="animate-spin" size={18} />}
                         {!isSubmitting && (
