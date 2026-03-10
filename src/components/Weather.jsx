@@ -4,7 +4,7 @@ import { useLanguage } from './LanguageContext';
 
 const Weather = () => {
   const navigate = useNavigate();
-  const { langCode: lang } = useLanguage(); // Use global language state
+  const { langCode: lang, setLanguage } = useLanguage(); // Use global language state
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -530,7 +530,7 @@ const Weather = () => {
               {Object.keys(translations).map(l => (
                 <button
                   key={l}
-                  onClick={() => setLang(l)}
+                  onClick={() => setLanguage(l)}
                   className={`px-3 py-1 rounded-lg text-[10px] font-black uppercase transition-all flex-shrink-0 ${lang === l ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                 >
                   {l}
