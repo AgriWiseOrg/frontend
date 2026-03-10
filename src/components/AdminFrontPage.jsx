@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Landmark, FileText, Bell, Zap, LogOut, ShieldCheck,
     Search, ChevronRight, LayoutDashboard, Clock, Calendar,
-    CloudSun, Droplets, Wind, RefreshCw, User, ChevronDown
+    CloudSun, Droplets, Wind, RefreshCw, User, ChevronDown, HelpCircle
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from './LanguageContext';
@@ -121,6 +121,9 @@ const AdminFrontPage = ({ onLogout }) => {
                                 </div>
                             )}
                         </div>
+                        <button onClick={() => navigate('/help')} className="p-2.5 border border-slate-200 hover:bg-amber-50 hover:border-amber-200 text-slate-500 hover:text-amber-600 rounded-full transition-all shadow-sm" title="Help">
+                            <HelpCircle className="w-5 h-5" />
+                        </button>
                         <button onClick={() => navigate('/profile')} className="p-2.5 border border-slate-200 hover:bg-emerald-50 hover:border-emerald-200 text-slate-500 hover:text-emerald-600 rounded-full transition-all shadow-sm" title="Profile">
                             <User className="w-5 h-5" />
                         </button>

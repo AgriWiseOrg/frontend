@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   TrendingUp, Sprout, Landmark, ShoppingBag,
   CloudSun, LifeBuoy, Search, LogOut, ShoppingCart,
-  ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ClipboardList, ChevronDown
+  ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ClipboardList, ChevronDown, HelpCircle
 } from 'lucide-react';
 import { useCart } from './CartContext';
 import { useTranslation } from 'react-i18next';
@@ -178,6 +178,9 @@ const FrontPage = ({ onLogout }) => {
                 </div>
               )}
             </div>
+            <button onClick={() => navigate('/help')} className="p-2.5 border border-slate-200 hover:bg-amber-50 hover:border-amber-200 text-slate-500 hover:text-amber-600 rounded-full transition-all shadow-sm" title="Help">
+              <HelpCircle className="w-5 h-5" />
+            </button>
             <button onClick={() => navigate('/weather')} className="p-2.5 border border-slate-200 hover:bg-sky-50 hover:border-sky-200 text-slate-500 hover:text-sky-600 rounded-full transition-all shadow-sm" title="Weather">
               <CloudSun className="w-5 h-5" />
             </button>

@@ -15,6 +15,7 @@ import MarketPlace from './components/MarketPlace';
 import Weather from './components/Weather';
 import Support from './components/Support';
 import BuyerSupport from './components/BuyerSupport';
+import HelpPage from './components/HelpPage';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
 import { CartProvider } from './components/CartContext';
@@ -127,6 +128,7 @@ function App() {
                     path="/support"
                     element={user.role === 'buyer' ? <BuyerSupport user={user} /> : <Support user={user} />}
                   />
+                  <Route path="/help" element={<HelpPage />} />
 
                   {/* Govt Schemes Sub-Routes with Role Based Access */}
                   <Route
