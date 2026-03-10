@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     ArrowLeft, FileText, Sprout, Landmark, ShoppingBag, CloudSun,
-    LifeBuoy, ChevronDown, ChevronUp, CheckCircle, Package
+    LifeBuoy, ChevronDown, ChevronUp, CheckCircle, Package,
+    TrendingUp, Activity, MapPin, Search, AlertCircle, ShoppingCart
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -15,39 +16,82 @@ const HelpPage = () => {
     const helpSections = [
         {
             id: 'getting_started',
-            title: t('helpGettingStartedTitle', 'Getting Started'),
+            title: t('helpGettingStartedTitle', 'Getting Started & Dashboard'),
             icon: <CheckCircle className="w-6 h-6 text-emerald-500" />,
             content: [
-                t('helpStart1', '1. Use the navigation buttons on your dashboard to explore features.'),
-                t('helpStart2', '2. Keep your profile updated by clicking on the User icon in the top right.'),
-                t('helpStart3', '3. Change language preferences anytime from the language dropdown in the header.')
+                {
+                    subtitle: t('helpNavigatingDash', 'Navigating your Dashboard'),
+                    text: t('helpNavDashDesc', 'Your dashboard is your central hub. It displays a quick overview of system statuses, the current time, and live local weather. You can click on any of the large feature cards (like Market Prices or My Crops) to jump directly into those tools.')
+                },
+                {
+                    subtitle: t('helpSearchBar', 'Global Search'),
+                    text: t('helpSearchDesc', 'At the top of your dashboard, there is a search bar. Type in keywords like "Wheat", "Subsidy", or "Weather" to quickly find relevant tools without clicking through menus. You can also press CTRL+K (or CMD+K on Mac) to focus the search bar instantly.')
+                },
+                {
+                    subtitle: t('helpProfileSettings', 'Profile & Settings'),
+                    text: t('helpProfileDesc', 'Click the User icon in the top right corner to view and edit your profile. Keeping your location, farm size, and contact details updated helps AgriWise provide you with better localized recommendations.')
+                },
+                {
+                    subtitle: t('helpLanguages', 'Changing the Language'),
+                    text: t('helpLangDesc', 'AgriWise supports multiple regional languages. Click the language button (e.g., "English") in the top right header to open a dropdown menu. Select your preferred language, and the entire platform will translate instantly.')
+                }
             ]
         },
         {
             id: 'market_prices',
-            title: t('helpMarketPricesTitle', 'Market Prices'),
-            icon: <Sprout className="w-6 h-6 text-blue-500" />,
+            title: t('helpMarketPricesTitle', 'Market Prices & Analytics'),
+            icon: <TrendingUp className="w-6 h-6 text-blue-500" />,
             content: [
-                t('helpMarket1', 'Check real-time crop rates in your area.'),
-                t('helpMarket2', 'Select your crop and state to see the latest mandi prices.')
+                {
+                    subtitle: t('helpViewPrices', 'Viewing Daily Rates'),
+                    text: t('helpViewPricesDesc', 'Navigate to "Market Prices" from your dashboard. Here, you will see a list of crops with their current market rates. Use the filters at the top to select your specific State and District to get accurate local Mandi prices.')
+                },
+                {
+                    subtitle: t('helpPriceTrends', 'Understanding Trends'),
+                    text: t('helpTrendsDesc', 'Next to each price, you will see an indicator showing if the price is trending UP (green arrow) or DOWN (red arrow) compared to the previous week. This helps you decide the best time to sell your harvest.')
+                },
+                {
+                    subtitle: t('helpHistoricalData', 'Historical Data Charts'),
+                    text: t('helpHistDataDesc', 'Click on a specific crop card to view detailed historical charts. These graphs show how the price of the crop has fluctuated over the past months, providing deeper insights for your planting strategy.')
+                }
             ]
         },
         {
             id: 'my_crops',
-            title: t('helpMyCropsTitle', 'My Crops'),
+            title: t('helpMyCropsTitle', 'My Crops & Farm Management'),
             icon: <Sprout className="w-6 h-6 text-green-500" />,
             content: [
-                t('helpCrops1', 'Keep a digital record of the crops you are currently growing.'),
-                t('helpCrops2', 'Add new crops and track their growth stages.')
+                {
+                    subtitle: t('helpAddCrop', 'Adding a New Crop'),
+                    text: t('helpAddCropDesc', 'Go to "My Crops" and click the "Add Crop" button. Fill in details such as the crop type, sowing date, and the land area used. This allows the system to track your current farming cycle.')
+                },
+                {
+                    subtitle: t('helpTrackGrowth', 'Tracking Growth Stages'),
+                    text: t('helpTrackGrowthDesc', 'Once a crop is added, AgriWise will estimate its current growth stage based on the sowing date. You will receive timely alerts on when to water, apply fertilizer, or prepare for harvesting.')
+                },
+                {
+                    subtitle: t('helpYieldPredict', 'Yield Prediction'),
+                    text: t('helpYieldPredDesc', 'Based on the entered acreage and local historical data, the platform provides an estimate of your expected yield, helping you plan your sales and storage in advance.')
+                }
             ]
         },
         {
             id: 'govt_schemes',
-            title: t('helpGovtSchemesTitle', 'Government Schemes & Grants'),
+            title: t('helpGovtSchemesTitle', 'Government Schemes & Finance'),
             icon: <Landmark className="w-6 h-6 text-orange-500" />,
             content: [
-                t('helpSchemes1', 'Browse available agricultural subsidies and financial aid.'),
-                t('helpSchemes2', 'Read expert farming tips and latest updates from authorities.')
+                {
+                    subtitle: t('helpBrowseSchemes', 'Browsing Subsidies'),
+                    text: t('helpBrowseSchemesDesc', 'The "Govt Schemes" hub lists active state and central government subsidies. You can filter them by category (e.g., Machinery, Seeds, Irrigation) to find grants that apply to your current needs.')
+                },
+                {
+                    subtitle: t('helpEligibility', 'Checking Eligibility'),
+                    text: t('helpEligibDesc', 'Click on any scheme card to read the full details, including eligibility criteria and required documents. Make sure your profile details match the scheme requirements before applying.')
+                },
+                {
+                    subtitle: t('helpFinance', 'Applying for Loans & Finance'),
+                    text: t('helpFinDesc', 'Under the Finance sub-section, you can explore agricultural loan options provided by empanelled banks, including KCC (Kisan Credit Card) rates and application procedures.')
+                }
             ]
         },
         {
@@ -55,26 +99,52 @@ const HelpPage = () => {
             title: t('helpMarketplaceTitle', 'Marketplace & Orders'),
             icon: <ShoppingBag className="w-6 h-6 text-purple-500" />,
             content: [
-                t('helpMarketplace1', 'Buy equipment, seeds, and fertilizers directly.'),
-                t('helpMarketplace2', 'Manage incoming buyer orders from the Order Management section.')
+                {
+                    subtitle: t('helpBuyingGoods', 'Buying Equipment and Seeds'),
+                    text: t('helpBuyDesc', 'Visit the Marketplace to purchase certified seeds, fertilizers, pesticides, and farming tools. Use the category tabs to filter products. Click "Add to Cart" to select items you wish to buy.')
+                },
+                {
+                    subtitle: t('helpCheckout', 'Checkout Process'),
+                    text: t('helpCheckDesc', 'Click the Shopping Cart icon in the top header to review your items. Proceed to checkout to securely pay and arrange for delivery directly to your registered farm address.')
+                },
+                {
+                    subtitle: t('helpManageOrders', 'Managing Your Orders'),
+                    text: t('helpManOrdDesc', 'If you are selling produce to buyers on the platform, go to the "Order Management" section. Here you can view incoming requests from buyers, accept or reject bids, and update the dispatch status of your goods.')
+                }
             ]
         },
         {
             id: 'weather',
-            title: t('helpWeatherTitle', 'Weather Forecast'),
+            title: t('helpWeatherTitle', 'Weather Forecast & Logistics'),
             icon: <CloudSun className="w-6 h-6 text-sky-500" />,
             content: [
-                t('helpWeather1', 'Get precise local weather forecasts before planning your day.'),
-                t('helpWeather2', 'Access it quickly from the cloud icon in the top header.')
+                {
+                    subtitle: t('helpLiveWeather', 'Live Local Weather'),
+                    text: t('helpLiveWDesc', 'The top dashboard bar constantly displays your current local temperature, humidity, and wind speed based on your GPS location. Click the refresh button to update it instantly.')
+                },
+                {
+                    subtitle: t('helpForecast', '7-Day Forecast'),
+                    text: t('helpForeDesc', 'Click the "Weather" icon in the top navigation bar (or via the dashboard card) to see a detailed 7-day forecast. This is crucial for planning sowing, harvesting, and fertilizer application to avoid rain washouts.')
+                },
+                {
+                    subtitle: t('helpLogisticsW', 'Transport Weather'),
+                    text: t('helpLogWDesc', 'If you are shipping produce, check the weather along your transport routes to ensure sensitive crops do not spoil due to extreme heat or delays caused by heavy rainfall.')
+                }
             ]
         },
         {
             id: 'support',
-            title: t('helpSupportTitle', 'Expert Support'),
+            title: t('helpSupportTitle', 'Expert Support & Ticketing'),
             icon: <LifeBuoy className="w-6 h-6 text-rose-500" />,
             content: [
-                t('helpSupport1', 'Raise tickets if you face issues or need farming advice.'),
-                t('helpSupport2', 'Our experts aim to respond within 24 hours.')
+                {
+                    subtitle: t('helpRaiseTicket', 'Raising a Support Ticket'),
+                    text: t('helpRaiseTDesc', 'If you encounter a bug, face an issue with an order, or need agronomy advice, go to the "Support" section. Click "Create Ticket", select the relevant category, and describe your issue in detail. You can also attach photos of diseased crops for expert diagnosis.')
+                },
+                {
+                    subtitle: t('helpTrackTicket', 'Tracking Resolution Status'),
+                    text: t('helpTrackTDesc', 'Once a ticket is submitted, it will appear in your Active Tickets list. You can track its status (Open, In Progress, Resolved) and reply to messages from agricultural experts or system administrators directly within the ticket interface.')
+                }
             ]
         }
     ];
@@ -93,75 +163,129 @@ const HelpPage = () => {
                         </button>
                         <h1 className="text-xl font-bold text-slate-900">{t('helpCenter', 'Help Center')}</h1>
                     </div>
+                    {/* Add visual breadcrumb or secondary action if needed */}
+                    <div className="hidden sm:flex items-center gap-2 text-sm font-medium text-slate-500">
+                        <LifeBuoy className="w-4 h-4 text-emerald-500" />
+                        <span>{t('agriwiseSupport', 'AgriWise Support')}</span>
+                    </div>
                 </div>
             </header>
 
-            <main className="max-w-3xl mx-auto px-6 pt-12">
-                <div className="text-center mb-12">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full mb-6">
-                        <LifeBuoy className="w-10 h-10" />
-                    </div>
-                    <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">
-                        {t('howCanWeHelp', 'How can we help you?')}
-                    </h2>
-                    <p className="text-lg text-slate-500 font-medium">
-                        {t('helpSubtitle', 'Learn how to use AgriWise effectively to boost your farming operations.')}
-                    </p>
+            <main className="max-w-4xl mx-auto px-6 pt-12">
+                <div className="text-center mb-16">
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-emerald-100 to-teal-50 text-emerald-600 rounded-3xl mb-8 shadow-sm border border-emerald-100 transform rotate-3"
+                    >
+                        <LifeBuoy className="w-12 h-12" strokeWidth={1.5} />
+                    </motion.div>
+                    <motion.h2
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-4xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight"
+                    >
+                        {t('howCanWeHelp', 'How can we help you thrive?')}
+                    </motion.h2>
+                    <motion.p
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="text-lg md:text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed"
+                    >
+                        {t('helpSubtitle', 'Explore our comprehensive guides below to learn how to use AgriWise effectively, manage your farm digitally, and boost your agricultural yields.')}
+                    </motion.p>
                 </div>
 
-                <div className="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden">
+                <div className="space-y-6">
                     {helpSections.map((section, index) => (
-                        <div key={section.id} className={`border-b border-slate-100 last:border-0 ${openApp === section.id ? 'bg-slate-50/50' : 'bg-white'}`}>
+                        <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.1 * index }}
+                            key={section.id}
+                            className={`rounded-[2rem] border transition-all duration-300 overflow-hidden ${openApp === section.id ? 'bg-white border-emerald-200 shadow-xl shadow-emerald-900/5 ring-1 ring-emerald-100' : 'bg-white border-slate-200 shadow-sm hover:border-emerald-200 hover:shadow-md'}`}
+                        >
                             <button
                                 onClick={() => setOpenApp(openApp === section.id ? null : section.id)}
-                                className="w-full flex items-center justify-between p-6 md:p-8 text-left transition-colors hover:bg-slate-50"
+                                className="w-full flex items-center justify-between p-6 md:p-8 text-left transition-colors focus:outline-none focus-visible:bg-slate-50"
                             >
-                                <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-white border border-slate-200 rounded-2xl shadow-sm">
+                                <div className="flex items-center gap-5">
+                                    <div className={`p-4 rounded-2xl shadow-sm transition-colors ${openApp === section.id ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-50 border border-slate-100'}`}>
                                         {section.icon}
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-800">{section.title}</h3>
+                                    <h3 className={`text-xl md:text-2xl font-bold transition-colors ${openApp === section.id ? 'text-emerald-700' : 'text-slate-800'}`}>
+                                        {section.title}
+                                    </h3>
                                 </div>
-                                <div className="text-slate-400">
-                                    {openApp === section.id ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
+                                <div className={`p-2 rounded-full transition-colors ${openApp === section.id ? 'bg-emerald-100 text-emerald-600' : 'text-slate-400'}`}>
+                                    <motion.div
+                                        animate={{ rotate: openApp === section.id ? 180 : 0 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <ChevronDown className="w-6 h-6" />
+                                    </motion.div>
                                 </div>
                             </button>
 
-                            <motion.div
-                                initial={false}
-                                animate={{ height: openApp === section.id ? 'auto' : 0, opacity: openApp === section.id ? 1 : 0 }}
-                                className="overflow-hidden"
-                            >
-                                <div className="px-6 md:px-8 pb-8 pt-2 pl-20 md:pl-24">
-                                    <ul className="space-y-4">
-                                        {section.content.map((point, idx) => (
-                                            <li key={idx} className="flex gap-3 text-slate-600">
-                                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2.5 flex-shrink-0" />
-                                                <span className="text-[1.05rem] leading-relaxed font-medium">{point}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </motion.div>
-                        </div>
+                            <AnimatePresence>
+                                {openApp === section.id && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: 'auto', opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                                        className="overflow-hidden bg-slate-50/50 border-t border-slate-100"
+                                    >
+                                        <div className="px-6 md:px-8 pb-10 pt-6 pl-6 md:pl-28">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                {section.content.map((point, idx) => (
+                                                    <div key={idx} className="flex flex-col gap-2">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50" />
+                                                            <h4 className="font-bold text-slate-800 text-lg">{point.subtitle}</h4>
+                                                        </div>
+                                                        <p className="text-slate-600 leading-relaxed font-medium pl-4 text-base">
+                                                            {point.text}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
                     ))}
                 </div>
 
-                <div className="mt-12 bg-emerald-600 rounded-3xl p-8 md:p-10 text-center text-white relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500 rounded-full blur-[80px] opacity-50 -translate-y-1/2 translate-x-1/2"></div>
+                <motion.div
+                    initial={{ y: 30, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    viewport={{ once: true }}
+                    className="mt-16 mb-12 bg-emerald-600 rounded-[2.5rem] p-10 md:p-14 text-center text-white relative overflow-hidden shadow-2xl shadow-emerald-600/20"
+                >
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500 rounded-full blur-[100px] opacity-60 -translate-y-1/2 translate-x-1/3"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-700/50 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4"></div>
+
                     <div className="relative z-10">
-                        <h3 className="text-2xl font-bold mb-3">{t('stillNeedHelp', 'Still need help?')}</h3>
-                        <p className="text-emerald-100 mb-6 font-medium max-w-sm mx-auto">
-                            {t('stillNeedHelpDesc', 'If you couldn\'t find the answer to your question, our support team is ready to assist you.')}
+                        <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/20">
+                            <AlertCircle className="w-8 h-8 text-white" />
+                        </div>
+                        <h3 className="text-3xl font-black mb-4 tracking-tight">{t('stillNeedHelp', 'Still need help?')}</h3>
+                        <p className="text-emerald-50 text-lg mb-8 font-medium max-w-xl mx-auto leading-relaxed">
+                            {t('stillNeedHelpDesc', 'Browse our community forums for peer advice, or contact our dedicated agricultural support team directly working 24/7 to assist you.')}
                         </p>
                         <button
                             onClick={() => navigate('/support')}
-                            className="bg-white text-emerald-600 px-8 py-3.5 rounded-xl font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all active:scale-95"
+                            className="bg-white text-emerald-600 px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-2 mx-auto"
                         >
+                            <LifeBuoy className="w-5 h-5" />
                             {t('contactSupport', 'Contact Support')}
                         </button>
                     </div>
-                </div>
+                </motion.div>
             </main>
         </div>
     );

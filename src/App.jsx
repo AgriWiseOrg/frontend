@@ -18,6 +18,7 @@ import BuyerSupport from './components/BuyerSupport';
 import HelpPage from './components/HelpPage';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
+import VoiceReader from './components/VoiceReader';
 import { CartProvider } from './components/CartContext';
 import { LanguageProvider } from './components/LanguageContext'; // Import Language Provider
 
@@ -76,6 +77,7 @@ function App() {
     <LanguageProvider>
       <CartProvider>
         <Router>
+          <VoiceReader />
           <main className="antialiased text-gray-900">
             <Routes>
               {/* Public Routes - Accessible to all */}
