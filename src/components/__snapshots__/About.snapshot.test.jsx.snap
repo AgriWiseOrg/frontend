@@ -1,0 +1,196 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`About Component Snapshot > matches the previous snapshot perfectly 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-slate-50 font-sans"
+  >
+    <nav
+      class="bg-white border-b border-slate-200"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 py-4"
+      >
+        <button
+          class="flex items-center gap-2 text-slate-600 hover:text-emerald-600 transition-colors"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-arrow-left w-5 h-5"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="m12 19-7-7 7-7"
+            />
+            <path
+              d="M19 12H5"
+            />
+          </svg>
+          Back to Home
+        </button>
+      </div>
+    </nav>
+    <div
+      class="max-w-4xl mx-auto px-6 py-16"
+    >
+      <h1
+        class="text-4xl font-black text-slate-900 mb-6"
+      >
+        About AgriWise
+      </h1>
+      <p
+        class="text-xl text-slate-600 leading-relaxed mb-12"
+      >
+        AgriWise is on a mission to democratize agricultural intelligence. We believe every farmer, regardless of their scale, deserves access to the same market data, financial tools, and technological insights as the biggest players in the industry.
+      </p>
+      <div
+        class="grid md:grid-cols-3 gap-8 mb-16"
+      >
+        <div
+          class="bg-emerald-50 p-6 rounded-2xl"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-target w-10 h-10 text-emerald-600 mb-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+            <circle
+              cx="12"
+              cy="12"
+              r="6"
+            />
+            <circle
+              cx="12"
+              cy="12"
+              r="2"
+            />
+          </svg>
+          <h3
+            class="text-lg font-bold text-slate-900 mb-2"
+          >
+            Our Mission
+          </h3>
+          <p
+            class="text-slate-600"
+          >
+            To double the income of 10 million farmers by 2030 through technology and direct market access.
+          </p>
+        </div>
+        <div
+          class="bg-blue-50 p-6 rounded-2xl"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-users w-10 h-10 text-blue-600 mb-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+            />
+            <path
+              d="M16 3.128a4 4 0 0 1 0 7.744"
+            />
+            <path
+              d="M22 21v-2a4 4 0 0 0-3-3.87"
+            />
+            <circle
+              cx="9"
+              cy="7"
+              r="4"
+            />
+          </svg>
+          <h3
+            class="text-lg font-bold text-slate-900 mb-2"
+          >
+            Who We Are
+          </h3>
+          <p
+            class="text-slate-600"
+          >
+            A team of agronomists, engineers, and data scientists passionate about rural prosperity.
+          </p>
+        </div>
+        <div
+          class="bg-amber-50 p-6 rounded-2xl"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-shield w-10 h-10 text-amber-600 mb-4"
+            fill="none"
+            height="24"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+            />
+          </svg>
+          <h3
+            class="text-lg font-bold text-slate-900 mb-2"
+          >
+            Our Promise
+          </h3>
+          <p
+            class="text-slate-600"
+          >
+            Transparent pricing, secure payments, and unbiased advice for every user.
+          </p>
+        </div>
+      </div>
+      <div
+        class="prose prose-slate max-w-none"
+      >
+        <h2
+          class="text-2xl font-bold text-slate-900 mb-4"
+        >
+          Why We Started
+        </h2>
+        <p
+          class="text-slate-600 mb-6"
+        >
+          Agriculture is the backbone of our economy, yet those who feed us often face the most uncertainty. Unpredictable weather, opaque market prices, and lack of access to credit trap many farmers in a cycle of debt. AgriWise was built to break that cycle.
+        </p>
+        <p
+          class="text-slate-600"
+        >
+          By combining satellite data, government scheme aggregation, and a direct-to-buyer marketplace, we put the power back in the hands of the farmer.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
