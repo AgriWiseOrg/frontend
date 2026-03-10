@@ -15,7 +15,8 @@ export const LanguageProvider = ({ children }) => {
         'தமிழ் (Tamil)': 'ta',
         'తెలుగు (Telugu)': 'te',
         'ಕನ್ನಡ (Kannada)': 'kn',
-        'বাংলা (Bengali)': 'bn'
+        'বাংলা (Bengali)': 'bn',
+        'മലയാളം (Malayalam)': 'ml'
     };
 
     // Initialize from localStorage or default to 'English'
