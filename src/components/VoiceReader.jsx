@@ -103,14 +103,24 @@ const VoiceReader = () => {
 
         const utterance = new SpeechSynthesisUtterance(selectedText);
 
-        // ** FORCE ENGLISH ONLY **
+        // 1. Check current app language
+        const currentLangCode = i18n.language || 'en';
+        let selectedVoice = null;
 
-        // 1. Try to find a premium English voice first (like Google US English)
-        let selectedVoice = voices.find(voice => voice.name.includes('Google US English'));
-
-        // 2. If no Google voice, find ANY English voice
-        if (!selectedVoice) {
-            selectedVoice = voices.find(voice => voice.lang.toLowerCase().startsWith('en'));
+        // 2. If language contains 'hi' or 'hindi', look for Hindi voices explicitly
+        if (currentLangCode.toLowerCase().includes('hi')) {
+            // Try to find a premium Google Hindi voice first
+            selectedVoice = voices.find(voice => voice.name.includes('Google') && voice.lang.toLowerCase().includes('hi'));
+            // If no Google voice, find ANY Hindi voice
+            if (!selectedVoice) {
+                selectedVoice = voices.find(voice => voice.lang.toLowerCase().includes('hi'));
+            }
+        } else {
+            // Otherwise, default to English logic
+            selectedVoice = voices.find(voice => voice.name.includes('Google US English'));
+            if (!selectedVoice) {
+                selectedVoice = voices.find(voice => voice.lang.toLowerCase().startsWith('en'));
+            }
         }
 
         // 3. Last resort fallback
@@ -123,7 +133,7 @@ const VoiceReader = () => {
             utterance.lang = selectedVoice.lang;
         } else {
             // Absolute fallback required by Windows/Mac standard API
-            utterance.lang = 'en-US';
+            utterance.lang = currentLangCode.toLowerCase().includes('hi') ? 'hi-IN' : 'en-US';
         }
 
         utterance.rate = 1.0;
