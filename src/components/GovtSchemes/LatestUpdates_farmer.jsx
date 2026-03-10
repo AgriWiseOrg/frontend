@@ -29,7 +29,7 @@ const LatestUpdates = () => {
   useEffect(() => {
     const fetchLocal = async () => {
       try {
-        const res = await axios.get('http://localhost:5001/api/latest-updates');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/latest-updates`);
         setLocalUpdates(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Error fetching local updates:", err);

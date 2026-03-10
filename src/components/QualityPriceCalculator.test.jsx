@@ -58,7 +58,7 @@ describe('QualityPriceCalculator Component', () => {
         });
 
         await waitFor(() => {
-            expect(fetch).toHaveBeenCalledWith('http://localhost:5001/api/market/crops');
+            expect(fetch).toHaveBeenCalledWith(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/crops`);
         });
 
         // Verify options are populated
@@ -102,7 +102,7 @@ describe('QualityPriceCalculator Component', () => {
         expect(screen.getByText(/Calculating.../i)).toBeInTheDocument();
 
         await waitFor(() => {
-            expect(fetch).toHaveBeenCalledWith('http://localhost:5001/api/market/quality-price', expect.objectContaining({
+            expect(fetch).toHaveBeenCalledWith(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/quality-price`, expect.objectContaining({
                 method: 'POST',
                 // body check might be fragile if crop isn't selected yet or defaults are different
                 // but let's assume it works as mock returns 'Wheat' as first crop

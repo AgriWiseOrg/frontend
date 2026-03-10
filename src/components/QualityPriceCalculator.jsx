@@ -22,7 +22,7 @@ const QualityPriceCalculator = () => {
 
     const fetchCrops = async () => {
         try {
-            const response = await fetch('http://localhost:5001/api/market/crops');
+            const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/crops`);
             const data = await response.json();
             if (Array.isArray(data)) {
                 setCrops(data);
@@ -40,7 +40,7 @@ const QualityPriceCalculator = () => {
         setResult(null);
 
         try {
-            const response = await fetch('http://localhost:5001/api/market/quality-price', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/quality-price`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

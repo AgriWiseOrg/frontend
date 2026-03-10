@@ -58,7 +58,7 @@ const Marketplace = () => {
   useEffect(() => {
     const fetchCrops = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/products");
+        const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5001"}/api/products`);
         const data = await response.json();
         setProducts(Array.isArray(data) ? data : []);
       } catch (error) {

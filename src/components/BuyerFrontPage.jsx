@@ -35,7 +35,7 @@ const BuyerFrontPage = ({ onLogout }) => {
     useEffect(() => {
         const fetchMarketTicker = async () => {
             try {
-                const response = await fetch('http://localhost:5001/api/market/prices');
+                const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/prices`);
                 const data = await response.json();
 
                 if (data && data.length > 0) {
@@ -87,7 +87,7 @@ const BuyerFrontPage = ({ onLogout }) => {
         setLoadingWeather(true);
         try {
             const response = await fetch(
-                `http://localhost:5001/api/support/weather?lat=${lat}&lon=${lon}`
+                `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/support/weather?lat=${lat}&lon=${lon}`
             );
             const json = await response.json();
             if (json.success) {

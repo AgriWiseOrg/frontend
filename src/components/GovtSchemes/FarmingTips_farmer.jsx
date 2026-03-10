@@ -70,7 +70,7 @@ const FarmingTips = () => {
   useEffect(() => {
     const fetchAdvisory = async () => {
       try {
-        const res = await axios.get('http://localhost:5001/api/farming-tips');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/farming-tips`);
         setAdvisory(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Error fetching advisory");

@@ -35,7 +35,7 @@ const MyCrops = ({ user }) => {
 
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5001/api/products/farmer/${userId}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/products/farmer/${userId}`);
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
     } catch (err) { 
@@ -82,8 +82,8 @@ const MyCrops = ({ user }) => {
 
     try {
       const url = isEdit 
-        ? `http://localhost:5001/api/products/${formData.id}` 
-        : 'http://localhost:5001/api/products';
+        ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/products/${formData.id}` 
+        : `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/products`;
         
       const response = await fetch(url, {
         method: isEdit ? 'PUT' : 'POST',
@@ -110,7 +110,7 @@ const MyCrops = ({ user }) => {
     if (!window.confirm("Are you sure you want to remove this crop?")) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:5001/api/products/${productId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/products/${productId}`, {
         method: 'DELETE'
       });
       if (res.ok) fetchProducts();

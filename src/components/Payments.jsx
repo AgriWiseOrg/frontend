@@ -22,7 +22,11 @@ const Payments = ({ user }) => {
         const fetchProfile = async () => {
             if (user?.id) {
                 try {
+<<<<<<< HEAD
                     const response = await fetch(`http://localhost:5001/api/users/${user.id}`);
+=======
+                    const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/users/${user.id}`);
+>>>>>>> 7fb4c2832ffd32eec75393fc3ae47513363f0d60
                     if (response.ok) {
                         const data = await response.json();
                         if (data.profile) {
@@ -68,7 +72,7 @@ const Payments = ({ user }) => {
             }
 
             // 2. Create Orders for each farmer, passing in the delivery details explicitly
-            const orderRes = await fetch('http://localhost:5001/api/orders', {
+            const orderRes = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:5001"}/api/orders`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -84,7 +88,7 @@ const Payments = ({ user }) => {
             }
 
             // 3. Clear Cart
-            const clearRes = await fetch(`http://localhost:5001/api/cart/clear/${email}`, {
+            const clearRes = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/cart/clear/${email}`, {
                 method: 'DELETE'
             });
 

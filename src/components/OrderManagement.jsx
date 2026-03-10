@@ -31,7 +31,7 @@ const OrderManagement = ({ user }) => {
                     return;
                 }
 
-                const response = await fetch(`http://localhost:5001/api/orders/farmer/${user.email}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/orders/farmer/${user.email}`);
                 if (response.ok) {
                     const data = await response.json();
                     setOrders(data);
@@ -49,7 +49,7 @@ const OrderManagement = ({ user }) => {
     const handleStatusUpdate = async (orderId, newStatus) => {
         try {
             setUpdatingId(orderId);
-            const response = await fetch(`http://localhost:5001/api/orders/${orderId}/status`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/orders/${orderId}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

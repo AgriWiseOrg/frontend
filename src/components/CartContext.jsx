@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
 
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5001/api/cart/${userEmail}`);
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/cart/${userEmail}`);
       // Ensure we are setting an array even if the backend structure varies
       const items = response.data.items || response.data || [];
       setCartItems(Array.isArray(items) ? items : []);
@@ -48,7 +48,7 @@ export const CartProvider = ({ children }) => {
 
     try {
       // POST to backend
-      await axios.post("http://localhost:5001/api/cart/add", {
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:5001"}/api/cart/add`, {
         email: userEmail,
         product: product
       });
@@ -67,7 +67,7 @@ export const CartProvider = ({ children }) => {
     if (!userEmail) return;
 
     try {
-      await axios.post("http://localhost:5001/api/cart/remove", {
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:5001"}/api/cart/remove`, {
         email: userEmail,
         productId: productId
       });
@@ -88,7 +88,7 @@ export const CartProvider = ({ children }) => {
 
     try {
       // We reuse the /add logic which increases quantity, or you can add a dedicated /update-quantity route
-      await axios.post("http://localhost:5001/api/cart/add", {
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:5001"}/api/cart/add`, {
         email: userEmail,
         product: { id } // Pass the ID to let backend find it
       });

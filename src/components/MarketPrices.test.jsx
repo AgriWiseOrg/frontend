@@ -170,7 +170,7 @@ describe('MarketPrices Component', () => {
         fireEvent.click(predictBtn);
 
         await waitFor(() => {
-            expect(fetch).toHaveBeenCalledWith('http://localhost:5001/api/predict-price', expect.anything());
+            expect(fetch).toHaveBeenCalledWith(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/predict-price`, expect.anything());
         });
 
         await waitFor(() => {

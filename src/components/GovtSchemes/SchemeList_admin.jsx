@@ -22,7 +22,7 @@ const SchemeList = () => {
 
   const fetchSchemes = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/schemes');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/schemes`);
       setSchemes(Array.isArray(res.data) ? res.data : []);
     } catch (err) { console.error("Error fetching schemes:", err); }
     finally { setLoading(false); }
@@ -30,7 +30,7 @@ const SchemeList = () => {
 
   const fetchApplications = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/schemes/all-applications');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/schemes/all-applications`);
       setApplications(Array.isArray(res.data) ? res.data : []);
     } catch (err) { console.error("Error fetching applications:", err); }
   };
@@ -70,7 +70,7 @@ const SchemeList = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/schemes/add', newScheme);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/schemes/add`, newScheme);
       setSchemes([res.data, ...schemes]);
       setShowAddForm(false);
       setNewScheme({ name: '', benefit: '', minLand: '', maxLand: '' });
@@ -80,7 +80,7 @@ const SchemeList = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Delete this scheme?")) {
       try {
-        await axios.delete(`http://localhost:5001/api/schemes/${id}`);
+        await axios.delete(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/schemes/${id}`);
         setSchemes(schemes.filter(s => s._id !== id));
       } catch (err) { alert("Error deleting scheme"); }
     }

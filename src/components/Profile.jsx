@@ -26,7 +26,7 @@ const Profile = ({ user }) => {
         // Fetch profile data
         const fetchProfile = async () => {
             try {
-                const response = await fetch(`http://localhost:5001/api/users/${user.id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/users/${user.id}`);
                 if (response.ok) {
                     const data = await response.json();
                     if (data.profile) {
@@ -56,7 +56,7 @@ const Profile = ({ user }) => {
         setSaving(true);
         setMessage('');
         try {
-            const response = await fetch(`http://localhost:5001/api/users/${user.id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/users/${user.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

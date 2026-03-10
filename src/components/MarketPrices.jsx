@@ -44,7 +44,7 @@ const MarketPrices = () => {
 
   const fetchCrops = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/market/crops');
+      const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/crops`);
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) {
         setAvailableCrops(data);
@@ -73,7 +73,7 @@ const MarketPrices = () => {
 
   const fetchPrices = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/market/prices');
+      const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/prices`);
       const data = await res.json();
       setMarketPrices(data);
     } catch (err) {
@@ -87,7 +87,7 @@ const MarketPrices = () => {
     try {
       // Handle crops with parentheses in URL
       const encodedCrop = encodeURIComponent(crop);
-      const res = await fetch(`http://localhost:5001/api/market/history?crop=${encodedCrop}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/history?crop=${encodedCrop}`);
       const data = await res.json();
       setHistoryData(data);
     } catch (err) {
@@ -98,8 +98,8 @@ const MarketPrices = () => {
   const fetchDemand = async (crop = null) => {
     try {
       const url = crop
-        ? `http://localhost:5001/api/market/demand?crop=${encodeURIComponent(crop)}`
-        : 'http://localhost:5001/api/market/demand';
+        ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/demand?crop=${encodeURIComponent(crop)}`
+        : `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/demand`;
       const res = await fetch(url);
       const data = await res.json();
       setDemandData(data);
@@ -113,7 +113,7 @@ const MarketPrices = () => {
     setLoadingForecast(true);
     try {
       const encodedCrop = encodeURIComponent(crop);
-      const res = await fetch(`http://localhost:5001/api/market/forecast-30-days?crop=${encodedCrop}`);
+      const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/market/forecast-30-days?crop=${encodedCrop}`);
       const data = await res.json();
       setForecastData(data);
     } catch (err) {
@@ -145,7 +145,7 @@ const MarketPrices = () => {
     setLoadingPredict(true);
     setPrediction(null);
     try {
-      const response = await fetch('http://localhost:5001/api/predict-price', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/predict-price`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

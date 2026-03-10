@@ -9,7 +9,7 @@ const AdminSupport = () => {
 
     const updateStatus = async (id, newStatus) => {
         try {
-            const res = await fetch(`http://localhost:5001/api/support/${id}/status`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/support/${id}/status`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
@@ -25,7 +25,7 @@ const AdminSupport = () => {
 
     const fetchReports = async () => {
         try {
-            const res = await fetch('http://localhost:5001/api/support/all-reports');
+            const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/support/all-reports`);
             const json = await res.json();
             if (json.success) {
                 setReports(json.data);

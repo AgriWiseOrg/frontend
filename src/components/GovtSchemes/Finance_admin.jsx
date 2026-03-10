@@ -20,14 +20,14 @@ const FinanceAdmin = () => {
 
   const fetchSchemes = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/finance');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/finance`);
       setSchemes(res.data);
     } catch (err) { console.error(err); }
   };
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:5001/api/finance/all');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/finance/all`);
       setRequests(res.data);
     } catch (err) { console.error(err); }
   };
@@ -71,7 +71,7 @@ const FinanceAdmin = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/api/finance/add', newScheme);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/finance/add`, newScheme);
       setSchemes([...schemes, res.data]);
       setShowAddForm(false);
       setNewScheme({ name: '', type: '', interest: '', color: 'indigo' });
@@ -80,7 +80,7 @@ const FinanceAdmin = () => {
 
   const handleDelete = async (id) => {
     if (window.confirm("Delete this scheme?")) {
-      await axios.delete(`http://localhost:5001/api/finance/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/finance/${id}`);
       setSchemes(schemes.filter(s => s._id !== id));
     }
   };

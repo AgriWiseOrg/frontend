@@ -34,13 +34,13 @@ const SchemeList = ({ user }) => { // Component receives logged-in user as prop
     const fetchData = async () => {
       try {
         // Fetch all schemes
-        const res = await axios.get('http://localhost:5001/api/schemes');
+        const res = await axios.get(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/schemes`);
         setSchemes(Array.isArray(res.data) ? res.data : []); // Ensure it's an array
 
         // If user is logged in, fetch their applications
         if (user && user.email) {
           const appsRes = await axios.get(
-            `http://localhost:5001/api/schemes/user-applications?email=${user.email}`
+            `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/schemes/user-applications?email=${user.email}`
           );
 
           // Store only scheme IDs
@@ -78,7 +78,7 @@ const SchemeList = ({ user }) => { // Component receives logged-in user as prop
     setSubmittingId(scheme._id); // Show spinner on that specific card
 
     try {
-      await axios.post('http://localhost:5001/api/schemes/apply', {
+      await axios.post(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/schemes/apply`, {
         farmerEmail: user?.email || "unknown@agriwise.com", // fallback email
         schemeName: scheme.name,
         schemeId: scheme._id,
@@ -108,7 +108,7 @@ const SchemeList = ({ user }) => { // Component receives logged-in user as prop
 
       // Delete request with email and schemeId
       await axios.delete(
-        `http://localhost:5001/api/schemes/cancel/${email}/${schemeId}`
+        `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/schemes/cancel/${email}/${schemeId}`
       );
 
       // Remove scheme from applied list in UI
