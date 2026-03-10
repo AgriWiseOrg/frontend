@@ -21,8 +21,8 @@ const ProductDetails = ({ user }) => {
   const [newRating, setNewRating] = useState(5);
   const [isBiddingModalOpen, setIsBiddingModalOpen] = useState(false);
   const [localProduct, setLocalProduct] = useState(product);
-
   const [bidDuration, setBidDuration] = useState(30); // Default 30 min
+  const [basePrice, setBasePrice] = useState(product.price);
 
   const isFarmerOwner = user && user.role === 'farmer' && (user.id === localProduct.farmerId || user._id === localProduct.farmerId);
 
@@ -31,7 +31,10 @@ const ProductDetails = ({ user }) => {
       const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/bidding/start/${localProduct._id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ durationMinutes: bidDuration })
+        body: JSON.stringify({
+          durationMinutes: bidDuration,
+          basePrice: basePrice
+        })
       });
       if (response.ok) {
         const updated = await response.json();
@@ -159,32 +162,25 @@ const ProductDetails = ({ user }) => {
                 </div>
               )}
 
-              <div className="flex items-center gap-3 mt-3">
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} className={`${i < Math.floor(product.rating || 4) ? 'text-yellow-400 fill-yellow-400' : 'text-slate-200'}`} />
-                  ))}
+              {/* Dynamic Rating Bar */}
+              <div className="flex items-center gap-2 mb-2 mt-4">
+                <div className="flex text-yellow-500 bg-yellow-400/10 px-2 py-0.5 rounded-full items-center gap-1">
+                  <Star size={14} fill="currentColor" />
+                  <span className="text-xs font-black">{localProduct.rating ? localProduct.rating.toFixed(1) : "0.0"}</span>
                 </div>
-                <span className="text-emerald-600 text-sm font-bold">
-                  {product.rating || 4.5} (112 ratings)
-                </span>
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{localProduct.reviews?.length || 0} {t("Reviews")}</span>
+                <div className="w-1.5 h-1.5 bg-slate-200 rounded-full" />
+                <div className="flex items-center gap-1 text-slate-500">
+                  <MapPin size={14} />
+                  <span className="text-xs font-bold uppercase tracking-widest">{localProduct.location || "Kerala, India"}</span>
+                </div>
               </div>
+
             </div>
 
             <hr className="border-slate-100" />
 
-            <div className="flex items-center gap-2 mb-2">
-              <div className="flex text-yellow-500 bg-yellow-400/10 px-2 py-0.5 rounded-full items-center gap-1">
-                <Star size={14} fill="currentColor" />
-                <span className="text-xs font-black">{localProduct.rating ? localProduct.rating.toFixed(1) : "0.0"}</span>
-              </div>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{localProduct.reviews?.length || 0} {t("Reviews")}</span>
-              <div className="w-1.5 h-1.5 bg-slate-200 rounded-full" />
-              <div className="flex items-center gap-1 text-slate-500">
-                <MapPin size={14} />
-                <span className="text-xs font-bold uppercase tracking-widest">{localProduct.location || "Kerala, India"}</span>
-              </div>
-            </div>
+
 
             <div className="space-y-4 mt-2">
               <h3 className="font-black text-lg border-b-2 border-emerald-500 w-fit pb-1">{t("Product Specifications")}</h3>
@@ -202,7 +198,7 @@ const ProductDetails = ({ user }) => {
           {/* --- Right: Sticky Purchase Sidebar --- */}
           <div className="hidden lg:block lg:w-[25%]">
             <div className="border border-slate-200 p-6 rounded-3xl sticky top-24 shadow-sm bg-white">
-              <p className="text-2xl font-bold">₹{product.price}</p>
+              <p className="text-2xl font-bold">₹{localProduct.price}</p>
               <p className="text-emerald-600 text-sm font-bold mt-2 flex items-center gap-1 underline cursor-pointer">
                 {t("FREE Delivery")} <ChevronRight size={14} />
               </p>
@@ -256,6 +252,19 @@ const ProductDetails = ({ user }) => {
                         <option value={360}>6 Hours</option>
                         <option value={1440}>24 Hours</option>
                       </select>
+                    </div>
+
+                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Base Price:</span>
+                      <div className="flex items-center gap-1">
+                        <span className="text-sm font-black text-emerald-700">₹</span>
+                        <input
+                          type="number"
+                          value={basePrice}
+                          onChange={(e) => setBasePrice(Number(e.target.value))}
+                          className="bg-transparent text-sm font-black text-emerald-700 outline-none w-16 text-right"
+                        />
+                      </div>
                     </div>
                     <button
                       onClick={startBidding}

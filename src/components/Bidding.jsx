@@ -65,7 +65,7 @@ const Bidding = ({ product, user, onClose }) => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     bidderId: user.id || user._id,
-                    bidderName: user.name || 'User',
+                    bidderName: user.profile?.name || (user.email ? user.email.split('@')[0] : 'Farmer'),
                     amount: bidAmount
                 })
             });
@@ -224,13 +224,13 @@ const Bidding = ({ product, user, onClose }) => {
                                         className={`p-4 rounded-2xl border flex items-center gap-4 transition-all ${index === 0 ? 'bg-emerald-900 text-white border-emerald-900 shadow-lg scale-105' : 'bg-white/60 border-emerald-100 text-emerald-900 shadow-sm'}`}
                                     >
                                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm shadow-inner ${index === 0 ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-700'}`}>
-                                            {(bid.bidderName || 'U')[0].toUpperCase()}
+                                            {(bid.bidderName || 'A')[0].toUpperCase()}
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <p className={`text-[10px] font-black uppercase tracking-widest truncate ${index === 0 ? 'text-emerald-300' : 'text-emerald-800/40'}`}>
                                                 {index === 0 ? 'Highest Bidder' : 'Bidder'}
                                             </p>
-                                            <p className="font-black tracking-tight truncate">{bid.bidderName || 'User'}</p>
+                                            <p className="font-black tracking-tight truncate">{bid.bidderName || 'Anonymous'}</p>
                                         </div>
                                         <div className="text-right">
                                             <p className={`font-black text-lg tracking-tighter ${index === 0 ? 'text-yellow-400' : 'text-emerald-900'}`}>₹{bid.amount}</p>
