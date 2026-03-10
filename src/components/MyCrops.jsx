@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Plus, Edit3, Trash2, ChevronLeft, 
-  LayoutGrid, Package, Sprout, 
+import {
+  Plus, Edit3, Trash2, ChevronLeft,
+  LayoutGrid, Package, Sprout,
   TrendingUp, X, Loader2, ImageIcon, Upload, Image as LucideImage
 } from 'lucide-react';
 
@@ -14,18 +14,19 @@ const MyCrops = ({ user }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ 
-    name: '', 
-    price: '', 
-    description: '', 
-    quantity: '', 
-    imageUrl: '', 
-    id: null 
+  const [formData, setFormData] = useState({
+    name: '',
+    price: '',
+    description: '',
+    quantity: '',
+    imageUrl: '',
+    location: '',
+    id: null
   });
 
-  useEffect(() => { 
+  useEffect(() => {
     if (user?.id || user?._id) {
-        fetchProducts(); 
+      fetchProducts();
     }
   }, [user]);
 
@@ -38,10 +39,10 @@ const MyCrops = ({ user }) => {
       const res = await fetch(`${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/products/farmer/${userId}`);
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
-    } catch (err) { 
-      console.error("Fetch error:", err); 
-    } finally { 
-      setLoading(false); 
+    } catch (err) {
+      console.error("Fetch error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,24 +68,24 @@ const MyCrops = ({ user }) => {
 
     const userId = user?._id || user?.id;
     const isEdit = !!formData.id;
-    
+
     const payload = {
       name: formData.name,
       crop: formData.name,
       price: Number(formData.price),
       quantity: Number(formData.quantity),
       description: formData.description || "Fresh harvest from local fields.",
-      imageUrl: formData.imageUrl, 
+      imageUrl: formData.imageUrl,
       farmerId: userId,
-      farmerName: user?.email ? user.email.split('@')[0] : "Verified Farmer", 
-      location: user?.location || "Kerala, India"
+      farmerName: user?.email ? user.email.split('@')[0] : "Verified Farmer",
+      location: formData.location || user?.location || "Kerala, India"
     };
 
     try {
-      const url = isEdit 
-        ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/products/${formData.id}` 
+      const url = isEdit
+        ? `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/products/${formData.id}`
         : `${import.meta.env.VITE_API_URL || `${import.meta.env.VITE_API_URL || "http://localhost:5001"}`}/api/products`;
-        
+
       const response = await fetch(url, {
         method: isEdit ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -99,10 +100,10 @@ const MyCrops = ({ user }) => {
       } else {
         alert(`Error: ${result.message || 'Failed to save product'}`);
       }
-    } catch (err) { 
-      alert('Error connecting to server.'); 
-    } finally { 
-      setLoading(false); 
+    } catch (err) {
+      alert('Error connecting to server.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -122,7 +123,7 @@ const MyCrops = ({ user }) => {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', price: '', description: '', quantity: '', imageUrl: '', id: null });
+    setFormData({ name: '', price: '', description: '', quantity: '', imageUrl: '', location: '', id: null });
     setShowForm(false);
   };
 
@@ -135,7 +136,7 @@ const MyCrops = ({ user }) => {
           </div>
           <span className="font-black text-xl tracking-tight hidden lg:block text-slate-800">{t("AgriPro")}</span>
         </div>
-        
+
         <nav className="space-y-2">
           <button className="w-full flex items-center gap-4 p-3 bg-emerald-50 text-emerald-700 rounded-xl font-bold transition-all">
             <LayoutGrid size={20} /> <span className="hidden lg:block">{t("Inventory")}</span>
@@ -151,10 +152,10 @@ const MyCrops = ({ user }) => {
           <div>
             <h1 className="text-3xl font-black text-slate-900">{t("Crop Inventory")}</h1>
             <p className="text-slate-500 font-medium tracking-tight">
-                {t("Manage your marketplace listings for")} <span className="text-emerald-600">{user?.email || 'Farmer'}</span>
+              {t("Manage your marketplace listings for")} <span className="text-emerald-600">{user?.email || 'Farmer'}</span>
             </p>
           </div>
-          <button 
+          <button
             onClick={() => setShowForm(true)}
             className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-xl shadow-emerald-100 active:scale-95"
           >
@@ -177,7 +178,7 @@ const MyCrops = ({ user }) => {
           {products.map(product => (
             <div key={product._id} className="group bg-white p-6 rounded-[2.5rem] border border-slate-100 flex flex-col sm:flex-row items-center gap-6 hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-2 h-full bg-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-              
+
               <div className="w-32 h-32 bg-slate-100 rounded-[2rem] flex items-center justify-center overflow-hidden border border-slate-100">
                 {product.imageUrl ? (
                   <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
@@ -195,27 +196,28 @@ const MyCrops = ({ user }) => {
                 </div>
                 <p className="text-slate-400 text-sm mb-4 line-clamp-1">{product.description || "Fresh harvest listing."}</p>
                 <div className="flex items-center justify-center sm:justify-start gap-3">
-                  <button 
+                  <button
                     onClick={() => {
-                        setFormData({ 
-                            name: product.name, 
-                            price: product.price, 
-                            description: product.description, 
-                            quantity: product.quantity, 
-                            imageUrl: product.imageUrl || '',
-                            id: product._id 
-                        });
-                        setShowForm(true);
-                    }} 
+                      setFormData({
+                        name: product.name,
+                        price: product.price,
+                        description: product.description,
+                        quantity: product.quantity,
+                        imageUrl: product.imageUrl || '',
+                        location: product.location || '',
+                        id: product._id
+                      });
+                      setShowForm(true);
+                    }}
                     className="p-3 bg-slate-50 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded-xl transition-all"
                   >
-                    <Edit3 size={18}/>
+                    <Edit3 size={18} />
                   </button>
-                  <button 
+                  <button
                     onClick={() => handleDelete(product._id)}
                     className="p-3 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-xl transition-all"
                   >
-                    <Trash2 size={18}/>
+                    <Trash2 size={18} />
                   </button>
                 </div>
               </div>
@@ -237,18 +239,18 @@ const MyCrops = ({ user }) => {
             <button onClick={resetForm} className="self-end p-2 hover:bg-slate-100 rounded-full mb-8"><X /></button>
             <h2 className="text-3xl font-black mb-2">{formData.id ? 'Edit Crop' : 'New Listing'}</h2>
             <p className="text-slate-500 mb-8">{t("Upload an image from your computer or use a URL.")}</p>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6 pb-10">
               {/* IMAGE UPLOAD SECTION */}
               <div className="space-y-4">
                 <label className="text-xs font-black uppercase text-slate-400 block">{t("Crop Image")}</label>
-                
+
                 {formData.imageUrl ? (
                   <div className="relative w-full h-40 rounded-2xl overflow-hidden group border-2 border-emerald-100">
                     <img src={formData.imageUrl} className="w-full h-full object-cover" alt="Preview" />
-                    <button 
+                    <button
                       type="button"
-                      onClick={() => setFormData({...formData, imageUrl: ''})}
+                      onClick={() => setFormData({ ...formData, imageUrl: '' })}
                       className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <X size={16} />
@@ -262,7 +264,7 @@ const MyCrops = ({ user }) => {
                       <span className="text-xs font-bold text-slate-500">{t("Upload from PC")}</span>
                       <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
                     </label>
-                    
+
                     <div className="flex items-center gap-2">
                       <div className="h-[1px] bg-slate-100 flex-1"></div>
                       <span className="text-[10px] font-black text-slate-300 uppercase">{t("OR")}</span>
@@ -272,11 +274,11 @@ const MyCrops = ({ user }) => {
                     {/* URL Option */}
                     <div className="relative">
                       <ImageIcon size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <input 
-                        placeholder={t("Paste image URL instead")} 
-                        className="w-full bg-slate-50 border-2 border-slate-50 pl-11 pr-4 py-4 rounded-2xl focus:border-emerald-500 outline-none text-sm" 
-                        value={formData.imageUrl} 
-                        onChange={e => setFormData({...formData, imageUrl: e.target.value})} 
+                      <input
+                        placeholder={t("Paste image URL instead")}
+                        className="w-full bg-slate-50 border-2 border-slate-50 pl-11 pr-4 py-4 rounded-2xl focus:border-emerald-500 outline-none text-sm"
+                        value={formData.imageUrl}
+                        onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
                       />
                     </div>
                   </div>
@@ -285,25 +287,30 @@ const MyCrops = ({ user }) => {
 
               <div>
                 <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Crop Name")}</label>
-                <input required placeholder={t("e.g. Basmati Rice")} className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                <input required placeholder={t("e.g. Basmati Rice")} className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Price (₹/qtl)")}</label>
-                  <input type="number" required placeholder="₹" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} />
+                  <input type="number" required placeholder="₹" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} />
                 </div>
                 <div>
                   <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Quantity (qtl)")}</label>
-                  <input type="number" required placeholder={t("Qty")} className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.quantity} onChange={e => setFormData({...formData, quantity: e.target.value})} />
+                  <input type="number" required placeholder={t("Qty")} className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.quantity} onChange={e => setFormData({ ...formData, quantity: e.target.value })} />
                 </div>
               </div>
 
               <div>
                 <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Description")}</label>
-                <textarea rows="3" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all resize-none" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
+                <textarea rows="3" className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all resize-none" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
               </div>
-              <button 
+
+              <div>
+                <label className="text-xs font-black uppercase text-slate-400 mb-2 block">{t("Location")}</label>
+                <input required placeholder={t("e.g. Wayanad, Kerala")} className="w-full bg-slate-50 border-2 border-slate-50 p-4 rounded-2xl focus:border-emerald-500 focus:bg-white outline-none transition-all" value={formData.location} onChange={e => setFormData({ ...formData, location: e.target.value })} />
+              </div>
+              <button
                 disabled={loading}
                 className="w-full py-5 bg-emerald-600 text-white font-black rounded-2xl shadow-lg hover:bg-emerald-700 transition-all mt-4 disabled:opacity-50"
               >

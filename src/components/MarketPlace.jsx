@@ -208,9 +208,10 @@ const Marketplace = () => {
                       >
                         <div className="h-52 overflow-hidden relative">
                           <img src={productImg} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                          <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-2xl text-xs font-black text-emerald-800 flex items-center gap-1.5 shadow-xl">
-                            <Star size={14} className="fill-emerald-500 text-emerald-500" /> {p.rating || 4.5}
+                          <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-2xl text-xs font-black text-emerald-800 flex items-center gap-1.5 shadow-xl border border-emerald-50">
+                            <Star size={14} className="fill-emerald-500 text-emerald-500" /> {p.rating ? p.rating.toFixed(1) : "0.0"}
                           </div>
+
                         </div>
 
                         <div className="p-6 flex flex-col flex-1">

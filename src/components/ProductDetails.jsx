@@ -17,14 +17,11 @@ const ProductDetails = ({ user }) => {
   const { addToCart } = useCart();
 
   // Review State
-  const [reviews, setReviews] = useState([
-    { id: 1, name: "Anil Kumar", rating: 5, date: "Feb 01, 2026", comment: "Excellent quality rice. The grains are long and fragrant." },
-    { id: 2, name: "Sita Sharma", rating: 4, date: "Jan 28, 2026", comment: "Good harvest, but delivery took 3 days instead of 2." }
-  ]);
   const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(5);
   const [isBiddingModalOpen, setIsBiddingModalOpen] = useState(false);
   const [localProduct, setLocalProduct] = useState(product);
+
   const [bidDuration, setBidDuration] = useState(30); // Default 30 min
 
   const isFarmerOwner = user && user.role === 'farmer' && (user.id === localProduct.farmerId || user._id === localProduct.farmerId);
@@ -63,18 +60,36 @@ const ProductDetails = ({ user }) => {
     }
   };
 
-  const handleAddReview = (e) => {
+  const handleAddReview = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) return;
-    const review = {
-      id: Date.now(),
-      name: "Guest User",
-      rating: newRating,
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
-      comment: newComment
-    };
-    setReviews([review, ...reviews]);
-    setNewComment("");
+    if (!user) {
+      alert("Please login to post a review");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/products/${localProduct._id}/review`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          rating: newRating,
+          comment: newComment,
+          userId: user.id || user._id,
+          userEmail: user.email
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setLocalProduct(data.product);
+        setNewComment("");
+        setNewRating(5);
+        alert("Review posted successfully!");
+      }
+    } catch (error) {
+      console.error("Add Review Error:", error);
+    }
   };
 
   return (
@@ -158,23 +173,25 @@ const ProductDetails = ({ user }) => {
 
             <hr className="border-slate-100" />
 
-            <div className="flex flex-col gap-1">
-              <div className="flex items-baseline gap-2">
-                <span className="text-red-600 text-2xl font-light">-15%</span>
-                <span className="text-3xl font-bold">₹{product.price}</span>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex text-yellow-500 bg-yellow-400/10 px-2 py-0.5 rounded-full items-center gap-1">
+                <Star size={14} fill="currentColor" />
+                <span className="text-xs font-black">{localProduct.rating ? localProduct.rating.toFixed(1) : "0.0"}</span>
               </div>
-              <p className="text-slate-500 text-sm italic">{t("M.R.P.:")} <span className="line-through">₹{Math.floor(product.price * 1.15)}</span></p>
-              <p className="text-emerald-700 font-bold text-sm mt-2 flex items-center gap-2">
-                <Award size={16} /> Best Price in {product.location}
-              </p>
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{localProduct.reviews?.length || 0} {t("Reviews")}</span>
+              <div className="w-1.5 h-1.5 bg-slate-200 rounded-full" />
+              <div className="flex items-center gap-1 text-slate-500">
+                <MapPin size={14} />
+                <span className="text-xs font-bold uppercase tracking-widest">{localProduct.location || "Kerala, India"}</span>
+              </div>
             </div>
 
             <div className="space-y-4 mt-2">
               <h3 className="font-black text-lg border-b-2 border-emerald-500 w-fit pb-1">{t("Product Specifications")}</h3>
               <table className="w-full text-sm text-slate-600">
                 <tbody>
-                  <tr className="border-b border-slate-50"><td className="py-2 font-bold w-1/3">{t("Farmer")}</td><td>{product.farmer}</td></tr>
-                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Origin")}</td><td>{product.location}, India</td></tr>
+                  <tr className="border-b border-slate-50"><td className="py-2 font-bold w-1/3">{t("Farmer")}</td><td>{localProduct.farmerName || localProduct.farmer}</td></tr>
+                  <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Origin")}</td><td>{localProduct.location || "Kerala, India"}</td></tr>
                   <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Stock")}</td><td>{product.quantity} Quintals</td></tr>
                   <tr className="border-b border-slate-50"><td className="py-2 font-bold">{t("Grade")}</td><td>{t("Grade A (Export Quality)")}</td></tr>
                 </tbody>
@@ -297,27 +314,31 @@ const ProductDetails = ({ user }) => {
             {/* Review List */}
             <div className="lg:w-2/3 space-y-6">
               <h3 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-                {t("Customer Feedbacks")} <span className="text-emerald-600 text-sm">({reviews.length})</span>
+                {t("Customer Feedbacks")} <span className="text-emerald-600 text-sm">({localProduct.reviews?.length || 0})</span>
               </h3>
-              {reviews.map(review => (
-                <div key={review.id} className="border-b border-slate-50 pb-6 flex gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 shrink-0">
-                    <User size={24} />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between items-center mb-1">
-                      <h5 className="font-bold text-slate-800">{review.name}</h5>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase">{review.date}</span>
+              {localProduct.reviews && localProduct.reviews.length > 0 ? (
+                [...localProduct.reviews].reverse().map((review, i) => (
+                  <div key={i} className="border-b border-slate-50 pb-6 flex gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 shrink-0">
+                      <User size={24} />
                     </div>
-                    <div className="flex mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} size={12} className={`${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-100'}`} />
-                      ))}
+                    <div className="flex-1">
+                      <div className="flex justify-between items-center mb-1">
+                        <h5 className="font-bold text-slate-800">{review.user}</h5>
+                        <span className="text-[10px] text-slate-400 font-bold uppercase">{new Date(review.date).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex mb-2">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} size={12} className={`${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-slate-100'}`} />
+                        ))}
+                      </div>
+                      <p className="text-sm text-slate-600 leading-relaxed italic">"{review.comment}"</p>
                     </div>
-                    <p className="text-sm text-slate-600 leading-relaxed italic">"{review.comment}"</p>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <div className="py-10 text-center text-slate-400 italic">No reviews yet. Be the first to review this harvest!</div>
+              )}
             </div>
           </div>
         </div>
