@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Package, Clock, CheckCircle, Truck, XCircle, Search, Calendar, User, ArrowLeft, ArrowRight, ShoppingBag } from 'lucide-react';
+import { Package, Clock, CheckCircle, Truck, XCircle, Search, Calendar, User, ArrowLeft, ArrowRight, ShoppingBag, MapPin } from 'lucide-react';
 
 const MyOrders = ({ user }) => {
     const navigate = useNavigate();
