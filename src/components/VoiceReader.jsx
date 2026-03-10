@@ -103,37 +103,70 @@ const VoiceReader = () => {
 
         const utterance = new SpeechSynthesisUtterance(selectedText);
 
-        // 1. Check current app language
-        const currentLangCode = i18n.language || 'en';
-        let selectedVoice = null;
+        // 1. Check current app language. If the header component sets exact strings like 'मराठी (Marathi)', 
+        // we'll extract just the English name inside the parentheses, or use i18n's short code if available.
+        const currentLangString = i18n.language || 'en';
 
-        // 2. If language contains 'hi' or 'hindi', look for Hindi voices explicitly
-        if (currentLangCode.toLowerCase().includes('hi')) {
-            // Try to find a premium Google Hindi voice first
-            selectedVoice = voices.find(voice => voice.name.includes('Google') && voice.lang.toLowerCase().includes('hi'));
-            // If no Google voice, find ANY Hindi voice
-            if (!selectedVoice) {
-                selectedVoice = voices.find(voice => voice.lang.toLowerCase().includes('hi'));
-            }
-        } else {
-            // Otherwise, default to English logic
-            selectedVoice = voices.find(voice => voice.name.includes('Google US English'));
-            if (!selectedVoice) {
-                selectedVoice = voices.find(voice => voice.lang.toLowerCase().startsWith('en'));
+        // Language Map for India
+        const langMap = {
+            'hi': 'hi', 'hindi': 'hi-IN',
+            'mr': 'mr', 'marathi': 'mr-IN',
+            'gu': 'gu', 'gujarati': 'gu-IN',
+            'pa': 'pa', 'punjabi': 'pa-IN',
+            'ta': 'ta', 'tamil': 'ta-IN',
+            'te': 'te', 'telugu': 'te-IN',
+            'kn': 'kn', 'kannada': 'kn-IN',
+            'bn': 'bn', 'bengali': 'bn-IN',
+            'ml': 'ml', 'malayalam': 'ml-IN',
+            'en': 'en', 'english': 'en-US'
+        };
+
+        // Determine target code based on fuzzy matching the selected language string
+        let targetCode = 'en-US';
+        const lowerLang = currentLangString.toLowerCase();
+
+        for (const [key, val] of Object.entries(langMap)) {
+            if (lowerLang.includes(key)) {
+                targetCode = val;
+                break; // Use the first match
             }
         }
 
-        // 3. Last resort fallback
+        // The base 2-letter code (e.g. 'mr' from 'mr-IN')
+        const shortCode = targetCode.split('-')[0];
+
+        let selectedVoice = null;
+
+        // 2. Look for the target voice explicitly
+        if (shortCode !== 'en') {
+            // Priority 1: Premium Google Regional Voice
+            selectedVoice = voices.find(v => v.name.includes('Google') && v.lang.toLowerCase().includes(shortCode));
+
+            // Priority 2: Generic Regional Voice (like Microsoft Ravi or Apple Lekha)
+            if (!selectedVoice) {
+                selectedVoice = voices.find(v => v.lang.toLowerCase().includes(shortCode));
+            }
+        }
+
+        // 3. If no regional voice found OR if the target is English, find the best English voice
+        if (!selectedVoice) {
+            selectedVoice = voices.find(v => v.name.includes('Google US English'));
+            if (!selectedVoice) {
+                selectedVoice = voices.find(v => v.lang.toLowerCase().startsWith('en'));
+            }
+        }
+
+        // 4. Absolute Last resort fallback (browser default)
         if (!selectedVoice && voices.length > 0) {
-            selectedVoice = voices.find(voice => voice.default) || voices[0];
+            selectedVoice = voices.find(v => v.default) || voices[0];
         }
 
         if (selectedVoice) {
             utterance.voice = selectedVoice;
             utterance.lang = selectedVoice.lang;
         } else {
-            // Absolute fallback required by Windows/Mac standard API
-            utterance.lang = currentLangCode.toLowerCase().includes('hi') ? 'hi-IN' : 'en-US';
+            // Fallback required by Windows/Mac standard API if voices array somehow isn't populated
+            utterance.lang = targetCode;
         }
 
         utterance.rate = 1.0;
