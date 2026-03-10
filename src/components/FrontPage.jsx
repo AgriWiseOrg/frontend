@@ -4,11 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   TrendingUp, Sprout, Landmark, ShoppingBag,
   CloudSun, LifeBuoy, Search, LogOut, ShoppingCart,
-  ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ClipboardList, ChevronDown, HelpCircle
+  ChevronRight, MapPin, Droplets, RefreshCw, Wind, Clock, X, User, ClipboardList, ChevronDown, HelpCircle, ScanSearch
 } from 'lucide-react';
 import { useCart } from './CartContext';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from './LanguageContext';
+import CropImageAnalyzer from './CropImageAnalyzer';
 
 const FrontPage = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const FrontPage = ({ onLogout }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [langOpen, setLangOpen] = useState(false);
+  const [isAnalyzerOpen, setIsAnalyzerOpen] = useState(false);
 
   // New State for Sliding Updates - Initially empty, filled by API
   const [updateIndex, setUpdateIndex] = useState(0);
@@ -215,7 +217,7 @@ const FrontPage = ({ onLogout }) => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="bg-white border-2 border-slate-200 rounded-[2.5rem] p-1.5 shadow-xl shadow-slate-200/60">
-            <div className="bg-slate-50/50 rounded-[2.3rem] p-6 flex flex-wrap items-center gap-8 md:gap-12">
+            <div className="bg-slate-50/50 rounded-[2.3rem] p-6 flex flex-wrap items-center gap-6 md:gap-8">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-white border border-slate-200 text-indigo-600 rounded-2xl flex items-center justify-center shadow-sm">
                   <Clock className="w-6 h-6" />
@@ -255,6 +257,18 @@ const FrontPage = ({ onLogout }) => {
                   <RefreshCw size={18} className={loadingWeather ? "animate-spin" : ""} />
                 </button>
               </div>
+
+              <div className="hidden md:block w-px h-10 bg-slate-200" />
+
+              {/* Trigger Button for AI Image Analyzer */}
+              <button
+                onClick={() => setIsAnalyzerOpen(true)}
+                className="p-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/30 flex items-center justify-center active:scale-95"
+                title={t('aiCropAnalyzer', 'AI Quality Vision')}
+              >
+                <ScanSearch className="w-6 h-6" />
+              </button>
+
             </div>
           </motion.div>
         </header>
@@ -389,6 +403,37 @@ const FrontPage = ({ onLogout }) => {
           <NavButton icon={<MapPin size={22} />} label={t('navLocal', 'Local')} onClick={() => navigate('/weather')} />
         </div>
       </div>
+
+      {/* AI Image Analyzer Modal Overlay */}
+      <AnimatePresence>
+        {isAnalyzerOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20, opacity: 0 }}
+              className="relative w-full max-w-lg shadow-2xl rounded-2xl"
+            >
+              {/* Close Button placed absolutely outside/top-right of the modal frame for easy closing */}
+              <button
+                onClick={() => setIsAnalyzerOpen(false)}
+                className="absolute -top-12 right-0 p-2 bg-white/20 hover:bg-white text-white hover:text-red-500 rounded-full backdrop-blur transition-all"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              <div className="h-[550px]">
+                <CropImageAnalyzer />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
