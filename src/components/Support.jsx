@@ -112,6 +112,175 @@ const MainView = ({ t, setActiveView, showDisputeForm, setShowDisputeForm, subsi
     </div>
 );
 
+// ─── DiagnosticView ──────────────────────────────────────────────────────────
+const DiagnosticView = ({ t, setActiveView, diagnosticStep, setDiagnosticStep, symptoms, setSymptoms, getDiagnosis }) => {
+    const toggleSymptom = (id) => {
+        setSymptoms(prev => prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]);
+    };
+
+    const diagnosticSymptoms = [
+        { id: 'yellowing', label: t.symptoms?.yellowing || 'Yellow Leaves', icon: '🍂' },
+        { id: 'spots', label: t.symptoms?.spots || 'Brown/Black Spots', icon: '🌑' },
+        { id: 'holes', label: t.symptoms?.holes || 'Holes in Leaves', icon: '🕳️' },
+        { id: 'wilting', label: t.symptoms?.wilting || 'Wilting/Drooping', icon: '🥀' },
+        { id: 'pests', label: t.symptoms?.pests || 'Visible Insects', icon: '🐛' },
+    ];
+
+    const diagnosis = getDiagnosis();
+
+    return (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8">
+            <button onClick={() => { setActiveView('main'); setDiagnosticStep(0); setSymptoms([]); }}
+                className="flex items-center gap-2 text-indigo-600 font-black bg-indigo-50 px-6 py-3 rounded-2xl hover:bg-indigo-100 transition-all w-fit group">
+                <span className="group-hover:-translate-x-1 transition-transform">←</span> {t.back || 'Back'}
+            </button>
+
+            <div className="bg-white border-2 border-emerald-100 rounded-[3.5rem] p-10 md:p-14 shadow-2xl">
+                <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tight">🌱 {t.diagnosticTitle || 'Crop Health Diagnostic'}</h2>
+                <p className="text-slate-500 font-bold text-lg mb-10">{t.diagnosticDesc || 'Identify pests, diseases, and nutrient deficiencies in seconds.'}</p>
+
+                {diagnosticStep === 0 && (
+                    <div className="space-y-6">
+                        <h3 className="font-black text-xl text-slate-700 uppercase tracking-widest">{t.step1 || 'Step 1: Select Symptoms'}</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {diagnosticSymptoms.map(s => (
+                                <button key={s.id} onClick={() => toggleSymptom(s.id)}
+                                    className={`flex items-center gap-3 p-5 rounded-2xl border-2 font-bold transition-all text-left ${
+                                        symptoms.includes(s.id)
+                                            ? 'bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-100'
+                                            : 'bg-slate-50 border-slate-100 text-slate-700 hover:border-emerald-300 hover:bg-emerald-50'
+                                    }`}>
+                                    <span className="text-3xl">{s.icon}</span>
+                                    <span>{s.label}</span>
+                                </button>
+                            ))}
+                        </div>
+                        <button
+                            disabled={symptoms.length === 0}
+                            onClick={() => setDiagnosticStep(1)}
+                            className="mt-4 w-full bg-emerald-600 disabled:bg-slate-200 disabled:text-slate-400 text-white font-black py-5 rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-100 text-lg">
+                            {t.stepAnalyze || 'Generate Analysis →'}
+                        </button>
+                    </div>
+                )}
+
+                {diagnosticStep === 1 && (
+                    <div className="animate-in zoom-in-95 duration-300 space-y-6">
+                        <h3 className="font-black text-xl text-slate-700 uppercase tracking-widest">{t.analysisResult || 'Analysis Result'}</h3>
+                        <div className="bg-emerald-50 border-2 border-emerald-200 rounded-[2rem] p-8 space-y-4">
+                            <p className="text-xs font-black uppercase tracking-widest text-emerald-600 mb-2">{t.likelyCase || 'Likely Case:'}</p>
+                            <h4 className="text-3xl font-black text-slate-900">{diagnosis?.title || 'General Nutrient Stress'}</h4>
+                            <div className="h-px bg-emerald-100 my-4"></div>
+                            <p className="text-slate-700 font-bold text-lg leading-relaxed">{diagnosis?.remedy || 'Apply balanced NPK fertilizer and ensure consistent irrigation.'}</p>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-4 mt-4">
+                            <a href="https://wa.me/916301230747" target="_blank" rel="noreferrer"
+                                className="flex-1 text-center bg-emerald-600 text-white font-black py-5 rounded-2xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-100">
+                                💬 {t.chatExpert || 'Chat with Expert'}
+                            </a>
+                            <button onClick={() => { setDiagnosticStep(0); setSymptoms([]); }}
+                                className="flex-1 bg-slate-100 text-slate-700 font-black py-5 rounded-2xl hover:bg-slate-200 transition-all">
+                                🔄 {t.resetTool || 'Reset Tool'}
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+// ─── SchemePortalView ─────────────────────────────────────────────────────────
+const SchemePortalView = ({ t, setActiveView }) => (
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8">
+        <button onClick={() => setActiveView('main')}
+            className="flex items-center gap-2 text-indigo-600 font-black bg-indigo-50 px-6 py-3 rounded-2xl hover:bg-indigo-100 transition-all w-fit group">
+            <span className="group-hover:-translate-x-1 transition-transform">←</span> {t.back || 'Back'}
+        </button>
+
+        <div className="bg-white border-2 border-blue-100 rounded-[3.5rem] p-10 md:p-14 shadow-2xl space-y-10">
+            <div>
+                <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tight">🏛️ {t.schemeTitle || 'Premium Scheme Portal'}</h2>
+                <p className="text-slate-500 font-bold text-lg">{t.schemeDesc || 'Explore central and state subsidies with eligibility checks.'}</p>
+            </div>
+
+            <div className="space-y-4">
+                <h3 className="font-black text-sm uppercase tracking-widest text-slate-400">{t.centralSchemes || 'Central Gov Schemes'}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {(t.schemesList || []).map((scheme, i) => (
+                        <a key={i} href={scheme.link} target="_blank" rel="noreferrer"
+                            className="group block p-8 bg-gradient-to-br from-blue-50 to-white border-2 border-blue-100 rounded-[2rem] hover:border-blue-400 hover:shadow-xl transition-all">
+                            <div className="flex items-start justify-between mb-3">
+                                <h4 className="font-black text-slate-800 text-lg leading-tight">{scheme.name}</h4>
+                                <span className="text-blue-400 group-hover:text-blue-600 transition-colors text-xl ml-3 shrink-0">→</span>
+                            </div>
+                            <p className="text-slate-500 font-bold text-sm">{scheme.benefit}</p>
+                            <span className="inline-block mt-4 text-xs font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-4 py-2 rounded-full border border-blue-100">
+                                Apply Online →
+                            </span>
+                        </a>
+                    ))}
+                </div>
+            </div>
+
+            <div className="bg-indigo-50 border-2 border-indigo-100 rounded-[2rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <h3 className="font-black text-xl text-slate-900 mb-1">{t.needHelp || 'Need Help Applying?'}</h3>
+                    <p className="text-slate-500 font-medium">{t.helpDesc || "Our experts can help you fill forms over WhatsApp."}</p>
+                </div>
+                <a href="https://wa.me/916301230747" target="_blank" rel="noreferrer"
+                    className="shrink-0 bg-indigo-600 text-white font-black px-8 py-4 rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200">
+                    💬 {t.getHelp || 'Get Expert Help'}
+                </a>
+            </div>
+        </div>
+    </div>
+);
+
+// ─── MarketView ───────────────────────────────────────────────────────────────
+const MarketView = ({ t, setActiveView, navigate }) => (
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-8">
+        <button onClick={() => setActiveView('main')}
+            className="flex items-center gap-2 text-indigo-600 font-black bg-indigo-50 px-6 py-3 rounded-2xl hover:bg-indigo-100 transition-all w-fit group">
+            <span className="group-hover:-translate-x-1 transition-transform">←</span> {t.back || 'Back'}
+        </button>
+
+        <div className="bg-white border-2 border-orange-100 rounded-[3.5rem] p-10 md:p-14 shadow-2xl space-y-10">
+            <div>
+                <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-4 tracking-tight">📈 {t.mkTitle || 'Market Intelligence Portal'}</h2>
+            </div>
+
+            {/* Pricing Strategy */}
+            <div className="bg-orange-50 border-2 border-orange-100 rounded-[2rem] p-8 space-y-4">
+                <h3 className="font-black text-xl text-slate-800">{t.pricingStrategyTitle || 'Pricing Strategy'}</h3>
+                <p className="text-slate-600 font-bold leading-relaxed">{t.pricingStrategyDesc || 'Never sell in haste. Check the 3-month trend on our Market Prices dashboard.'}</p>
+                <button onClick={() => navigate('/market-prices')}
+                    className="inline-block bg-orange-600 text-white font-black px-8 py-4 rounded-2xl hover:bg-orange-700 transition-all shadow-lg shadow-orange-200 mt-2">
+                    📊 {t.viewTrends || 'View Market Trends'}
+                </button>
+            </div>
+
+            {/* Official Links */}
+            <div className="space-y-4">
+                <h3 className="font-black text-sm uppercase tracking-widest text-slate-400">{t.officialLinksTitle || 'Official Pricing Links'}</h3>
+                <p className="text-slate-500 font-bold">{t.officialLinksDesc || 'Access official government dashboards for real-time Mandi arrivals.'}</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    {(t.officialLinks || []).map((link, i) => (
+                        <a key={i} href={link.url} target="_blank" rel="noreferrer"
+                            className="group flex items-center gap-4 p-6 bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] hover:border-orange-300 hover:bg-orange-50 transition-all">
+                            <span className="text-3xl">{link.icon}</span>
+                            <div>
+                                <p className="font-black text-slate-800 text-sm leading-tight">{link.label}</p>
+                                <p className="text-xs text-orange-500 font-bold mt-1 group-hover:underline">Visit →</p>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
 const Support = ({ user }) => {
     const navigate = useNavigate();
     const { langCode: lang, setLanguage: setLang } = useLanguage(); // Use global state

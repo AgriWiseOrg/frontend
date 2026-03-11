@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext';
+import { useTranslation } from 'react-i18next';
 
 const BuyerSupport = ({ user }) => {
     const navigate = useNavigate();
     const { langCode: lang, setLanguage: setLang } = useLanguage();
+    const { t } = useTranslation();
     const translations = {
         en: {
             title: 'Buyer Support & Assistance',
@@ -59,7 +61,7 @@ const BuyerSupport = ({ user }) => {
             messagePlaceholder: 'Briefly describe the issue for our verification team...',
             submitInvest: 'Submit for Investigation',
             registering: 'Registering...',
-            disputeRaised: 'Dispute Raised! âœ…',
+            disputeRaised: 'Dispute Raised! ✅',
             backDashboard: 'Back to Dashboard',
             auctionRules: 'E-Auction Rules',
             tenderTracker: 'Tender Tracker',
@@ -76,201 +78,452 @@ const BuyerSupport = ({ user }) => {
             footerText: 'AgriWise Enterprise — Securing the Supply Chain'
         },
         hi: {
-            title: 'à¤–à¤°à¥€ददार सहायता à¤”र सहायता',
-            subtitle: 'à¤†à¤ªà¤•à¥€ à¤–à¤°à¥€द यात्रा à¤•à¥‹ सुव्यवस्थित à¤•रना। हम à¤•à¥ˆà¤¸à¥‡ मदद à¤•र à¤¸à¤•à¤¤à¥‡ à¤¹à¥ˆà¤‚?',
-            voiceCall: 'à¤•à¥‰ल à¤¸à¤ªà¥‹à¤°à¥à¤Ÿ',
-            whatsapp: 'à¤¸à¤‚à¤šालन à¤šà¥ˆà¤Ÿ',
-            smsIvr: 'एसएमएस स्थिति',
-            faqs: 'à¤–à¤°à¥€ददार à¤¸à¤‚साधन',
-            dispute: 'à¤²à¥‡à¤¨à¤¦à¥‡न à¤•à¥€ समस्या à¤•à¥€ à¤°à¤¿à¤ªà¥‹à¤°à¥à¤Ÿ à¤•à¤°à¥‡à¤‚',
-            back: 'à¤®à¤¾à¤°à¥à¤•à¥‡à¤Ÿà¤ªà¥à¤²à¥‡स पर वापस',
-            selectLang: 'भाषा à¤šà¥à¤¨à¥‡à¤‚',
-            procurementTitle: 'à¤–à¤°à¥€द à¤”र à¤¬à¥‹à¤²à¥€',
-            procurementDesc: 'à¤¥à¥‹à¤• à¤¬à¥‹à¤²à¥€ à¤”र à¤ˆ-à¤¨à¥€à¤²à¤¾à¤®à¥€ à¤•à¥‡ लिए à¤‰न्नत नियम।',
-            procurementFull: 'à¤à¤—à¥à¤°à¥€à¤µà¤¾à¤‡à¤œ़ à¤–à¤°à¥€द à¤‡à¤‚à¤œन à¤•à¥‹ à¤à¤‚à¤Ÿà¤°à¤ªà¥à¤°à¤¾à¤‡à¤œ-à¤—à¥à¤°à¥‡ड à¤¦à¤•्षता à¤•à¥‡ लिए à¤¡à¤¿à¤œà¤¼à¤¾à¤‡न à¤•िया à¤—या à¤¹à¥ˆ, à¤œà¥‹ à¤ªà¥à¤°à¤¤à¥à¤¯à¤•्ष à¤¸à¥à¤ªà¥‰à¤Ÿ-à¤¬à¤¾à¤¯à¤¿à¤‚à¤— à¤”र à¤œà¤Ÿिल रिवर्स à¤‘à¤•्शन à¤¦à¥‹à¤¨à¥‹à¤‚ à¤•ा समर्थन à¤•रता à¤¹à¥ˆ। à¤–à¤°à¥€दार à¤ªà¤¾à¤°à¤¦à¤°à¥à¤¶à¥€ à¤ˆ-à¤¨à¥€à¤²à¤¾à¤®à¥€ à¤®à¥‡à¤‚ à¤­à¤¾à¤— à¤²à¥‡ à¤¸à¤•à¤¤à¥‡ à¤¹à¥ˆà¤‚ à¤œà¤¹à¤¾à¤‚ à¤•िसान à¤†à¤ªà¤•à¥‡ à¤²à¤•्षित à¤®à¥‚ल्य à¤•à¥‹ à¤ªà¥‚रा à¤•à¤°à¤¨à¥‡ à¤•à¥‡ लिए à¤¬à¥‹à¤²à¥€ à¤²à¤—à¤¾à¤¤à¥‡ à¤¹à¥ˆà¤‚।',
-            logisticsTitle: 'रसद à¤”र à¤Ÿà¥à¤°à¥ˆà¤•à¤¿à¤‚à¤—',
-            logisticsDesc: 'à¤µà¤¾à¤¸à¥à¤¤à¤µà¤¿à¤• समय à¤¬à¥‡à¤¡à¤¼à¥‡ à¤ªà¥à¤°à¤¬à¤‚धन à¤”र à¤µà¤¾à¤¹à¤• समन्वय।',
-            logisticsFull: 'à¤•ुशल à¤†à¤ªà¥‚र्ति à¤¶à¥à¤°à¥ƒà¤‚à¤–ला à¤ªà¥à¤°à¤¬à¤‚धन à¤–à¤°à¥€दार à¤•à¥‡ à¤…नुभव à¤•à¥‡ à¤•à¥‡à¤‚द्र à¤®à¥‡à¤‚ à¤¹à¥ˆ। à¤à¤—à¥à¤°à¥€à¤µà¤¾à¤‡à¤œ à¤•à¤¨à¥‡à¤•à¥à¤Ÿ à¤•à¥‡ माध्यम à¤¸à¥‡, à¤–à¤°à¥€à¤¦à¤¾à¤°à¥‹à¤‚ à¤•à¥‹ à¤•à¥ƒषि परिवहन à¤®à¥‡à¤‚ à¤µà¤¿à¤¶à¥‡à¤·à¤œà¥à¤žता à¤°à¤–à¤¨à¥‡ à¤µà¤¾à¤²à¥‡ à¤¸à¥à¤¥à¤¾à¤¨à¥€à¤¯à¤•à¥ƒत, à¤•à¥‡à¤µà¤¾à¤ˆà¤¸à¥€-सत्यापित à¤¬à¥‡à¤¡à¤¼à¥‡ à¤®à¤¾à¤²à¤¿à¤•à¥‹à¤‚ à¤•à¥‡ à¤¨à¥‡à¤Ÿà¤µà¤°à¥à¤• à¤¤à¤• à¤¸à¥€à¤§à¥€ à¤ªà¤¹à¥à¤‚à¤š à¤®à¤¿à¤²à¤¤à¥€ à¤¹à¥ˆ।',
-            paymentTitle: 'à¤šालान à¤”र à¤­à¥à¤—तान',
-            paymentDesc: 'à¤œà¥€à¤à¤¸à¤Ÿà¥€-à¤…नुपालन à¤à¤¸à¥à¤•à¥à¤°à¥‹ à¤”र à¤µà¥‰à¤²à¥‡à¤Ÿ à¤¨à¤¿à¤ªà¤Ÿान à¤ªà¥à¤°à¤£à¤¾à¤²à¥€।',
-            paymentFull: 'à¤à¤—à¥à¤°à¥€à¤µà¤¾à¤‡à¤œ़ à¤¦à¥‹à¤¨à¥‹à¤‚ à¤ªà¤•à¥à¤·à¥‹à¤‚ à¤•à¥‡ लिए à¤ªà¥‚र्ण à¤µà¤¿à¤¤à¥à¤¤à¥€य à¤¸à¥à¤°à¤•्षा प्रदान à¤•à¤°à¤¨à¥‡ à¤•à¥‡ लिए à¤à¤• à¤¸à¥à¤°à¤•्षित à¤®à¤²à¥à¤Ÿà¥€-à¤¸à¤¿à¤—à¥à¤¨à¥‡à¤šर à¤à¤¸à¥à¤•à¥à¤°à¥‹ à¤¤à¤‚त्र à¤•ा à¤‰à¤ªà¤¯à¥‹à¤— à¤•रता à¤¹à¥ˆ। à¤œब à¤†प à¤à¤• à¤¸à¥Œà¤¦à¥‡ à¤•à¥‹ à¤…à¤‚तिम à¤°à¥‚प à¤¦à¥‡à¤¤à¥‡ à¤¹à¥ˆà¤‚, à¤¤à¥‹ à¤†à¤ªà¤•ा à¤«à¤‚ड à¤¸à¥à¤°à¤•्षित à¤°à¥‚प à¤¸à¥‡ à¤°à¤–ा à¤œाता à¤¹à¥ˆ।',
-            qualityTitle: 'à¤—ुणवत्ता à¤®à¤¾à¤¨à¤•',
-            qualityDesc: 'à¤µà¤¿à¤¸à¥à¤¤à¥ƒत à¤—à¥à¤°à¥‡à¤¡à¤¿à¤‚à¤— à¤šà¤¾à¤°à¥à¤Ÿ à¤”र à¤²à¥ˆब प्रमाणन à¤ªà¥à¤°à¥‹à¤Ÿà¥‹à¤•à¥‰ल।',
-            qualityFull: 'à¤—ुणवत्ता à¤†श्वासन à¤¹à¤®à¤¾à¤°à¥‡ à¤¬à¤¾à¤œार à¤•à¥€ à¤†धारशिला à¤¹à¥ˆ। à¤à¤—à¥à¤°à¥€à¤µà¤¾à¤‡à¤œ पर à¤¸à¥‚à¤šà¥€बद्ध à¤ªà¥à¤°à¤¤à¥à¤¯à¥‡à¤• à¤•à¥ƒषि à¤²à¥‰à¤Ÿ à¤•à¥‹ à¤¹à¤®à¤¾à¤°à¥‡ à¤®à¤¾à¤²à¤¿à¤•ाना "à¤à¤—à¥à¤°à¥€à¤µà¤¾à¤‡à¤œ à¤¸à¥à¤Ÿà¥ˆà¤‚डर्ड v2.0" à¤¢à¤¾à¤‚à¤šà¥‡ à¤•à¥‡ à¤–िलाफ à¤—à¥à¤°à¥‡ड à¤•िया à¤—या à¤¹à¥ˆ।',
-            enterpriseSupport: 'à¤à¤‚à¤Ÿà¤°à¤ªà¥à¤°à¤¾à¤‡à¤œ à¤¸à¤ªà¥‹à¤°à¥à¤Ÿ 2.0',
-            heroTitlePrefix: 'à¤…à¤ªà¤¨à¥€ à¤–à¤°à¥€द à¤•à¥‹',
-            heroTitleHighlight: 'à¤…à¤¨à¥à¤•à¥‚लित à¤•à¤°à¥‡à¤‚',
-            heroDesc: 'à¤¹à¤®à¤¾à¤°à¥‡ à¤‰न्नत à¤–à¤°à¥€दार सहायता à¤ªà¥‹à¤°à¥à¤Ÿल à¤•à¥‡ माध्यम à¤¸à¥‡ à¤¬à¥‹à¤²à¥€, रसद à¤”र à¤—ुणवत्ता à¤†श्वासन à¤•à¥‹ सुव्यवस्थित à¤•à¤°à¥‡à¤‚।',
-            opsLine: 'à¤¸à¥€à¤§à¥€ à¤ªà¤°à¤¿à¤šालन à¤²à¤¾à¤‡न',
-            logisticsHelp: '24/7 रसद सहायता',
-            queryStatus: 'à¤•à¥à¤µà¥‡à¤°à¥€ स्थिति',
-            openHub: 'à¤–à¤°à¥€द हब à¤–à¥‹à¤²à¥‡à¤‚ →',
-            logisticsDash: 'à¤²à¥‰à¤œà¤¿à¤¸à¥à¤Ÿà¤¿à¤•्स à¤¡à¥ˆà¤¶à¤¬à¥‹र्ड →',
-            gradingProto: 'à¤—à¥à¤°à¥‡à¤¡à¤¿à¤‚à¤— à¤ªà¥à¤°à¥‹à¤Ÿà¥‹à¤•à¥‰ल →',
-            escrowSet: 'à¤à¤¸à¥à¤•à¥à¤°à¥‹ à¤¸à¥‡à¤Ÿà¤¿à¤‚à¤—्स →',
-            disputeDesc: 'à¤—ुणवत्ता, à¤µà¤œन à¤•à¥‡ à¤¬à¥‡à¤®à¥‡ल या à¤¡à¤¿à¤²à¥€à¤µà¤°à¥€ à¤®à¥‡à¤‚ à¤¦à¥‡à¤°à¥€ à¤•à¥€ à¤¸à¤®à¤¸à¥à¤¯à¤¾à¤“à¤‚ à¤•à¥‹ à¤°à¤¿à¤ªà¥‹à¤°à¥à¤Ÿ à¤•à¤°à¥‡à¤‚। à¤¹à¤®à¤¾à¤°à¥€ समर्पित à¤‘à¤¡à¤¿à¤Ÿà¤¿à¤‚à¤— à¤Ÿà¥€म 48 à¤˜à¤‚à¤Ÿà¥‹à¤‚ à¤•à¥‡ à¤­à¥€तर à¤¨à¤¿à¤·à¥à¤ªà¤•्ष समाधान à¤¸à¥à¤¨à¤¿à¤¶à¥à¤šित à¤•à¤°à¥‡à¤—à¥€।',
-            raiseDispute: 'à¤…à¤­à¥€ विवाद à¤‰à¤ à¤¾à¤à¤‚',
-            cancelDispute: 'विवाद रद्द à¤•à¤°à¥‡à¤‚',
-            farmerNameLabel: 'à¤•िसान à¤•ा नाम / à¤†à¤ˆà¤¡à¥€',
-            farmerNamePlaceholder: 'à¤µà¤¿à¤•à«àª°à«‡તા विवरण',
-            orderIdLabel: 'à¤‘र्डर/à¤²à¥‰à¤Ÿ à¤†à¤ˆà¤¡à¥€',
-            orderIdPlaceholder: 'à¤²à¥‡à¤¨à¤¦à¥‡न à¤†à¤ˆà¤¡à¥€',
-            issueTypeLabel: 'समस्या à¤•ा à¤ªà¥à¤°à¤•ार',
-            selectCategory: 'à¤¶à¥à¤°à¥‡à¤£à¥€ à¤šà¥à¤¨à¥‡à¤‚...',
-            issueQuality: 'à¤—ुणवत्ता à¤¬à¥‡à¤®à¥‡ल',
-            issueWeight: 'à¤µà¤œन/मात्रा à¤•à¥€ à¤•à¤®à¥€',
-            issueDelivery: 'à¤¦à¥‡र à¤¸à¥‡ à¤¡à¤¿à¤²à¥€à¤µà¤°à¥€',
-            issueInvoice: 'à¤šालान/à¤œà¥€à¤à¤¸à¤Ÿà¥€ à¤¤à¥à¤°à¥à¤Ÿि',
-            messageLabel: 'à¤µà¤¿à¤¸à¥à¤¤à¥ƒत à¤¸à¤‚à¤¦à¥‡श',
-            messagePlaceholder: 'à¤¹à¤®à¤¾à¤°à¥€ सत्यापन à¤Ÿà¥€म à¤•à¥‡ लिए समस्या à¤•ा à¤¸à¤‚à¤•à¥à¤·à¥‡प à¤®à¥‡à¤‚ वर्णन à¤•à¤°à¥‡à¤‚...',
-            submitInvest: 'à¤œà¤¾à¤‚à¤š à¤•à¥‡ लिए à¤¸à¤¬à¤®à¤¿à¤Ÿ à¤•à¤°à¥‡à¤‚',
-            registering: 'à¤ªà¤‚à¤œà¥€à¤•रण à¤•र रहा à¤¹à¥ˆ...',
-            disputeRaised: 'विवाद à¤‰ठाया à¤—या! âœ…',
-            backDashboard: 'à¤¡à¥ˆà¤¶à¤¬à¥‹र्ड पर वापस',
-            auctionRules: 'à¤ˆ-à¤¨à¥€à¤²à¤¾à¤®à¥€ नियम',
-            tenderTracker: 'निविदा à¤Ÿà¥à¤°à¥ˆà¤•र',
-            liveTracking: 'à¤²à¤¾à¤‡व à¤Ÿà¥à¤°à¥ˆà¤•à¤¿à¤‚à¤— सुविधा',
-            trackingDesc: '"à¤¬à¤¾à¤œ़ार > à¤‘र्डर" à¤Ÿà¥ˆब à¤•ा à¤‰à¤ªà¤¯à¥‹à¤— à¤•à¤°à¤•à¥‡ à¤…à¤ªà¤¨à¥‡ वर्तमान à¤¶à¤¿à¤ªà¤®à¥‡à¤‚à¤Ÿ à¤•à¥‡ लिए à°°à±€యల్-à°Ÿà±ˆమ్ à¤œà¥€à¤ªà¥€एस स्थिति à¤”र तापमान à¤²à¥‰à¤— à¤¦à¥‡à¤–à¥‡à¤‚।',
-            gradeAplus: 'à¤—à¥à¤°à¥‡ड A+',
-            gradeA: 'à¤—à¥à¤°à¥‡ड A',
-            gradeB: 'à¤—à¥à¤°à¥‡ड B',
-            exportGrade: 'निर्यात à¤—à¥à¤°à¥‡ड',
-            domesticStd: 'à¤˜à¤°à¥‡à¤²à¥‚ à¤®à¤¾à¤¨à¤•',
-            industrial: 'à¤”à¤¦à¥à¤¯à¥‹à¤—à¤¿à¤•',
-            downloadGst: 'à¤œà¥€à¤à¤¸à¤Ÿà¥€ à¤¹à¥‡ल्पर à¤¡à¤¾à¤‰à¤¨à¤²à¥‹ड à¤•à¤°à¥‡à¤‚',
-            walletSettings: 'à¤µà¥‰à¤²à¥‡à¤Ÿ à¤¸à¥‡à¤Ÿà¤¿à¤‚à¤—्स',
-            footerText: 'à¤à¤—à¥à¤°à¥€à¤µà¤¾à¤‡à¤œ à¤à¤‚à¤Ÿà¤°à¤ªà¥à¤°à¤¾à¤‡à¤œ — à¤†à¤ªà¥‚र्ति à¤¶à¥à¤°à¥ƒà¤‚à¤–ला à¤•à¥‹ à¤¸à¥à¤°à¤•्षित à¤•रना'
+            title: 'खरीददार समर्थन & सहायता',
+            subtitle: 'आपकी खरीद यात्रा को सुव्यवस्थित करना। हम कैसे मदद कर सकते हैं?',
+            voiceCall: 'कॉल सपोर्ट',
+            whatsapp: 'ऑपरेशंस चैट',
+            smsIvr: 'SMS स्थिति',
+            faqs: 'खरीददार संसाधन',
+            dispute: 'लेनदेन की समस्या की रिपोर्ट करें',
+            back: 'मार्केटप्लेस पर वापस',
+            myReports: 'मेरी रिपोर्ट',
+            selectLang: 'भाषा चुनें',
+            procurementTitle: 'समस्या की रिपोर्ट करें',
+            procurementDesc: 'गुणवत्ता, वजन, डिलीवरी, चालान की समस्याओं को तुरंत फ़्लैग करें।',
+            logisticsTitle: 'पिछले टिकट ट्रैक करें',
+            logisticsDesc: 'अपने विवादों और पूछताछ की वास्तविक समय स्थिति जांचें।',
+            qualityTitle: 'AgriWise उपयोग गाइड',
+            qualityDesc: 'चरण-दर-चरण निर्देश: अन्वेषण, ऑर्डर, भुगतान, ट्रैक।',
+            paymentTitle: 'गुणवत्ता और वापसी नीति',
+            paymentDesc: 'शिपमेंट अस्वीकार करने के आधिकारिक नियम।',
+            enterpriseSupport: 'खरीददार सहायता केंद्र',
+            heroTitlePrefix: 'आपका संपूर्ण',
+            heroTitleHighlight: 'समर्थन हब',
+            heroDesc: 'समस्याएं रिपोर्ट करें, टिकट ट्रैक करें, खरीद का तरीका जानें — एक ही जगह।',
+            opsLine: 'ऑपरेशंस चैट',
+            logisticsHelp: '24/7 लॉजिस्टिक्स मदद',
+            queryStatus: 'पूछताछ स्थिति',
+            openHub: 'विवाद फॉर्म खोलें →',
+            logisticsDash: 'मेरी रिपोर्ट देखें →',
+            gradingProto: 'पूरी गाइड पढ़ें →',
+            escrowSet: 'गुणवत्ता नीति देखें →',
+            disputeDesc: 'गुणवत्ता, वजन, डिलीवरी की समस्याओं को फ़्लैग करें। 48 घंटों में उचित समाधान सुनिश्चित किया जाएगा।',
+            raiseDispute: 'अभी विवाद उठाएं',
+            cancelDispute: 'विवाद रद्द करें',
+            farmerNameLabel: 'किसान का नाम / ID',
+            farmerNamePlaceholder: 'विक्रेता का विवरण',
+            orderIdLabel: 'ऑर्डर/लॉट ID',
+            orderIdPlaceholder: 'लेनदेन ID',
+            issueTypeLabel: 'समस्या का प्रकार',
+            selectCategory: 'श्रेणी चुनें...',
+            issueQuality: 'गुणवत्ता में बेमेल',
+            issueWeight: 'वजन/मात्रा में कमी',
+            issueDelivery: 'देर से डिलीवरी',
+            issueInvoice: 'चालान/GST त्रुटि',
+            messageLabel: 'विस्तृत संदेश',
+            messagePlaceholder: 'हमारी सत्यापन टीम के लिए समस्या का संक्षेप में वर्णन करें...',
+            submitInvest: 'जांच के लिए सबमिट करें',
+            registering: 'पंजीकरण हो रहा है...',
+            disputeRaised: 'विवाद उठाया गया! ✅',
+            backDashboard: 'डैशबोर्ड पर वापस',
+            auctionRules: 'ई-नीलामी नियम',
+            tenderTracker: 'टेंडर ट्रैकर',
+            liveTracking: 'लाइव ट्रैकिंग सुविधा',
+            trackingDesc: 'वर्तमान शिपमेंट की GPS स्थिति देखने के लिए "Marketplace > Orders" टैब का उपयोग करें।',
+            gradeAplus: 'ग्रेड A+',
+            gradeA: 'ग्रेड A',
+            gradeB: 'ग्रेड B',
+            exportGrade: 'निर्यात ग्रेड',
+            domesticStd: 'घरेलू Std',
+            industrial: 'औद्योगिक',
+            downloadGst: 'GST सहायक डाउनलोड करें',
+            walletSettings: 'वॉलेट सेटिंग्स',
+            footerText: 'AgriWise Enterprise — आपूर्ति श्रृंखला को सुरक्षित करना'
         },
         te: {
-            title: 'à°•à±Šà°¨à±à°—à±‹లుదారు మద్దతు & à°¸à°¹à°¾à°¯à°‚',
-            subtitle: 'à°®à±€ à°¸à±‡à°•రణ ప్రయాణాన్ని à°•à±à°°à°®à°¬à°¦à±à°§à±€à°•à°°à°¿à°‚à°šà°¡à°‚. à°®à±‡ము à°Žలా à°¸à°¹à°¾à°¯à°ªà°¡à°—లము?',
-            voiceCall: 'à°•ాల్ à°¸à°ªà±‹à°°à±à°Ÿ్',
-            whatsapp: 'à°†à°ªà°°à±‡షన్స్ à°šà°¾à°Ÿ్',
+            title: 'కొనుగోలుదారు మద్దతు & సహాయం',
+            subtitle: 'మీ సేకరణ ప్రయాణాన్ని సులభతరం చేస్తున్నాము. మేము ఎలా సహాయపడగలము?',
+            voiceCall: 'కాల్ సపోర్ట్',
+            whatsapp: 'ఆపరేషన్స్ చాట్',
             smsIvr: 'SMS స్థితి',
-            faqs: 'à°•à±Šà°¨à±à°—à±‹లుదారు వనರುలు',
-            dispute: 'à°²à°¾à°µà°¾à°¦à±‡à°µà±€ సమస్యను à°¨à°¿à°µà±‡à°¦à°¿à°‚à°šà°‚డి',
-            back: 'à°®à°¾à°°à±à°•à±†à°Ÿà±â€Œà°ªà±à°²à±‡à°¸à±â€Œà°•ు à°¤à°¿à°°à°¿à°—ి à°µà±†à°³à±à°³à°‚డి',
-            selectLang: 'భాషను à°Žà°‚à°šà±à°•à±‹à°‚డి',
-            procurementTitle: 'à°¸à±‡à°•రణ & à°¬à°¿à°¡à±à°¡à°¿à°‚à°—్',
-            procurementDesc: 'à°¬à°²à±à°•్ à°¬à°¿à°¡à±à°¡à°¿à°‚à°—్ మరియు à°‡-à°µà±‡à°²à°‚ à°•à±‹à°¸à°‚ à°…ధునాతన నియమాలు.',
-            procurementFull: 'à°…à°—à±à°°à°¿à°µà±ˆà°œ్ à°ªà±à°°à±Šà°•à±à°¯à±‚à°°à±â€Œà°®à±†à°‚à°Ÿ్ à°‡à°‚à°œిన్ à°Žà°‚à°Ÿà°°à±â€Œà°ªà±à°°à±ˆà°œ్-à°—à±à°°à±‡డ్ à°¸à°¾à°®à°°à±à°¥à±à°¯à°‚ à°•à±‹à°¸à°‚ à°°à±‚à°ªà±Šà°‚à°¦à°¿à°‚à°šà°¬à°¡à°¿à°‚ది, à°ªà±à°°à°¤à±à°¯à°•్ష à°¸à±à°ªà°¾à°Ÿ్-à°¬à±ˆà°¯à°¿à°‚à°—్ và à°¸à°‚à°•à±à°²à°¿à°·à±à°Ÿ రివర్స్ à°µà±‡à°²à°‚ à°°à±†à°‚à°¡à°¿à°‚à°Ÿà°¿à°•ి మద్దతు à°‡à°¸à±à°¤à±à°‚ది.',
-            logisticsTitle: 'à°²à°¾à°œà°¿à°¸à±à°Ÿà°¿à°•్స్ & à°Ÿà±à°°à°¾à°•à°¿à°‚à°—్',
-            logisticsDesc: 'రియల్ à°Ÿà±ˆమ్ à°«à±à°²à±€à°Ÿ్ à°®à±‡à°¨à±‡à°œà±â€Œà°®à±†à°‚à°Ÿ్ మరియు à°•్యారియర్ à°•à±‹à°†à°°à±à°¡à°¿à°¨à±‡షన్.',
-            logisticsFull: 'à°¸à°®à°°à±à°¥à°µà°‚à°¤à°®à±ˆన à°¸à°ªà±à°²à±ˆ à°šà±ˆన్ à°®à±‡à°¨à±‡à°œà±â€Œà°®à±†à°‚à°Ÿ్ à°•à±Šà°¨à±à°—à±‹లుదారు à°…à°¨à±à°­à°µà°‚à°²à±‹ à°ªà±à°°à°§à°¾à°¨à°®à±ˆనది. à°…à°—à±à°°à°¿à°µà±ˆà°œ్ à°•à°¨à±†à°•à±à°Ÿ్ ద్వారా, à°•à±Šà°¨à±à°—à±‹లుదారులు à°«à±à°²à±€à°Ÿ్ à°¯à°œమానుల à°¨à±†à°Ÿà±â€Œà°µà°°à±â€Œà°•ు à°ªà±à°°à°¤à±à°¯à°•్ష ప్రాప్యతను à°ªà±Šà°‚దుతారు.',
-            paymentTitle: 'à°‡à°¨à±â€Œà°µà°¾à°¯à°¿à°¸à±â€Œలు & à°šà±†à°²à±à°²à°¿à°‚పులు',
-            paymentDesc: 'GST-à°…à°¨à±à°•à±‚ల à°Žà°¸à±à°•à±à°°à±‹ మరియు à°µà°¾à°²à±†à°Ÿ్ à°¸à±†à°Ÿà°¿à°²à±à°®à±†à°‚à°Ÿ్ à°¸à°¿à°¸à±à°Ÿమ్స్.',
-            paymentFull: 'à°°à±†à°‚డు à°ªà°¾à°°à±à°Ÿà±€à°²à°•ు à°ªà±‚ర్తి à°†à°°à±à°¥à°¿à°• భద్రతను à°…à°‚à°¦à°¿à°‚à°šà°¡à°¾à°¨à°¿à°•ి à°…à°—à±à°°à°¿à°µà±ˆà°œ్ à°¸à±à°°à°•à±à°·à°¿à°¤à°®à±ˆన à°®à°²à±à°Ÿà±€-à°¸à°¿à°—à±à°¨à±‡à°šర్ à°Žà°¸à±à°•à±à°°à±‹ à°®à±†à°•à°¾à°¨à°¿à°œà°‚ను à°‰à°ªà°¯à±‹à°—à°¿à°¸à±à°¤à±à°‚ది.',
-            qualityTitle: 'à²¨à²¾à²£à³à²¯à²¤à³† ప్రమాణాలు',
-            qualityDesc: 'à°µà°¿à°µà°°à°£à°¾à°¤à±à°®à°• à°—à±à°°à±‡à°¡à°¿à°‚à°—్ à°šà°¾à°°à±à°Ÿà±â€Œలు మరియు ల్యాబ్ à°¸à°°à±à°Ÿà°¿à°«à°¿à°•à³‡షన్ à°ªà±à°°à±‹à°Ÿà±‹à°•ాల్స్.',
-            qualityFull: 'నాణ్యత à°¹à°¾à°®à±€ మా à°®à°¾à°°à±à°•à±†à°Ÿà±â€Œà°ªà±à°²à±‡à°¸à±â€Œà°•ు పునాది. à°…à°—à±à°°à°¿à°µà±ˆà°œà±â€Œà°²à±‹ à°œాబితా à°šà±‡యబడిన ప్రతి వ్యవసాయ à°²à°¾à°Ÿ్ మా "à°…à°—à±à°°à°¿à°µà±ˆà°œ్ à°¸à±à°Ÿà°¾à°‚డర్డ్ v2.0" à°«à±à°°à±‡à°®à±â€Œà°µà°°à±à°•్ à°ªà±à°°à°•à°¾à°°à°‚ à°—à±à°°à±‡డ్ à°šà±‡à°¯à°¬à°¡à°¿à°‚ది.',
+            faqs: 'కొనుగోలుదారు వనరులు',
+            dispute: 'లావాదేవీ సమస్యను నివేదించండి',
+            back: 'మార్కెట్‌ప్లేస్‌కు తిరిగి వెళ్లండి',
+            selectLang: 'భాషను ఎంచుకోండి',
+            procurementTitle: 'సేకరణ & బిడ్డింగ్',
+            procurementDesc: 'బల్క్ బిడ్డింగ్ మరియు ఈ-వేలం కోసం అధునాతన నియమాలు.',
+            procurementFull: 'AgriWise ప్రొక్యూర్‌మెంట్ ఇంజిన్ ఎంటర్‌ప్రైజ్-గ్రేడ్ సామర్థ్యం కోసం రూపొందించబడింది, ప్రత్యక్ష స్పాట్-బైయింగ్ మరియు సంక్లిష్ట రివర్స్ వేలం రెంటికీ మద్దతు ఇస్తుంది.',
+            logisticsTitle: 'లాజిస్టిక్స్ & ట్రాకింగ్',
+            logisticsDesc: 'రియల్ టైమ్ ఫ్లీట్ మేనేజ్‌మెంట్ మరియు క్యారియర్ సమన్వయం.',
+            logisticsFull: 'సమర్థవంతమైన సరఫరా గొలుసు నిర్వహణ కొనుగోలుదారు అనుభవంలో ప్రధానమైనది. AgriWise Connect ద్వారా, కొనుగోలుదారులు ఫ్లీట్ యజమానుల నెట్‌వర్క్‌కు ప్రత్యక్ష ప్రాప్యతను పొందుతారు.',
+            paymentTitle: 'ఇన్‌వాయిస్‌లు & చెల్లింపులు',
+            paymentDesc: 'GST-అనుకూల ఎస్క్రో మరియు వాలెట్ సెటిల్‌మెంట్ సిస్టమ్స్.',
+            paymentFull: 'AgriWise రెండు పార్టీలకు పూర్తి ఆర్థిక భద్రతను అందించడానికి సురక్షితమైన మల్టీ-సిగ్నేచర్ ఎస్క్రో యంత్రాంగాన్ని ఉపయోగిస్తుంది. మీరు డీల్‌ని ఫైనలైజ్ చేసినప్పుడు, మీ ఫండ్స్ సురక్షితంగా ఉంటాయి.',
+            qualityTitle: 'నాణ్యతా ప్రమాణాలు',
+            qualityDesc: 'వివరణాత్మక గ్రేడింగ్ చార్ట్‌లు మరియు ల్యాబ్ సర్టిఫికేషన్ ప్రోటోకాల్స్.',
+            qualityFull: 'నాణ్యత హామీ మా మార్కెట్‌ప్లేస్‌కు పునాది. AgriWise లో జాబితా చేయబడిన ప్రతి వ్యవసాయ లాట్ మా "AgriWise Standard v2.0" ఫ్రేమ్‌వర్క్ ప్రకారం గ్రేడ్ చేయబడింది.',
             enterpriseSupport: 'Enterprise Support 2.0',
-            heroTitlePrefix: 'Optimize your',
-            heroTitleHighlight: 'procurement',
-            heroDesc: 'Streamline bidding, logistics, and quality assurance through our advanced buyer assistance portal.',
-            opsLine: 'Direct Ops Line',
-            logisticsHelp: '24/7 Logistics Help',
-            queryStatus: 'Query Status',
-            openHub: 'Open Procurement Hub →',
-            logisticsDash: 'Logistics Dashboard →',
-            gradingProto: 'Grading Protocols →',
-            escrowSet: 'Escrow Settings →',
-            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
-            raiseDispute: 'Raise Dispute Now',
-            cancelDispute: 'Cancel Dispute',
-            farmerNameLabel: 'Farmer Name / ID',
-            farmerNamePlaceholder: 'Seller Details',
-            orderIdLabel: 'Order/Lot ID',
-            orderIdPlaceholder: 'Transaction ID',
-            issueTypeLabel: 'Type of Issue',
-            selectCategory: 'Select category...',
-            issueQuality: 'Quality Mismatch',
-            issueWeight: 'Weight/Quantity Shortage',
-            issueDelivery: 'Late Delivery',
-            issueInvoice: 'Invoice/GST Error',
-            messageLabel: 'Detailed Message',
-            messagePlaceholder: 'Briefly describe the issue for our verification team...',
-            submitInvest: 'Submit for Investigation',
-            registering: 'Registering...',
-            disputeRaised: 'Dispute Raised! âœ…',
-            backDashboard: 'Back to Dashboard',
-            auctionRules: 'E-Auction Rules',
-            tenderTracker: 'Tender Tracker',
-            liveTracking: 'Live Tracking Feature',
-            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
-            gradeAplus: 'Grade A+',
-            gradeA: 'Grade A',
-            gradeB: 'Grade B',
-            exportGrade: 'Export Grade',
-            domesticStd: 'Domestic Std',
-            industrial: 'Industrial',
-            downloadGst: 'Download GST Helper',
-            walletSettings: 'Wallet Settings',
-            footerText: 'AgriWise Enterprise — Securing the Supply Chain',
-            queryOptions: {
-                kyc_help: 'Registration / KYC',
-                logistics_help: 'Logistics Request',
-                payment_issue: 'Payment / Wallet',
-                other: 'Other Inquiry'
-            },
-            formTabs: {
-                query: 'General Inquiry',
-                dispute: 'Raise Dispute'
-            }
+            heroTitlePrefix: 'మీ',
+            heroTitleHighlight: 'సేకరణను',
+            heroDesc: 'మా అధునాతన కొనుగోలుదారు సహాయ పోర్టల్ ద్వారా బిడ్డింగ్, లాజిస్టిక్స్ మరియు నాణ్యత హామీని క్రమబద్ధీకరించండి.',
+            opsLine: 'డైరెక్ట్ ఆప్స్ లైన్',
+            logisticsHelp: '24/7 లాజిస్టిక్స్ హెల్ప్',
+            queryStatus: 'ప్రశ్న స్థితి',
+            openHub: 'ఓపెన్ ప్రొక్యూర్‌మెంట్ హబ్ →',
+            logisticsDash: 'లాజిస్టిక్స్ డాష్‌బోర్డ్ →',
+            gradingProto: 'గ్రేడింగ్ ప్రోటోకాల్స్ →',
+            escrowSet: 'ఎస్క్రో సెట్టింగ్‌లు →',
+            disputeDesc: 'నాణ్యత, బరువు అసమతుల్యత లేదా డెలివరీ ఆలస్యంతో సమస్యలను ఫ్లాగ్ చేయండి. 48 గంటల్లో సరైన పరిష్కారాన్ని నిర్ధారించడానికి మా డెడికేటెడ్ ఆడిటింగ్ బృందం మధ్యవర్తిత్వం వహిస్తుంది.',
+            raiseDispute: 'ఇప్పుడే వివాదాన్ని లేవనెత్తండి',
+            cancelDispute: 'వివాదాన్ని రద్దు చేయండి',
+            farmerNameLabel: 'రైతు పేరు / ID',
+            farmerNamePlaceholder: 'విక్రేత వివరాలు',
+            orderIdLabel: 'ఆర్డర్/లాట్ ID',
+            orderIdPlaceholder: 'లావాదేవీ ID',
+            issueTypeLabel: 'సమస్య రకం',
+            selectCategory: 'వర్గాన్ని ఎంచుకోండి...',
+            issueQuality: 'నాణ్యత అసమతుల్యత',
+            issueWeight: 'బరువు/పరిమాణం కొరత',
+            issueDelivery: 'ఆలస్యమైన డెలివరీ',
+            issueInvoice: 'ఇన్‌వాయిస్/GST లోపం',
+            messageLabel: 'వివరణాత్మక సందేశం',
+            messagePlaceholder: 'మా ధృవీకరణ బృందం కోసం సమస్యను క్లుప్తంగా వివరించండి...',
+            submitInvest: 'దర్యాప్తు కోసం సమర్పించండి',
+            registering: 'నమోదు అవుతోంది...',
+            disputeRaised: 'వివాదం లేవనెత్తబడింది! ✅',
+            backDashboard: 'డాష్‌బోర్డ్‌కు తిరిగి వెళ్లండి',
+            auctionRules: 'ఈ-వేలం నిబంధనలు',
+            tenderTracker: 'టెండర్ ట్రాకర్',
+            liveTracking: 'లైవ్ ట్రాకింగ్ ఫీచర్',
+            trackingDesc: 'మీ ప్రస్తుత షిప్‌మెంట్‌ల కోసం రియల్-టైమ్ GPS స్థితి మరియు ఉష్ణోగ్రత లాగ్‌లను చూడటానికి "మార్కెట్‌ప్లేస్ > ఆర్డర్‌లు" ట్యాబ్‌ను ఉపయోగించండి.',
+            gradeAplus: 'గ్రేడ్ A+',
+            gradeA: 'గ్రేడ్ A',
+            gradeB: 'గ్రేడ్ B',
+            exportGrade: 'ఎగుమతి గ్రేడ్',
+            domesticStd: 'దేశీయ స్టాండర్డ్',
+            industrial: 'పారిశ్రామిక',
+            downloadGst: 'GST హెల్పర్ డౌన్‌లోడ్ చేయండి',
+            walletSettings: 'వాలెట్ సెట్టింగ్‌లు',
+            footerText: 'AgriWise Enterprise — సరఫరా గొలుసును సురక్షితం చేయడం'
         },
         ta: {
-            title: 'à®µà®¾à®™à¯à®•ுபவர் à®†தரவு & à®‰தவி',
-            subtitle: 'à®‰à®™à¯à®•ள் à®•à¯Šள்முதல் à®ªà®¯à®£à®¤à¯à®¤à¯ˆ à®¨à¯†à®±à®¿à®ªà¯à®ªà®Ÿுத்துதல். à®¨à®¾à®™à¯à®•ள் à®Žவ்வாறு à®‰தவ à®®à¯à®Ÿியும்?',
-            voiceCall: 'à®…à®´à¯ˆப்பு à®†தரவு',
-            whatsapp: 'à®šà¯†à®¯à®²à¯à®ªà®¾à®Ÿà¯à®•ள் à®…à®°à®Ÿà¯à®Ÿà¯ˆ',
-            smsIvr: 'SMS à®¨à®¿à®²à¯ˆ',
-            faqs: 'à®µà®¾à®™à¯à®•ுபவர் à®µà®³à®™à¯à®•ள்',
-            dispute: 'à®ªà®°à®¿à®µà®°à¯à®¤à¯à®¤à®©à¯ˆ à®šà®¿à®•à¯à®•à®²à¯ˆப் à®ªà¯à®•à®¾à®°à®³à®¿à®•à¯à®•வும்',
-            back: 'à®šà®¨à¯à®¤à¯ˆà®•à¯à®•ுத் திரும்பு',
-            selectLang: 'à®®à¯Šà®´à®¿à®¯à¯ˆத் à®¤à¯‡à®°à¯à®¨à¯à®¤à¯†à®Ÿà¯à®•à¯à®•வும்',
-            procurementTitle: 'à®•à¯Šள்முதல் & ஏலம்',
-            procurementDesc: 'à®®à¯Šத்த ஏலம் மற்றும் மின்-à®à®²à®™à¯à®•à®³à¯à®•à¯à®•ான à®®à¯‡à®®à¯à®ªà®Ÿà¯à®Ÿ à®µà®¿à®¤à®¿à®•ள்.',
-            procurementFull: 'AgriWise à®•à¯Šள்முதல் à®‡யந்திரம் நிறுவன தர à®šà¯†à®¯à®²à¯à®¤à®¿à®±à®©à¯à®•à¯à®•à®¾à®• à®µà®Ÿà®¿à®µà®®à¯ˆà®•à¯à®•à®ªà¯à®ªà®Ÿà¯à®Ÿுள்ளது, à®¨à¯‡à®°à®Ÿி à®¸à¯à®ªà®¾à®Ÿ்-à®ªà¯ˆà®¯à®¿à®™் மற்றும் à®šà®¿à®•à¯à®•லான à®¤à®²à¯ˆà®•à¯€ழ் ஏலம் à®‡à®°à®£à¯à®Ÿà¯ˆயும் à®†à®¤à®°à®¿à®•à¯à®•ிறது.',
-            logisticsTitle: 'à®¤à®³à®µà®¾à®Ÿà®™à¯à®•ள் & à®•à®£à¯à®•ாணிப்பு',
-            logisticsDesc: 'à®¨à®¿à®•à®´à¯à®¨à¯‡ர à®•à®Ÿà®±à¯à®ªà®Ÿà¯ˆ à®®à¯‡à®²à®¾à®£à¯à®®à¯ˆ மற்றும் à®•à¯‡ரியர் à®’à®°à¯à®™à¯à®•à®¿à®£à¯ˆப்பு.',
-            logisticsFull: 'à®¤à®¿à®±à®®à¯ˆயான à®µà®¿à®¨à®¿à®¯à¯‹à®•à®š் à®šà®™à¯à®•ிலி à®®à¯‡à®²à®¾à®£à¯à®®à¯ˆ à®µà®¾à®™à¯à®•ுபவரின் à®…னுபவத்தின் à®®à¯ˆயத்தில் à®‰ள்ளது. AgriWise Connect à®®à¯‚லம், à®µà®¾à®™à¯à®•à¯à®ªà®µà®°à¯à®•ள் à®•à®Ÿà®±à¯à®ªà®Ÿà¯ˆ à®‰à®°à®¿à®®à¯ˆà®¯à®¾à®³à®°à¯à®•ளின் à®¨à¯†à®Ÿà¯à®µà¯Šà®°à¯à®•à¯à®•à®¿à®±à¯à®•ு à®¨à¯‡à®°à®Ÿி à®…à®£à¯à®•à®²à¯ˆப் à®ªà¯†à®±à¯à®•à®¿à®±à®¾à®°à¯à®•ள்.',
-            gradingProto: 'Grading Protocols →',
-            escrowSet: 'Escrow Settings →',
-            disputeDesc: 'Flag issues with quality, weight mismatch, or delivery delays. Our dedicated auditing team will mediate to ensure a fair resolution within 48 hours.',
-            raiseDispute: 'Raise Dispute Now',
-            cancelDispute: 'Cancel Dispute',
-            farmerNameLabel: 'Farmer Name / ID',
-            farmerNamePlaceholder: 'Seller Details',
-            orderIdLabel: 'Order/Lot ID',
-            orderIdPlaceholder: 'Transaction ID',
-            issueTypeLabel: 'Type of Issue',
-            selectCategory: 'Select category...',
-            issueQuality: 'Quality Mismatch',
-            issueWeight: 'Weight/Quantity Shortage',
-            issueDelivery: 'Late Delivery',
-            issueInvoice: 'Invoice/GST Error',
-            messageLabel: 'Detailed Message',
-            messagePlaceholder: 'Briefly describe the issue for our verification team...',
-            submitInvest: 'Submit for Investigation',
-            registering: 'Registering...',
-            disputeRaised: 'Dispute Raised! âœ…',
-            backDashboard: 'Back to Dashboard',
-            auctionRules: 'E-Auction Rules',
-            tenderTracker: 'Tender Tracker',
-            liveTracking: 'Live Tracking Feature',
-            trackingDesc: 'Use the "Marketplace > Orders" tab to see real-time GPS status and temperature logs for your current shipments.',
-            gradeAplus: 'Grade A+',
-            gradeA: 'Grade A',
-            gradeB: 'Grade B',
-            exportGrade: 'Export Grade',
-            domesticStd: 'Domestic Std',
-            industrial: 'Industrial',
-            downloadGst: 'Download GST Helper',
-            walletSettings: 'Wallet Settings',
-            footerText: 'AgriWise Enterprise — Securing the Supply Chain'
+            title: 'வாங்குபவர் ஆதரவு & உதவி',
+            subtitle: 'உங்கள் கொள்முதல் பயணத்தை நெறிப்படுத்துதல். நாங்கள் எவ்வாறு உதவ முடியும்?',
+            voiceCall: 'அழைப்பு ஆதரவு',
+            whatsapp: 'செயல்பாடுகள் அரட்டை',
+            smsIvr: 'SMS நிலை',
+            faqs: 'வாங்குபவர் வளங்கள்',
+            dispute: 'பரிவர்த்தனை சிக்கலைப் புகாரளிக்கவும்',
+            back: 'சந்தைக்குத் திரும்பு',
+            myReports: 'என் அறிக்கைகள்',
+            selectLang: 'மொழியினைத் தேர்ந்தெடுக்கவும்',
+            procurementTitle: 'சிக்கலைப் புகாரளிக்கவும்',
+            procurementDesc: 'தரம், எடை, டெலிவரி, இன்வாய்ஸ் சிக்கல்களை விரைவாகக் கொடியிடவும்.',
+            logisticsTitle: 'முந்தைய டிக்கெட்டுகளைக் கண்காணிக்கவும்',
+            logisticsDesc: 'உங்கள் சர்ச்சைகளின் நிகழ்நேர நிலையைச் சரிபார்க்கவும்.',
+            qualityTitle: 'AgriWise பயன்பாட்டு வழிகாட்டி',
+            qualityDesc: 'படிப்படியான வழிமுறைகள்: ஆராய்தல், ஆர்டர், பணம் செலுத்துதல், கண்காணிப்பு.',
+            paymentTitle: 'தரம் & திரும்பப்பெறும் கொள்கை',
+            paymentDesc: 'ஷிப்மென்ட்டை நிராகரிப்பதற்கான அதிகாரப்பூர்வ விதிகள்.',
+            enterpriseSupport: 'வாங்குபவர் ஆதரவு மையம்',
+            heroTitlePrefix: 'உங்கள் முழுமையான',
+            heroTitleHighlight: 'ஆதரவு மையம்',
+            heroDesc: 'சிக்கல்களைப் புகாரளிக்கவும், டிக்கெட்டுகளைக் கண்காணிக்கவும், வாங்கும் முறையை அறியவும் — ஒரே இடத்தில்.',
+            opsLine: 'செயல்பாடுகள் அரட்டை',
+            logisticsHelp: '24/7 லாஜிஸ்டிக்ஸ் உதவி',
+            queryStatus: 'வினவல் நிலை',
+            openHub: 'சர்ச்சை படிவத்தைத் திறக்க →',
+            logisticsDash: 'என் அறிக்கைகளைப் பார்க்க →',
+            gradingProto: 'முழு வழிகாட்டியைப் படிக்க →',
+            escrowSet: 'தரக் கொள்கையைப் பார்க்க →',
+            disputeDesc: 'தரம், எடை, டெலிவரி சிக்கல்களைக் கொடியிடவும். 48 மணிநேரத்திற்குள் நியாயமான தீர்வு உறுதி செய்யப்படும்.',
+            raiseDispute: 'இப்போது சர்ச்சையை எழுப்புக',
+            cancelDispute: 'சர்ச்சையை ரத்துசெய்க',
+            farmerNameLabel: 'விவசாயி பெயர் / ID',
+            farmerNamePlaceholder: 'விற்பனையாளர் விவரங்கள்',
+            orderIdLabel: 'ஆர்டர்/லாட் ID',
+            orderIdPlaceholder: 'பரிவர்த்தனை ID',
+            issueTypeLabel: 'சிக்கலின் வகை',
+            selectCategory: 'வகையைத் தேர்ந்தெடுக்கவும்...',
+            issueQuality: 'தர வேறுபாடு',
+            issueWeight: 'எடை/அளவு குறைபாடு',
+            issueDelivery: 'தாமதமான டெலிவரி',
+            issueInvoice: 'இன்வாய்ஸ்/GST பிழை',
+            messageLabel: 'விரிவான செய்தி',
+            messagePlaceholder: 'எங்கள் சரிபார்ப்பு குழுவிற்கான சிக்கலை சுருக்கமாக விவரிக்கவும்...',
+            submitInvest: 'விசாரணைக்கு சமர்ப்பிக்கவும்',
+            registering: 'பதிவு செய்யப்படுகிறது...',
+            disputeRaised: 'சர்ச்சை எழுப்பப்பட்டது! ✅',
+            backDashboard: 'டாஷ்போர்டுக்குத் திரும்பு',
+            auctionRules: 'இ-ஏல விதிகள்',
+            tenderTracker: 'டெண்டர் டிராக்கர்',
+            liveTracking: 'நேரடி கண்காணிப்பு வசதி',
+            trackingDesc: 'தற்போதைய ஷிப்மென்ட்களின் GPS நிலையைப் பார்க்க "Marketplace > Orders" தாவலைப் பயன்படுத்தவும்.',
+            gradeAplus: 'தரம் A+',
+            gradeA: 'தரம் A',
+            gradeB: 'தரம் B',
+            exportGrade: 'ஏற்றுமதி தரம்',
+            domesticStd: 'உள்நாட்டு Std',
+            industrial: 'தொழில்துறை',
+            downloadGst: 'GST உதவியாளரைப் பதிவிறக்கவும்',
+            walletSettings: 'வாலெட் அமைப்புகள்',
+            footerText: 'AgriWise Enterprise — விநியோகச் சங்கிலியைப் பாதுகாத்தல்'
+        },
+        ml: {
+            title: 'വാങ്ങുന്നവർ പിന്തുണ & സഹായം',
+            subtitle: 'നിങ്ങളുടെ സംഭരണ യാത്ര ക്രമീകരിക്കൽ. ഞങ്ങൾ എങ്ങനെ സഹായിക്കാം?',
+            voiceCall: 'കോൾ സപ്പോർട്ട്',
+            whatsapp: 'ഓപ്പറേഷൻസ് ചാറ്റ്',
+            smsIvr: 'SMS സ്റ്റാറ്റസ്',
+            faqs: 'വാങ്ങുന്നവർ റിസോഴ്സുകൾ',
+            dispute: 'ഒരു ഇടപാട് പ്രശ്നം റിപ്പോർട്ട് ചെയ്യുക',
+            back: 'മാർക്കറ്റ്പ്ലേസിലേക്ക് മടങ്ങുക',
+            myReports: 'എന്റെ റിപ്പോർട്ടുകൾ',
+            selectLang: 'ഭാഷ തിരഞ്ഞെടുക്കുക',
+            procurementTitle: 'ഒരു പ്രശ്നം റിപ്പോർട്ട് ചെയ്യുക',
+            procurementDesc: 'ഗുണനിലവാരം, ഭാരം, ഡെലിവറി, ഇൻവോയ്സ് പ്രശ്നങ്ങൾ വേഗത്തിൽ ഫ്ലാഗ് ചെയ്യുക.',
+            logisticsTitle: 'മുൻ ടിക്കറ്റുകൾ ട്രാക്ക് ചെയ്യുക',
+            logisticsDesc: 'ഉയർത്തിയ തർക്കങ്ങളുടെയും അന്വേഷണങ്ങളുടെയും തത്സമയ നിലവാരം പരിശോധിക്കുക.',
+            qualityTitle: 'AgriWise ഉപയോഗ ഗൈഡ്',
+            qualityDesc: 'ഘട്ടം ഘട്ടമായുള്ള നിർദ്ദേശങ്ങൾ: ന്വേഷണം, ഓർഡർ, പേ, ട്രാക്ക്.',
+            paymentTitle: 'ഗുണനിലവാരം & തിരിച്ചടവ് നയം',
+            paymentDesc: 'ഒരു ഷിപ്പ്മെന്റ് തിരിച്ചടക്കാനുള്ള ഔദ്യോഗിക നിയമങ്ങൾ.',
+            enterpriseSupport: 'വാങ്ങുന്നവർ പിന്തുണ കേന്ദ്രം',
+            heroTitlePrefix: 'നിങ്ങളുടെ പൂർണ്ണ',
+            heroTitleHighlight: 'പിന്തുണ ഹബ്',
+            heroDesc: 'പ്രശ്നങ്ങൾ റിപ്പോർട്ട് ചെയ്യുക, ടിക്കറ്റുകൾ ട്രാക്ക് ചെയ്യുക, വാങ്ങൽ രീതി അറിയുക — ഒരിടത്ത്.',
+            opsLine: 'ഓപ്പറേഷൻസ് ചാറ്റ്',
+            logisticsHelp: '24/7 ലോജിസ്റ്റിക്സ് സഹായം',
+            queryStatus: 'ക്വറി സ്റ്റാറ്റസ്',
+            openHub: 'ഡിസ്പ്യൂട്ട് ഫോം തുറക്കുക →',
+            logisticsDash: 'എന്റെ റിപ്പോർട്ടുകൾ കാണുക →',
+            gradingProto: 'പൂർണ്ണ ഗൈഡ് വായിക്കുക →',
+            escrowSet: 'ഗുണനിലവാര നയം കാണുക →',
+            disputeDesc: 'ഗുണനിലവാരം, ഭാരം, ഡെലിവറി പ്രശ്നങ്ങൾ ഫ്ലാഗ് ചെയ്യുക. 48 മണിക്കൂറിൽ ന്യായമായ പരിഹാരം ഉറപ്പാക്കും.',
+            raiseDispute: 'ഇപ്പോൾ തർക്കം ഉന്നയിക്കുക',
+            cancelDispute: 'തർക്കം റദ്ദാക്കുക',
+            farmerNameLabel: 'കർഷകന്റെ പേര് / ID',
+            farmerNamePlaceholder: 'വിൽക്കുന്നയാളുടെ വിശദാംശങ്ങൾ',
+            orderIdLabel: 'ഓർഡർ/ലോട്ട് ID',
+            orderIdPlaceholder: 'ഇടപാട് ID',
+            issueTypeLabel: 'പ്രശ്നത്തിന്റെ തരം',
+            selectCategory: 'വർഗ്ഗം തിരഞ്ഞെടുക്കുക...',
+            issueQuality: 'ഗുണനിലവാര അടുക്ക്',
+            issueWeight: 'ഭാരം/അളവ് കുറവ്',
+            issueDelivery: 'വൈകിയ ഡെലിവറി',
+            issueInvoice: 'ഇൻവോയ്സ്/GST പിശക്',
+            messageLabel: 'വിശദമായ സന്ദേശം',
+            messagePlaceholder: 'ഞങ്ങളുടെ പരിശോധന ടീമിനായി പ്രശ്നം ചുരുക്കി വിവരിക്കുക...',
+            submitInvest: 'അന്വേഷണത്തിനായി സമർപ്പിക്കുക',
+            registering: 'രജിസ്റ്റർ ചെയ്യുന്നു...',
+            disputeRaised: 'തർക്കം ഉന്നയിച്ചു! ✅',
+            backDashboard: 'ഡാഷ്ബോർഡിലേക്ക് മടങ്ങുക',
+            auctionRules: 'ഇ-ലേലം നിയമങ്ങൾ',
+            tenderTracker: 'ടെൻഡർ ട്രാക്കർ',
+            liveTracking: 'ലൈവ് ട്രാക്കിംഗ് ഫീച്ചർ',
+            trackingDesc: 'നിലവിലെ ഷിപ്പ്മെന്റുകളുടെ GPS സ്റ്റാറ്റസ് കാണാൻ "Marketplace > Orders" ടാബ് ഉപയോഗിക്കുക.',
+            gradeAplus: 'ഗ്രേഡ് A+',
+            gradeA: 'ഗ്രേഡ് A',
+            gradeB: 'ഗ്രേഡ് B',
+            exportGrade: 'കയറ്റുമതി ഗ്രേഡ്',
+            domesticStd: 'ആഭ്യന്തര Std',
+            industrial: 'വ്യാവസായിക',
+            downloadGst: 'GST ഹെൽപ്പർ ഡൗൺലോഡ് ചെയ്യുക',
+            walletSettings: 'വാലറ്റ് ക്രമീകരണങ്ങൾ',
+            footerText: 'AgriWise Enterprise — വിതരണ ശൃംഖല സുരക്ഷിതമാക്കൽ'
+        },
+        kn: {
+            title: 'ಖರೀದಿದಾರ ಬೆಂಬಲ & ಸಹಾಯ',
+            subtitle: 'ನಿಮ್ಮ ಸಂಗ್ರಹಣ ಪ್ರಯಾಣವನ್ನು ಸುಗಮಗೊಳಿಸಲಾಗುತ್ತಿದೆ. ನಾವು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?',
+            voiceCall: 'ಕಾಲ್ ಸಪೋರ್ಟ್',
+            whatsapp: 'ಆಪರೇಷನ್ಸ್ ಚಾಟ್',
+            smsIvr: 'SMS ಸ್ಥಿತಿ',
+            faqs: 'ಖರೀದಿದಾರ ಸಂಪನ್ಮೂಲಗಳು',
+            dispute: 'ವಹಿವಾಟು ಸಮಸ್ಯೆಯನ್ನು ವರದಿ ಮಾಡಿ',
+            back: 'ಮಾರ್ಕೆಟ್‌ಪ್ಲೇಸ್‌ಗೆ ಹಿಂತಿರುಗಿ',
+            myReports: 'ನನ್ನ ವರದಿಗಳು',
+            selectLang: 'ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ',
+            procurementTitle: 'ಸಮಸ್ಯೆ ವರದಿ ಮಾಡಿ',
+            procurementDesc: 'ಗುಣಮಟ್ಟ, ತೂಕ, ಡೆಲಿವರಿ, ಇನ್‌ವಾಯ್ಸ್ ಸಮಸ್ಯೆಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಫ್ಲ್ಯಾಗ್ ಮಾಡಿ.',
+            logisticsTitle: 'ಹಿಂದಿನ ಟಿಕೆಟ್‌ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ',
+            logisticsDesc: 'ನಿಮ್ಮ ವಿವಾದಗಳ ನೈಜ-ಸಮಯದ ಸ್ಥಿತಿ ಪರಿಶೀಲಿಸಿ.',
+            qualityTitle: 'AgriWise ಬಳಕೆ ಮಾರ್ಗದರ್ಶಿ',
+            qualityDesc: 'ಹಂತ-ಹಂತದ ಸೂಚನೆಗಳು: ಅನ್ವೇಷಣೆ, ಆದೇಶ, ಪಾವತಿ, ಟ್ರ್ಯಾಕ್.',
+            paymentTitle: 'ಗುಣಮಟ್ಟ & ಮರುಪಾವತಿ ನೀತಿ',
+            paymentDesc: 'ಶಿಪ್‌ಮೆಂಟ್ ತಿರಸ್ಕರಿಸಲು ಅಧಿಕೃತ ನಿಯಮಗಳು.',
+            enterpriseSupport: 'ಖರೀದಿದಾರ ಬೆಂಬಲ ಕೇಂದ್ರ',
+            heroTitlePrefix: 'ನಿಮ್ಮ ಸಂಪೂರ್ಣ',
+            heroTitleHighlight: 'ಬೆಂಬಲ ಹಬ್',
+            heroDesc: 'ಸಮಸ್ಯೆಗಳನ್ನು ವರದಿ ಮಾಡಿ, ಟಿಕೆಟ್‌ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ, ಖರೀದಿ ವಿಧಾನ ತಿಳಿಯಿರಿ — ಒಂದೆಡೆ.',
+            opsLine: 'ಆಪರೇಷನ್ಸ್ ಚಾಟ್',
+            logisticsHelp: '24/7 ಲಾಜಿಸ್ಟಿಕ್ಸ್ ಸಹಾಯ',
+            queryStatus: 'ಪ್ರಶ್ನೆ ಸ್ಥಿತಿ',
+            openHub: 'ವಿವಾದ ಫಾರ್ಮ್ ತೆರೆಯಿರಿ →',
+            logisticsDash: 'ನನ್ನ ವರದಿಗಳನ್ನು ಕಾಣಿ →',
+            gradingProto: 'ಪೂರ್ಣ ಮಾರ್ಗದರ್ಶಿ ಓದಿ →',
+            escrowSet: 'ಗುಣಮಟ್ಟ ನೀತಿ ಕಾಣಿ →',
+            disputeDesc: 'ಗುಣಮಟ್ಟ, ತೂಕ, ಡೆಲಿವರಿ ಸಮಸ್ಯೆಗಳನ್ನು ಫ್ಲ್ಯಾಗ್ ಮಾಡಿ. 48 ಗಂಟೆಗಳಲ್ಲಿ ನ್ಯಾಯಯುತ ಪರಿಹಾರ ಖಾತ್ರಿಪಡಿಸಲಾಗುತ್ತದೆ.',
+            raiseDispute: 'ಈಗ ವಿವಾದ ಎಬ್ಬಿಸಿ',
+            cancelDispute: 'ವಿವಾದ ರದ್ದುಮಾಡಿ',
+            farmerNameLabel: 'ರೈತರ ಹೆಸರು / ID',
+            farmerNamePlaceholder: 'ಮಾರಾಟಗಾರರ ವಿವರಗಳು',
+            orderIdLabel: 'ಆದೇಶ/ಲಾಟ್ ID',
+            orderIdPlaceholder: 'ವಹಿವಾಟು ID',
+            issueTypeLabel: 'ಸಮಸ್ಯೆಯ ಪ್ರಕಾರ',
+            selectCategory: 'ವರ್ಗ ಆಯ್ಕೆಮಾಡಿ...',
+            issueQuality: 'ಗುಣಮಟ್ಟ ವ್ಯತ್ಯಾಸ',
+            issueWeight: 'ತೂಕ/ಪ್ರಮಾಣ ಕೊರತೆ',
+            issueDelivery: 'ತಡ ಡೆಲಿವರಿ',
+            issueInvoice: 'ಇನ್‌ವಾಯ್ಸ್/GST ದೋಷ',
+            messageLabel: 'ವಿವರವಾದ ಸಂದೇಶ',
+            messagePlaceholder: 'ನಮ್ಮ ಪರಿಶೀಲನಾ ತಂಡಕ್ಕಾಗಿ ಸಮಸ್ಯೆಯನ್ನು ಸಂಕ್ಷಿಪ್ತವಾಗಿ ವಿವರಿಸಿ...',
+            submitInvest: 'ತನಿಖೆಗಾಗಿ ಸಲ್ಲಿಸಿ',
+            registering: 'ನೋಂದಾಯಿಸಲಾಗುತ್ತಿದೆ...',
+            disputeRaised: 'ವಿವಾದ ಎಬ್ಬಿಸಲಾಗಿದೆ! ✅',
+            backDashboard: 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಹಿಂತಿರುಗಿ',
+            auctionRules: 'ಇ-ಹರಾಜು ನಿಯಮಗಳು',
+            tenderTracker: 'ಟೆಂಡರ್ ಟ್ರ್ಯಾಕರ್',
+            liveTracking: 'ಲೈವ್ ಟ್ರ್ಯಾಕಿಂಗ್ ವೈಶಿಷ್ಟ್ಯ',
+            trackingDesc: 'ಪ್ರಸ್ತುತ ಶಿಪ್‌ಮೆಂಟ್‌ಗಳ GPS ಸ್ಥಿತಿ ಕಾಣಲು "Marketplace > Orders" ಟ್ಯಾಬ್ ಬಳಸಿ.',
+            gradeAplus: 'ಗ್ರೇಡ್ A+',
+            gradeA: 'ಗ್ರೇಡ್ A',
+            gradeB: 'ಗ್ರೇಡ್ B',
+            exportGrade: 'ರಫ್ತು ಗ್ರೇಡ್',
+            domesticStd: 'ದೇಶೀಯ Std',
+            industrial: 'ಕೈಗಾರಿಕಾ',
+            downloadGst: 'GST ಸಹಾಯಕ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
+            walletSettings: 'ವಾಲೆಟ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
+            footerText: 'AgriWise Enterprise — ಪೂರೈಕೆ ಸರಪಳಿ ಸುರಕ್ಷಿತಗೊಳಿಸುವುದು'
+        },
+        pa: {
+            title: 'ਖਰੀਦਦਾਰ ਸਹਾਇਤਾ ਅਤੇ ਮਦਦ',
+            subtitle: 'ਤੁਹਾਡੀ ਖਰੀਦ ਯਾਤਰਾ ਨੂੰ ਸੁਚਾਰੂ ਬਣਾਉਣਾ। ਅਸੀਂ ਕਿਵੇਂ ਮਦਦ ਕਰ ਸਕਦੇ ਹਾਂ?',
+            voiceCall: 'ਕਾਲ ਸਹਾਇਤਾ',
+            whatsapp: 'ਆਪ੍ਰੇਸ਼ਨਜ਼ ਚੈਟ',
+            smsIvr: 'SMS ਸਥਿਤੀ',
+            faqs: 'ਖਰੀਦਦਾਰ ਸਰੋਤ',
+            dispute: 'ਲੈਣ-ਦੇਣ ਦੀ ਸਮੱਸਿਆ ਦੀ ਰਿਪੋਰਟ ਕਰੋ',
+            back: 'ਮਾਰਕੀਟਪਲੇਸ ਤੇ ਵਾਪਸ',
+            myReports: 'ਮੇਰੀਆਂ ਰਿਪੋਰਟਾਂ',
+            selectLang: 'ਭਾਸ਼ਾ ਚੁਣੋ',
+            procurementTitle: 'ਸਮੱਸਿਆ ਦੀ ਰਿਪੋਰਟ ਕਰੋ',
+            procurementDesc: 'ਗੁਣਵੱਤਾ, ਭਾਰ, ਡਿਲਿਵਰੀ, ਇਨਵੌਇਸ ਸਮੱਸਿਆਵਾਂ ਤੁਰੰਤ ਫਲੈਗ ਕਰੋ।',
+            logisticsTitle: 'ਪਿਛਲੀਆਂ ਟਿਕਟਾਂ ਟ੍ਰੈਕ ਕਰੋ',
+            logisticsDesc: 'ਆਪਣੇ ਵਿਵਾਦਾਂ ਦੀ ਅਸਲ-ਸਮੇਂ ਦੀ ਸਥਿਤੀ ਜਾਂਚੋ।',
+            qualityTitle: 'AgriWise ਵਰਤੋਂ ਗਾਈਡ',
+            qualityDesc: 'ਕਦਮ-ਦਰ-ਕਦਮ ਨਿਰਦੇਸ਼: ਖੋਜ, ਆਰਡਰ, ਭੁਗਤਾਨ, ਟ੍ਰੈਕ।',
+            paymentTitle: 'ਗੁਣਵੱਤਾ & ਵਾਪਸੀ ਨੀਤੀ',
+            paymentDesc: 'ਸ਼ਿਪਮੈਂਟ ਰੱਦ ਕਰਨ ਲਈ ਅਧਿਕਾਰਤ ਨਿਯਮ।',
+            enterpriseSupport: 'ਖਰੀਦਦਾਰ ਸਹਾਇਤਾ ਕੇਂਦਰ',
+            heroTitlePrefix: 'ਤੁਹਾਡਾ ਪੂਰਾ',
+            heroTitleHighlight: 'ਸਹਾਇਤਾ ਹੱਬ',
+            heroDesc: 'ਸਮੱਸਿਆਵਾਂ ਰਿਪੋਰਟ ਕਰੋ, ਟਿਕਟਾਂ ਟ੍ਰੈਕ ਕਰੋ, ਖਰੀਦਣ ਦਾ ਤਰੀਕਾ ਜਾਣੋ — ਇੱਕੀ ਥਾਂ।',
+            opsLine: 'ਆਪ੍ਰੇਸ਼ਨਜ਼ ਚੈਟ',
+            logisticsHelp: '24/7 ਲੌਜਿਸਟਿਕਸ ਮਦਦ',
+            queryStatus: 'ਪੁੱਛਗਿੱਛ ਸਥਿਤੀ',
+            openHub: 'ਵਿਵਾਦ ਫਾਰਮ ਖੋਲ੍ਹੋ →',
+            logisticsDash: 'ਮੇਰੀਆਂ ਰਿਪੋਰਟਾਂ ਵੇਖੋ →',
+            gradingProto: 'ਪੂਰੀ ਗਾਈਡ ਪੜ੍ਹੋ →',
+            escrowSet: 'ਗੁਣਵੱਤਾ ਨੀਤੀ ਵੇਖੋ →',
+            disputeDesc: 'ਗੁਣਵੱਤਾ, ਭਾਰ, ਡਿਲਿਵਰੀ ਸਮੱਸਿਆਵਾਂ ਫਲੈਗ ਕਰੋ। 48 ਘੰਟਿਆਂ ਵਿੱਚ ਨਿਆਂਪੂਰਨ ਹੱਲ ਯਕੀਨੀ ਕੀਤਾ ਜਾਵੇਗਾ।',
+            raiseDispute: 'ਹੁਣੇ ਵਿਵਾਦ ਉਠਾਓ',
+            cancelDispute: 'ਵਿਵਾਦ ਰੱਦ ਕਰੋ',
+            farmerNameLabel: 'ਕਿਸਾਨ ਦਾ ਨਾਮ / ID',
+            farmerNamePlaceholder: 'ਵਿਕ੍ਰੇਤਾ ਵੇਰਵੇ',
+            orderIdLabel: 'ਆਰਡਰ/ਲਾਟ ID',
+            orderIdPlaceholder: 'ਲੈਣ-ਦੇਣ ID',
+            issueTypeLabel: 'ਸਮੱਸਿਆ ਦੀ ਕਿਸਮ',
+            selectCategory: 'ਸ਼੍ਰੇਣੀ ਚੁਣੋ...',
+            issueQuality: 'ਗੁਣਵੱਤਾ ਅਸੰਗਤੀ',
+            issueWeight: 'ਭਾਰ/ਮਾਤਰਾ ਦੀ ਕਮੀ',
+            issueDelivery: 'ਦੇਰ ਨਾਲ ਡਿਲਿਵਰੀ',
+            issueInvoice: 'ਇਨਵੌਇਸ/GST ਗਲਤੀ',
+            messageLabel: 'ਵਿਸਤ੍ਰਿਤ ਸੁਨੇਹਾ',
+            messagePlaceholder: 'ਸਾਡੀ ਤਸਦੀਕ ਟੀਮ ਲਈ ਸਮੱਸਿਆ ਸੰਖੇਪ ਵਿੱਚ ਦੱਸੋ...',
+            submitInvest: 'ਜਾਂਚ ਲਈ ਜਮ੍ਹਾਂ ਕਰੋ',
+            registering: 'ਰਜਿਸਟਰ ਹੋ ਰਿਹਾ ਹੈ...',
+            disputeRaised: 'ਵਿਵਾਦ ਉਠਾਇਆ ਗਿਆ! ✅',
+            backDashboard: 'ਡੈਸ਼ਬੋਰਡ ਤੇ ਵਾਪਸ',
+            auctionRules: 'ਈ-ਨਿਲਾਮੀ ਨਿਯਮ',
+            tenderTracker: 'ਟੈਂਡਰ ਟ੍ਰੈਕਰ',
+            liveTracking: 'ਲਾਈਵ ਟ੍ਰੈਕਿੰਗ ਵਿਸ਼ੇਸ਼ਤਾ',
+            trackingDesc: 'ਮੌਜੂਦਾ ਸ਼ਿਪਮੈਂਟ GPS ਸਥਿਤੀ ਦੇਖਣ ਲਈ "Marketplace > Orders" ਟੈਬ ਵਰਤੋ।',
+            gradeAplus: 'ਗ੍ਰੇਡ A+',
+            gradeA: 'ਗ੍ਰੇਡ A',
+            gradeB: 'ਗ੍ਰੇਡ B',
+            exportGrade: 'ਨਿਰਯਾਤ ਗ੍ਰੇਡ',
+            domesticStd: 'ਘਰੇਲੂ Std',
+            industrial: 'ਉਦਯੋਗਿਕ',
+            downloadGst: 'GST ਸਹਾਇਕ ਡਾਊਨਲੋਡ ਕਰੋ',
+            walletSettings: 'ਵਾਲਿਟ ਸੈਟਿੰਗਾਂ',
+            footerText: 'AgriWise Enterprise — ਸਪਲਾਈ ਚੇਨ ਸੁਰੱਖਿਅਤ ਕਰਨਾ'
+        },
+        mr: {
+            title: 'खरेदीदार समर्थन आणि मदत',
+            subtitle: 'तुमच्या खरेदी प्रवासाला सुव्यवस्थित करणे. आम्ही कशी मदत करू शकतो?',
+            voiceCall: 'कॉल समर्थन',
+            whatsapp: 'ऑपरेशन्स चॅट',
+            smsIvr: 'SMS स्थिती',
+            faqs: 'खरेदीदार संसाधने',
+            dispute: 'व्यवहार समस्येची नोंद करा',
+            back: 'मार्केटप्लेसवर परत जा',
+            myReports: 'माझे अहवाल',
+            selectLang: 'भाषा निवडा',
+            procurementTitle: 'समस्येची नोंद करा',
+            procurementDesc: 'गुणवत्ता, वजन, वितरण, इनव्हॉइस समस्या त्वरित नोंदवा.',
+            logisticsTitle: 'मागील तिकिटे ट्रॅक करा',
+            logisticsDesc: 'तुमच्या वादांची वास्तविक-वेळ स्थिती तपासा.',
+            qualityTitle: 'AgriWise वापर मार्गदर्शिका',
+            qualityDesc: 'चरण-दर-चरण सूचना: अन्वेषण, ऑर्डर, पेमेंट, ट्रॅक.',
+            paymentTitle: 'गुणवत्ता & परतावा धोरण',
+            paymentDesc: 'शिपमेंट नाकारण्यासाठीचे अधिकृत नियम.',
+            enterpriseSupport: 'खरेदीदार समर्थन केंद्र',
+            heroTitlePrefix: 'तुमचे संपूर्ण',
+            heroTitleHighlight: 'समर्थन हब',
+            heroDesc: 'समस्या नोंदवा, तिकिटे ट्रॅक करा, खरेदीचे मार्ग जाणून घ्या — एकाच ठिकाणी.',
+            opsLine: 'ऑपरेशन्स चॅट',
+            logisticsHelp: '24/7 लॉजिस्टिक्स मदत',
+            queryStatus: 'चौकशी स्थिती',
+            openHub: 'वाद फॉर्म उघडा →',
+            logisticsDash: 'माझे अहवाल पहा →',
+            gradingProto: 'पूर्ण मार्गदर्शिका वाचा →',
+            escrowSet: 'गुणवत्ता धोरण पहा →',
+            disputeDesc: 'गुणवत्ता, वजन, वितरण समस्या नोंदवा. 48 तासांत न्याय्य निराकरण सुनिश्चित केले जाईल.',
+            raiseDispute: 'आत्ता वाद उठवा',
+            cancelDispute: 'वाद रद्द करा',
+            farmerNameLabel: 'शेतकऱ्याचे नाव / ID',
+            farmerNamePlaceholder: 'विक्रेत्याचे तपशील',
+            orderIdLabel: 'ऑर्डर/लॉट ID',
+            orderIdPlaceholder: 'व्यवहार ID',
+            issueTypeLabel: 'समस्येचा प्रकार',
+            selectCategory: 'श्रेणी निवडा...',
+            issueQuality: 'गुणवत्ता तफावत',
+            issueWeight: 'वजन/प्रमाण कमतरता',
+            issueDelivery: 'उशीर वितरण',
+            issueInvoice: 'इनव्हॉइस/GST त्रुटी',
+            messageLabel: 'तपशीलवार संदेश',
+            messagePlaceholder: 'आमच्या पडताळणी टीमसाठी समस्या थोडक्यात सांगा...',
+            submitInvest: 'तपासणीसाठी सादर करा',
+            registering: 'नोंदणी होत आहे...',
+            disputeRaised: 'वाद उठवला! ✅',
+            backDashboard: 'डॅशबोर्डवर परत जा',
+            auctionRules: 'ई-लिलाव नियम',
+            tenderTracker: 'टेंडर ट्रॅकर',
+            liveTracking: 'लाइव्ह ट्रॅकिंग वैशिष्ट्य',
+            trackingDesc: 'सध्याच्या शिपमेंटची GPS स्थिती पाहण्यासाठी "Marketplace > Orders" टॅब वापरा.',
+            gradeAplus: 'ग्रेड A+',
+            gradeA: 'ग्रेड A',
+            gradeB: 'ग्रेड B',
+            exportGrade: 'निर्यात ग्रेड',
+            domesticStd: 'देशांतर्गत Std',
+            industrial: 'औद्योगिक',
+            downloadGst: 'GST सहाय्यक डाउनलोड करा',
+            walletSettings: 'वॉलेट सेटिंग्ज',
+            footerText: 'AgriWise Enterprise — पुरवठा साखळी सुरक्षित करणे'
         }
     };
 
-    const t = translations[lang] || translations['en'];
+    const tr = translations[lang] || translations['en'];
 
     const [myReports, setMyReports] = useState([]);
     const [showMyReports, setShowMyReports] = useState(false);
@@ -308,7 +561,7 @@ const BuyerSupport = ({ user }) => {
             });
             const data = await res.json();
             if (data.success) {
-                setStatusMessage({ type: 'success', text: formType === 'dispute' ? t.disputeRaised : 'Message Sent! âœ…' });
+                setStatusMessage({ type: 'success', text: formType === 'dispute' ? tr.disputeRaised : 'Message Sent! ✅' });
                 setFormData({ farmerName: '', orderId: '', issueType: 'quality', message: '' });
             } else {
                 setStatusMessage({ type: 'error', text: 'Failed to submit. Please try again.' });
@@ -337,12 +590,12 @@ const MainView = () => (
         {/* Hero Section */}
         <div className="bg-white rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-2 border-slate-50 relative overflow-hidden group">
             <div className="relative z-10">
-                <span className="inline-block bg-blue-100 text-blue-700 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6">{t.enterpriseSupport}</span>
+                <span className="inline-block bg-blue-100 text-blue-700 px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6">{tr.enterpriseSupport}</span>
                 <h1 className="text-4xl md:text-7xl font-black text-slate-900 mb-6 tracking-tight leading-none">
-                    {t.heroTitlePrefix} <br /><span className="text-blue-600">{t.heroTitleHighlight}</span>
+                    {tr.heroTitlePrefix} <br /><span className="text-blue-600">{tr.heroTitleHighlight}</span>
                 </h1>
                 <p className="text-slate-500 text-lg md:text-xl font-bold max-w-xl leading-relaxed">
-                    {t.heroDesc}
+                    {tr.heroDesc}
                 </p>
             </div>
             <div className="absolute right-[-50px] top-[-50px] w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50 group-hover:bg-blue-100 transition-colors duration-700"></div>
@@ -352,18 +605,18 @@ const MainView = () => (
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <a href="tel:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-[2.5rem] shadow-2xl shadow-blue-200 hover:scale-105 transition-all group text-center">
                 <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📞</span>
-                <span className="font-black text-xl tracking-tight">{t.voiceCall}</span>
-                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{t.opsLine}</span>
+                <span className="font-black text-xl tracking-tight">{tr.voiceCall}</span>
+                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{tr.opsLine}</span>
             </a>
             <a href="https://wa.me/916301230747" target="_blank" rel="noreferrer" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-[2.5rem] shadow-2xl shadow-emerald-200 hover:scale-105 transition-all group text-center">
                 <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">💬</span>
-                <span className="font-black text-xl tracking-tight">{t.whatsapp}</span>
-                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{t.logisticsHelp}</span>
+                <span className="font-black text-xl tracking-tight">{tr.whatsapp}</span>
+                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{tr.logisticsHelp}</span>
             </a>
             <a href="sms:+916301230747" className="flex flex-col items-center justify-center p-8 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-[2.5rem] shadow-2xl shadow-slate-300 hover:scale-105 transition-all group text-center">
                 <span className="text-5xl mb-3 group-hover:rotate-12 transition-transform duration-300">📱</span>
-                <span className="font-black text-xl tracking-tight">{t.smsIvr}</span>
-                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{t.queryStatus}</span>
+                <span className="font-black text-xl tracking-tight">{tr.smsIvr}</span>
+                <span className="text-[10px] opacity-80 uppercase font-bold mt-2 tracking-widest">{tr.queryStatus}</span>
             </a>
         </section>
 
@@ -373,41 +626,41 @@ const MainView = () => (
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <FeatureCard
                 icon="📋"
-                title={t.procurementTitle}
-                desc={t.procurementDesc}
+                title={tr.procurementTitle}
+                desc={tr.procurementDesc}
                 color="blue"
                 onClick={() => {
                     setActiveView('dispute');
                     setFormType('dispute');
                 }}
-                footer={t.openHub}
+                footer={tr.openHub}
                 bgIcon="⚖️"
             />
             <FeatureCard
                 icon="📊"
-                title={t.logisticsTitle}
-                desc={t.logisticsDesc}
+                title={tr.logisticsTitle}
+                desc={tr.logisticsDesc}
                 color="indigo"
                 onClick={() => setShowMyReports(true)}
-                footer={t.logisticsDash}
+                footer={tr.logisticsDash}
                 bgIcon="📈"
             />
             <FeatureCard
                 icon="📖"
-                title={t.qualityTitle}
-                desc={t.qualityDesc}
+                title={tr.qualityTitle}
+                desc={tr.qualityDesc}
                 color="amber"
                 onClick={() => setActiveView('guide')}
-                footer={t.gradingProto}
+                footer={tr.gradingProto}
                 bgIcon="✅"
             />
             <FeatureCard
                 icon="⚖️"
-                title={t.paymentTitle}
-                desc={t.paymentDesc}
+                title={tr.paymentTitle}
+                desc={tr.paymentDesc}
                 color="emerald"
                 onClick={() => setActiveView('policy')}
-                footer={t.escrowSet}
+                footer={tr.escrowSet}
                 bgIcon="💰"
             />
         </section>
@@ -446,7 +699,7 @@ const FeatureCard = ({ icon, title, desc, onClick, color, footer, bgIcon }) => {
 
 const SubPageHeader = () => (
     <button onClick={() => setActiveView('main')} className="text-blue-600 font-black flex items-center gap-2 mb-8 bg-blue-50 px-6 py-3 rounded-2xl hover:bg-blue-100 transition-all w-fit group">
-        <span className="group-hover:-translate-x-1 transition-transform">â†</span> {t.backDashboard}
+        <span className="group-hover:-translate-x-1 transition-transform">â†</span> {tr.backDashboard}
     </button>
 );
 
@@ -470,7 +723,7 @@ return (
         <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
             <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
                 <button onClick={() => activeView === 'main' ? navigate('/marketplace') : setActiveView('main')} className="flex items-center gap-2 text-blue-700 font-black uppercase text-xs tracking-widest hover:text-blue-500 transition-colors">
-                    <span>←</span> {activeView === 'main' ? t.back : 'Dashboard'}
+                    <span>←</span> {activeView === 'main' ? tr.back : 'Dashboard'}
                 </button>
                 <select
                     value={lang}
@@ -496,8 +749,8 @@ return (
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-8">
                     <SubPageHeader />
                     <div className="bg-white border-2 border-slate-100 rounded-[2.5rem] p-8 md:p-14 shadow-2xl space-y-6">
-                        <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">âš–️ {t.dispute}</h2>
-                        <p className="text-slate-600 font-medium mb-8 text-lg">{t.disputeDesc}</p>
+                        <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">⚠️–️ {tr.dispute}</h2>
+                        <p className="text-slate-600 font-medium mb-8 text-lg">{tr.disputeDesc}</p>
                         {/* Custom Tabs */}
                         <div className="flex p-1 bg-slate-100 rounded-2xl mb-6">
                             <button
@@ -512,14 +765,14 @@ return (
                                 className={`flex-1 py-3 px-6 rounded-xl font-bold text-sm transition-all ${formType === 'dispute' ? 'bg-rose-50 text-rose-700 shadow-sm border border-rose-100' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'
                                     }`}
                             >
-                                ðŸš¨ Urgent Dispute
+                                🚨 {tr.issueTypeLabel || 'Urgent Dispute'}
                             </button>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-2">Your Name</label>
+                                    <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-2">{tr.farmerNameLabel || 'Your Name'}</label>
                                     <input
                                         type="text"
                                         name="farmerName"
@@ -530,7 +783,7 @@ return (
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-2">Order ID (Optional)</label>
+                                    <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-2">{tr.orderIdLabel || 'Order ID (Optional)'}</label>
                                     <input
                                         type="text"
                                         name="orderId"
@@ -544,24 +797,24 @@ return (
 
                             {formType === 'dispute' && (
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-2">Issue Type</label>
+                                    <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-2">{tr.issueTypeLabel || 'Issue Type'}</label>
                                     <select
                                         name="issueType"
                                         value={formData.issueType}
                                         onChange={handleInputChange}
                                         className="w-full bg-rose-50 border-none rounded-xl px-5 py-4 focus:ring-4 focus:ring-rose-100 transition-all outline-none font-bold text-rose-900 appearance-none cursor-pointer"
                                     >
-                                        <option value="quality">Quality Standards Not Met</option>
-                                        <option value="weight">Weight / Quantity Mismatch</option>
+                                        <option value="quality">{tr.issueQuality || 'Quality Standards Not Met'}</option>
+                                        <option value="weight">{tr.issueWeight || 'Weight / Quantity Mismatch'}</option>
                                         <option value="payment">Payment Delay / Escrow Issue</option>
-                                        <option value="logistics">Logistics / Delivery Damage</option>
+                                        <option value="logistics">{tr.issueDelivery || 'Logistics / Delivery Damage'}</option>
                                         <option value="other">Other Dispute</option>
                                     </select>
                                 </div>
                             )}
 
                             <div className="space-y-2">
-                                <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-2">Detailed Message</label>
+                                <label className="text-xs font-black uppercase tracking-widest text-slate-500 ml-2">{tr.messageLabel || 'Detailed Message'}</label>
                                 <textarea
                                     name="message"
                                     value={formData.message}
@@ -569,14 +822,14 @@ return (
                                     rows="4"
                                     className="w-full bg-slate-50 border-none rounded-xl px-5 py-4 focus:ring-4 focus:ring-blue-100 focus:bg-white transition-all outline-none font-medium resize-none"
                                     required
-                                    placeholder={formType === 'dispute' ? 'Describe the issue in detail. If this is about quality, mention the lab testing parameters...' : 'How can we help you today?'}
+                                    placeholder={tr.messagePlaceholder || (formType === 'dispute' ? 'Describe the issue in detail...' : 'How can we help you today?')}
                                 ></textarea>
                             </div>
 
                             {statusMessage && (
                                 <div className={`p-4 rounded-xl flex items-center gap-3 font-bold animate-in zoom-in-95 duration-200 ${statusMessage.type === 'success' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-rose-50 text-rose-700 border border-rose-100'
                                     }`}>
-                                    <span>{statusMessage.type === 'success' ? 'âœ…' : 'ðŸš¨'}</span>
+                                    <span>{statusMessage.type === 'success' ? '✅' : '🚨'}</span>
                                     {statusMessage.text}
                                 </div>
                             )}
@@ -589,7 +842,7 @@ return (
                                     : 'bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-200 disabled:bg-blue-300'
                                     }`}
                             >
-                                {submitting ? 'Submitting securely...' : formType === 'dispute' ? 'Submit Urgent Dispute ðŸš¨' : 'Send Message âœ‰️'}
+                                {submitting ? (tr.registering || 'Submitting securely...') : formType === 'dispute' ? (tr.submitInvest || 'Submit Urgent Dispute 🚨') : 'Send Message ✉️'}
                             </button>
                         </form>
                     </div>
@@ -602,14 +855,14 @@ return (
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-8">
                     <SubPageHeader />
                     <div className="bg-white rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-2 border-emerald-50 relative overflow-hidden">
-                        <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">📖 How to Use AgriWise</h2>
+                        <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">📖 {tr.qualityTitle || 'How to Use AgriWise'}</h2>
                         <div className="space-y-6">
                             {[
-                                { step: '1', icon: 'ðŸ”', title: 'Explore the Marketplace', desc: 'Go to Marketplace from your dashboard. Browse crops by category, filter by price, location, or quality grade.' },
-                                { step: '2', icon: 'ðŸ›’', title: 'Place Your Order', desc: 'Select the crop and quantity you want. Click "Add to Cart" and checkout. Your order is sent to the farmer immediately.' },
-                                { step: '3', icon: 'ðŸ’³', title: 'Secure Escrow Payment', desc: 'Your payment is Held in Escrow. It is NOT released to the farmer until you receive and verify the crops.' },
-                                { step: '4', icon: 'ðŸ“¦', title: 'Track Delivery', desc: 'Go to "My Orders" in your dashboard to see the status: Pending → Processing → Shipped → Delivered.' },
-                                { step: '5', icon: 'âš–️', title: 'Verify & Report', desc: 'If you have any issue with quality, quantity, or delivery — use the Dispute form on this Support page to pause payment.' },
+                                { step: '1', icon: '🔍', title: 'Explore the Marketplace', desc: 'Go to Marketplace from your dashboard. Browse crops by category, filter by price, location, or quality grade.' },
+                                { step: '2', icon: '🛒', title: 'Place Your Order', desc: 'Select the crop and quantity you want. Click "Add to Cart" and checkout. Your order is sent to the farmer immediately.' },
+                                { step: '3', icon: '💳', title: 'Secure Escrow Payment', desc: 'Your payment is Held in Escrow. It is NOT released to the farmer until you receive and verify the crops.' },
+                                { step: '4', icon: '📦', title: 'Track Delivery', desc: 'Go to "My Orders" in your dashboard to see the status: Pending → Processing → Shipped → Delivered.' },
+                                { step: '5', icon: '⚖️', title: 'Verify & Report', desc: 'If you have any issue with quality, quantity, or delivery — use the Dispute form on this Support page to pause payment.' },
                             ].map((item) => (
                                 <div key={item.step} className="flex items-start gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-md transition-all">
                                     <div className="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center font-black text-lg shrink-0">{item.step}</div>
@@ -629,19 +882,19 @@ return (
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 space-y-8">
                     <SubPageHeader />
                     <div className="bg-white rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-2 border-slate-100 relative overflow-hidden">
-                        <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">ðŸ›¡ï¸ Quality & Refund Policy</h2>
+                        <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">🛡️ {tr.paymentTitle || 'Quality & Refund Policy'}</h2>
                         <p className="text-slate-600 font-bold mb-8 text-lg">
                             AgriWise strictly enforces quality standards to protect buyers. You can legally reject a shipment and claim a full escrow refund if the lab report exceeds the following limits:
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                             <div className="bg-rose-50 border-2 border-rose-100 rounded-[2rem] p-8 text-rose-900">
-                                <h3 className="font-black text-2xl mb-4">ðŸ’§ Moisture Content (MC%)</h3>
+                                <h3 className="font-black text-2xl mb-4">💧 Moisture Content (MC%)</h3>
                                 <p className="font-bold text-lg mb-2">Maximum allowed: <span className="bg-white px-3 py-1 rounded-lg shadow-sm">14.0%</span></p>
                                 <p className="opacity-80">If MC &gt; 14%, standard penalty of 1% price deduction per 1% extra moisture applies. If MC &gt; 18%, absolute right to reject.</p>
                             </div>
                             <div className="bg-amber-50 border-2 border-amber-100 rounded-[2rem] p-8 text-amber-900">
-                                <h3 className="font-black text-2xl mb-4">ðŸ‚ Foreign Matter (FM%)</h3>
+                                <h3 className="font-black text-2xl mb-4">🍂 Foreign Matter (FM%)</h3>
                                 <p className="font-bold text-lg mb-2">Maximum allowed: <span className="bg-white px-3 py-1 rounded-lg shadow-sm">2.0%</span></p>
                                 <p className="opacity-80">Includes dust, stones, weed seeds, and other crop types. If FM &gt; 2%, proportional deduction. If FM &gt; 5%, absolute right to reject.</p>
                             </div>
@@ -663,20 +916,20 @@ return (
 
         {/* Premium Decorative Footer */}
         <footer className="text-center p-14 opacity-40">
-            <p className="text-slate-400 font-black text-xs uppercase tracking-[0.3em] italic">{t.footerText}</p>
+            <p className="text-slate-400 font-black text-xs uppercase tracking-[0.3em] italic">{tr.footerText}</p>
         </footer>
         {/* My Reports Modal */}
         {showMyReports && (
             <div className="fixed inset-0 bg-slate-900/50 z-[100] flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in duration-200">
                 <div className="bg-white rounded-[2rem] w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95 duration-200 border-4 border-slate-50">
                     <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                        <h3 className="text-2xl font-black text-slate-800 tracking-tight">{t.myReports || 'My Reports'}</h3>
-                        <button onClick={() => setShowMyReports(false)} className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-700 hover:bg-slate-300 transition-all font-bold">âœ•</button>
+                        <h3 className="text-2xl font-black text-slate-800 tracking-tight">{tr.myReports || 'My Reports'}</h3>
+                        <button onClick={() => setShowMyReports(false)} className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-700 hover:bg-slate-300 transition-all font-bold">✕</button>
                     </div>
                     <div className="p-8 overflow-y-auto">
                         {myReports.length === 0 ? (
                             <div className="text-center py-12 text-slate-400 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50">
-                                <p className="font-bold">No reports found.</p>
+                                <p className="font-bold">{tr.noReports || 'No reports found.'}</p>
                             </div>
                         ) : (
                             <div className="space-y-4">

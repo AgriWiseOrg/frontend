@@ -1,0 +1,62 @@
+﻿[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 45 modules transformed.
+node.exe : [31mΓ£ù[39m Build failed in 
+834ms
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" 
+"C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecifie 
+   d: ([31mΓ£ù[39m Build failed in 834  
+  ms:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeComma 
+   ndError
+ 
+[31merror during build:
+[31m[vite:esbuild] Transform failed with 
+1 error:
+C:/Users/Koppu/Downloads/sprint1review/fro
+ntend/src/components/BuyerSupport.jsx:265:
+10: ERROR: The symbol "t" has already 
+been declared[31m
+file: [36mC:/Users/Koppu/Downloads/sprint
+1review/frontend/src/components/BuyerSuppo
+rt.jsx:265:10[31m
+[33m
+[33mThe symbol "t" has already been 
+declared[33m
+263 |      };
+264 |  
+265 |      const t = translations[lang] 
+|| translations['en'];
+    |            ^
+266 |  
+267 |      const [myReports, 
+setMyReports] = useState([]);
+[31m
+    at failureErrorWithLog (C:\Users\Koppu
+\Downloads\sprint1review\frontend\node_mod
+ules\esbuild\lib\main.js:1467:15)
+    at C:\Users\Koppu\Downloads\sprint1rev
+iew\frontend\node_modules\esbuild\lib\main
+.js:736:50
+    at responseCallbacks.<computed> (C:\Us
+ers\Koppu\Downloads\sprint1review\frontend
+\node_modules\esbuild\lib\main.js:603:9)
+    at handleIncomingPacket (C:\Users\Kopp
+u\Downloads\sprint1review\frontend\node_mo
+dules\esbuild\lib\main.js:658:12)
+    at Socket.readFromStdout (C:\Users\Kop
+pu\Downloads\sprint1review\frontend\node_m
+odules\esbuild\lib\main.js:581:7)
+    at Socket.emit (node:events:508:28)
+    at addChunk 
+(node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode 
+(node:internal/streams/readable:510:3)
+    at Readable.push 
+(node:internal/streams/readable:390:5)
+    at Pipe.onStreamRead (node:internal/st
+ream_base_commons:189:23)[39m
