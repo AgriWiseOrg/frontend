@@ -75,7 +75,29 @@ const BuyerSupport = ({ user }) => {
             industrial: 'Industrial',
             downloadGst: 'Download GST Helper',
             walletSettings: 'Wallet Settings',
-            footerText: 'AgriWise Enterprise — Securing the Supply Chain'
+            footerText: 'AgriWise Enterprise — Securing the Supply Chain',
+            guideStep1Title: 'Explore the Marketplace',
+            guideStep1Desc: 'Go to Marketplace from your dashboard. Browse crops by category, filter by price, location, or quality grade.',
+            guideStep2Title: 'Place Your Order',
+            guideStep2Desc: 'Select the crop and quantity you want. Click "Add to Cart" and checkout. Your order is sent to the farmer immediately.',
+            guideStep3Title: 'Secure Escrow Payment',
+            guideStep3Desc: 'Your payment is Held in Escrow. It is NOT released to the farmer until you receive and verify the crops.',
+            guideStep4Title: 'Track Delivery',
+            guideStep4Desc: 'Go to "My Orders" in your dashboard to see the status: Pending → Processing → Shipped → Delivered.',
+            guideStep5Title: 'Verify & Report',
+            guideStep5Desc: 'If you have any issue with quality, quantity, or delivery — use the Dispute form on this Support page to pause payment.',
+            policyIntro: 'AgriWise strictly enforces quality standards to protect buyers. You can legally reject a shipment and claim a full escrow refund if the lab report exceeds the following limits:',
+            policyMoistureTitle: 'Moisture Content (MC%)',
+            policyMoistureMax: 'Maximum allowed:',
+            policyMoistureDesc: 'If MC > 14%, standard penalty of 1% price deduction per 1% extra moisture applies. If MC > 18%, absolute right to reject.',
+            policyForeignTitle: 'Foreign Matter (FM%)',
+            policyForeignMax: 'Maximum allowed:',
+            policyForeignDesc: 'Includes dust, stones, weed seeds, and other crop types. If FM > 2%, proportional deduction. If FM > 5%, absolute right to reject.',
+            policyRefundTitle: 'How to Claim Escrow Refund',
+            policyRefundStep1: 'Refuse to sign the "Quality Received" digital certificate via the Delivery App.',
+            policyRefundStep2: 'Click Report an Issue on this dashboard immediately.',
+            policyRefundStep3: 'Upload photos of the payload and the digital weighing/lab slip.',
+            policyRefundStep4: 'AgriWise verification team will halt the escrow payout and reverse the funds within 48 hours.'
         },
         hi: {
             title: 'खरीददार समर्थन & सहायता',
@@ -138,7 +160,29 @@ const BuyerSupport = ({ user }) => {
             industrial: 'औद्योगिक',
             downloadGst: 'GST सहायक डाउनलोड करें',
             walletSettings: 'वॉलेट सेटिंग्स',
-            footerText: 'AgriWise Enterprise — आपूर्ति श्रृंखला को सुरक्षित करना'
+            footerText: 'AgriWise Enterprise — आपूर्ति श्रृंखला को सुरक्षित करना',
+            guideStep1Title: 'मार्केटप्लेस एक्सप्लोर करें',
+            guideStep1Desc: 'अपने डैशबोर्ड से मार्केटप्लेस पर जाएं। श्रेणी, मूल्य, स्थान या गुणवत्ता ग्रेड के अनुसार फसलें ब्राउज़ करें।',
+            guideStep2Title: 'अपना ऑर्डर दें',
+            guideStep2Desc: 'अपनी इच्छित फसल और मात्रा चुनें। "कार्ट में जोड़ें" पर क्लिक करें और चेकआउट करें। आपका ऑर्डर तुरंत किसान को भेजा जाता है।',
+            guideStep3Title: 'सुरक्षित एस्क्रो भुगतान',
+            guideStep3Desc: 'आपका भुगतान एस्क्रो में रखा जाता है। जब तक आप फसल प्राप्त नहीं कर लेते और सत्यापित नहीं कर लेते, तब तक यह किसान को जारी नहीं किया जाता।',
+            guideStep4Title: 'डिलीवरी ट्रैक करें',
+            guideStep4Desc: 'स्थिति देखने के लिए अपने डैशबोर्ड में "मेरे ऑर्डर" पर जाएं: लंबित → प्रोसेसिंग → भेजा गया → डिलीवर किया गया।',
+            guideStep5Title: 'सत्यापित करें और रिपोर्ट करें',
+            guideStep5Desc: 'यदि गुणवत्ता, मात्रा या डिलीवरी में कोई समस्या है — भुगतान रोकने के लिए इस सपोर्ट पेज पर विवाद फॉर्म का उपयोग करें।',
+            policyIntro: 'AgriWise खरीदारों की सुरक्षा के लिए गुणवत्ता मानकों को सख्ती से लागू करता है। यदि लैब रिपोर्ट निम्नलिखित सीमाओं से अधिक है, तो आप शिपमेंट को कानूनी रूप से अस्वीकार कर सकते हैं और पूर्ण एस्क्रो रिफंड का दावा कर सकते हैं:',
+            policyMoistureTitle: 'नमी की मात्रा (MC%)',
+            policyMoistureMax: 'अधिकतम अनुमत:',
+            policyMoistureDesc: 'यदि MC > 14%, तो प्रति 1% अतिरिक्त नमी पर 1% मूल्य कटौती का मानक दंड लागू होता है। यदि MC > 18%, तो अस्वीकार करने का पूर्ण अधिकार।',
+            policyForeignTitle: 'विदेशी पदार्थ (FM%)',
+            policyForeignMax: 'अधिकतम अनुमत:',
+            policyForeignDesc: 'इसमें धूल, पत्थर, खरपतवार के बीज और अन्य फसल प्रकार शामिल हैं। यदि FM > 2%, आनुपातिक कटौती। यदि FM > 5%, अस्वीकार करने का पूर्ण अधिकार।',
+            policyRefundTitle: 'एस्क्रो रिफंड कैसे प्राप्त करें',
+            policyRefundStep1: 'डिलीवरी ऐप के माध्यम से "गुणवत्ता प्राप्त" डिजिटल प्रमाणपत्र पर हस्ताक्षर करने से इनकार करें।',
+            policyRefundStep2: 'इस डैशबोर्ड पर तुरंत "समस्या की रिपोर्ट करें" पर क्लिक करें।',
+            policyRefundStep3: 'पेलोड और डिजिटल वजन/लैब स्लिप की तस्वीरें अपलोड करें।',
+            policyRefundStep4: 'AgriWise सत्यापन टीम 48 घंटों के भीतर एस्क्रो भुगतान को रोक देगी और धनराशि वापस कर देगी।'
         },
         te: {
             title: 'కొనుగోలుదారు మద్దతు & సహాయం',
@@ -204,7 +248,29 @@ const BuyerSupport = ({ user }) => {
             industrial: 'పారిశ్రామిక',
             downloadGst: 'GST హెల్పర్ డౌన్‌లోడ్ చేయండి',
             walletSettings: 'వాలెట్ సెట్టింగ్‌లు',
-            footerText: 'AgriWise Enterprise — సరఫరా గొలుసును సురక్షితం చేయడం'
+            footerText: 'AgriWise Enterprise — సరఫరా గొలుసును సురక్షితం చేయడం',
+            guideStep1Title: 'మార్కెట్‌ప్లేస్‌ను అన్వేషించండి',
+            guideStep1Desc: 'మీ డాష్‌బోర్డ్ నుండి మార్కెట్‌ప్లేస్‌కు వెళ్ళండి. వర్గం, ధర, స్థానం లేదా నాణ్యత గ్రేడ్ ప్రకారం పంటలను బ్రౌజ్ చేయండి.',
+            guideStep2Title: 'మీ ఆర్డర్ ఇవ్వండి',
+            guideStep2Desc: 'మీకు కావలసిన పంట మరియు పరిమాణాన్ని ఎంచుకోండి. "కార్ట్‌కు జోడించు" క్లిక్ చేసి చెక్‌అవుట్ చేయండి. మీ ఆర్డర్ వెంటనే రైతుకు పంపబడుతుంది.',
+            guideStep3Title: 'సురక్షిత ఎస్క్రో చెల్లింపు',
+            guideStep3Desc: 'మీ చెల్లింపు ఎస్క్రోలో ఉంచబడుతుంది. మీరు పంటలను అందుకుని ధృవీకరించే వరకు ఇది రైతుకు విడుదల చేయబడదు.',
+            guideStep4Title: 'డెలివరీని ట్రాక్ చేయండి',
+            guideStep4Desc: 'స్థితి చూడటానికి మీ డాష్‌బోర్డ్‌లో "నా ఆర్డర్‌లు"కు వెళ్ళండి: పెండింగ్ → ప్రాసెసింగ్ → షిప్ చేయబడింది → డెలివరీ చేయబడింది.',
+            guideStep5Title: 'ధృవీకరించండి & రిపోర్ట్ చేయండి',
+            guideStep5Desc: 'నాణ్యత, పరిమాణం లేదా డెలివరీలో ఏదైనా సమస్య ఉంటే — చెల్లింపును నిలిపివేయడానికి ఈ సపోర్ట్ పేజీలో వివాద ఫారమ్‌ను ఉపయోగించండి.',
+            policyIntro: 'AgriWise కొనుగోలుదారులను రక్షించడానికి నాణ్యత ప్రమాణాలను కఠినంగా అమలు చేస్తుంది. ల్యాబ్ నివేదిక క్రింది పరిమితులను అధిగమిస్తే, మీరు షిప్‌మెంట్‌ను చట్టబద్ధంగా తిరస్కరించవచ్చు మరియు పూర్తి ఎస్క్రో రీఫండ్ క్లెయిమ్ చేయవచ్చు:',
+            policyMoistureTitle: 'తేమ శాతం (MC%)',
+            policyMoistureMax: 'గరిష్ట అనుమతి:',
+            policyMoistureDesc: 'MC > 14% అయితే, ప్రతి 1% అదనపు తేమకు 1% ధర కోత పెనాల్టీ వర్తిస్తుంది. MC > 18% అయితే, తిరస్కరించే పూర్తి హక్కు.',
+            policyForeignTitle: 'విదేశీ పదార్థం (FM%)',
+            policyForeignMax: 'గరిష్ట అనుమతి:',
+            policyForeignDesc: 'దుమ్ము, రాళ్ళు, కలుపు మొక్కల విత్తనాలు మరియు ఇతర పంట రకాలు. FM > 2% అయితే, అనుపాత కోత. FM > 5% అయితే, తిరస్కరించే పూర్తి హక్కు.',
+            policyRefundTitle: 'ఎస్క్రో రీఫండ్ ఎలా క్లెయిమ్ చేయాలి',
+            policyRefundStep1: 'డెలివరీ యాప్ ద్వారా "నాణ్యత అందుకున్నారు" డిజిటల్ సర్టిఫికేట్‌పై సంతకం చేయడానికి నిరాకరించండి.',
+            policyRefundStep2: 'ఈ డాష్‌బోర్డ్‌లో వెంటనే "సమస్యను రిపోర్ట్ చేయి" క్లిక్ చేయండి.',
+            policyRefundStep3: 'పేలోడ్ మరియు డిజిటల్ బరువు/ల్యాబ్ స్లిప్ ఫోటోలు అప్‌లోడ్ చేయండి.',
+            policyRefundStep4: 'AgriWise సత్యాపన బృందం 48 గంటల్లో ఎస్క్రో చెల్లింపును నిలిపివేసి, నిధులను వెనక్కి ఇస్తుంది.'
         },
         ta: {
             title: 'வாங்குபவர் ஆதரவு & உதவி',
@@ -267,7 +333,29 @@ const BuyerSupport = ({ user }) => {
             industrial: 'தொழில்துறை',
             downloadGst: 'GST உதவியாளரைப் பதிவிறக்கவும்',
             walletSettings: 'வாலெட் அமைப்புகள்',
-            footerText: 'AgriWise Enterprise — விநியோகச் சங்கிலியைப் பாதுகாத்தல்'
+            footerText: 'AgriWise Enterprise — விநியோகச் சங்கிலியைப் பாதுகாத்தல்',
+            guideStep1Title: 'சந்தையை ஆராயுங்கள்',
+            guideStep1Desc: 'உங்கள் டாஷ்போர்டிலிருந்து சந்தைக்கு செல்லுங்கள். வகை, விலை, இடம் அல்லது தர தரம் மூலம் பயிர்களை உலாவுங்கள்.',
+            guideStep2Title: 'உங்கள் ஆர்டரை வைக்கவும்',
+            guideStep2Desc: 'நீங்கள் விரும்பும் பயிர் மற்றும் அளவைத் தேர்ந்தெடுக்கவும். "கார்ட்டில் சேர்" என்பதைக் கிளிக் செய்து செக்அவுட் செய்யவும். உங்கள் ஆர்டர் உடனடியாக விவசாயிக்கு அனுப்பப்படும்.',
+            guideStep3Title: 'பாதுகாப்பான எஸ்க்ரோ கட்டணம்',
+            guideStep3Desc: 'உங்கள் கட்டணம் எஸ்க்ரோவில் வைக்கப்படுகிறது. நீங்கள் பயிர்களைப் பெற்று சரிபார்க்கும் வரை இது விவசாயிக்கு வெளியிடப்படாது.',
+            guideStep4Title: 'டெலிவரியைக் கண்காணிக்கவும்',
+            guideStep4Desc: 'நிலையைக் காண உங்கள் டாஷ்போர்டில் "எனது ஆர்டர்கள்" பக்கத்திற்கு செல்லவும்: நிலுவையில் → செயலாக்கம் → அனுப்பப்பட்டது → வழங்கப்பட்டது.',
+            guideStep5Title: 'சரிபார்த்து புகாரளிக்கவும்',
+            guideStep5Desc: 'தரம், அளவு அல்லது டெலிவரியில் ஏதேனும் சிக்கல் இருந்தால் — கட்டணத்தை நிறுத்த இந்த ஆதரவு பக்கத்தில் தகராறு படிவத்தைப் பயன்படுத்தவும்.',
+            policyIntro: 'AgriWise வாங்குபவர்களைப் பாதுகாக்க தரத் தரங்களை கடுமையாகச் செயல்படுத்துகிறது. ஆய்வக அறிக்கை பின்வரும் வரம்புகளை மீறினால், ஷிப்மென்ட்டை சட்டப்பூர்வமாக நிராகரிக்கலாம் மற்றும் முழு எஸ்க்ரோ திரும்பப்பெறலைக் கோரலாம்:',
+            policyMoistureTitle: 'ஈரப்பதம் (MC%)',
+            policyMoistureMax: 'அதிகபட்ச அனுமதி:',
+            policyMoistureDesc: 'MC > 14% எனில், 1% கூடுதல் ஈரப்பதத்திற்கு 1% விலை குறைப்பு அபராதம் பொருந்தும். MC > 18% எனில், நிராகரிக்க முழு உரிமை.',
+            policyForeignTitle: 'வெளி பொருள் (FM%)',
+            policyForeignMax: 'அதிகபட்ச அனுமதி:',
+            policyForeignDesc: 'தூசி, கற்கள், களை விதைகள் மற்றும் பிற பயிர் வகைகள் அடங்கும். FM > 2% எனில், விகிதாசார குறைப்பு. FM > 5% எனில், நிராகரிக்க முழு உரிமை.',
+            policyRefundTitle: 'எஸ்க்ரோ திரும்பப்பெறல் எப்படி கோருவது',
+            policyRefundStep1: 'டெலிவரி ஆப் வழியாக "தரம் பெறப்பட்டது" டிஜிட்டல் சான்றிதழில் கையொப்பமிட மறுக்கவும்.',
+            policyRefundStep2: 'இந்த டாஷ்போர்டில் உடனடியாக "சிக்கலைப் புகாரளி" கிளிக் செய்யவும்.',
+            policyRefundStep3: 'பேலோட் மற்றும் டிஜிட்டல் எடை/ஆய்வக சீட்டின் புகைப்படங்களைப் பதிவேற்றவும்.',
+            policyRefundStep4: 'AgriWise சரிபார்ப்பு குழு 48 மணிநேரத்திற்குள் எஸ்க்ரோ கட்டணத்தை நிறுத்தி, நிதியைத் திருப்பித் தரும்.'
         },
         ml: {
             title: 'വാങ്ങുന്നവർ പിന്തുണ & സഹായം',
@@ -330,7 +418,29 @@ const BuyerSupport = ({ user }) => {
             industrial: 'വ്യാവസായിക',
             downloadGst: 'GST ഹെൽപ്പർ ഡൗൺലോഡ് ചെയ്യുക',
             walletSettings: 'വാലറ്റ് ക്രമീകരണങ്ങൾ',
-            footerText: 'AgriWise Enterprise — വിതരണ ശൃംഖല സുരക്ഷിതമാക്കൽ'
+            footerText: 'AgriWise Enterprise — വിതരണ ശൃംഖല സുരക്ഷിതമാക്കൽ',
+            guideStep1Title: 'മാർക്കറ്റ്പ്ലേസ് പര്യവേക്ഷണം ചെയ്യുക',
+            guideStep1Desc: 'നിങ്ങളുടെ ഡാഷ്ബോർഡിൽ നിന്ന് മാർക്കറ്റ്പ്ലേസിലേക്ക് പോകുക. വിഭാഗം, വില, സ്ഥലം അല്ലെങ്കിൽ ഗുണനിലവാര ഗ്രേഡ് അനുസരിച്ച് വിളകൾ ബ്രൗസ് ചെയ്യുക.',
+            guideStep2Title: 'നിങ്ങളുടെ ഓർഡർ നൽകുക',
+            guideStep2Desc: 'നിങ്ങൾക്ക് ആവശ്യമുള്ള വിള, അളവ് തിരഞ്ഞെടുക്കുക. "കാർട്ടിൽ ചേർക്കുക" ക്ലിക്ക് ചെയ്ത് ചെക്ക്ഔട്ട് ചെയ്യുക. നിങ്ങളുടെ ഓർഡർ ഉടൻ കർഷകന് അയയ്ക്കപ്പെടും.',
+            guideStep3Title: 'സുരക്ഷിത എസ്ക്രോ പേയ്മെന്റ്',
+            guideStep3Desc: 'നിങ്ങളുടെ പേയ്മെന്റ് എസ്ക്രോയിൽ സൂക്ഷിക്കപ്പെടുന്നു. നിങ്ങൾ വിളകൾ സ്വീകരിച്ച് പരിശോധിക്കുന്നത് വരെ ഇത് കർഷകന് നൽകില്ല.',
+            guideStep4Title: 'ഡെലിവറി ട്രാക്ക് ചെയ്യുക',
+            guideStep4Desc: 'സ്ഥിതി കാണാൻ നിങ്ങളുടെ ഡാഷ്ബോർഡിലെ "എന്റെ ഓർഡറുകൾ" എന്നതിലേക്ക് പോകുക: പെൻഡിംഗ് → പ്രോസസ്സിംഗ് → ഷിപ് ചെയ്തു → ഡെലിവർ ചെയ്തു.',
+            guideStep5Title: 'പരിശോധിക്കുക & റിപ്പോർട്ട് ചെയ്യുക',
+            guideStep5Desc: 'ഗുണനിലവാരം, അളവ് അല്ലെങ്കിൽ ഡെലിവറിയിൽ ഏതെങ്കിലും പ്രശ്നമുണ്ടെങ്കിൽ — പേയ്മെന്റ് നിർത്താൻ ഈ സപ്പോർട്ട് പേജിലെ ഡിസ്പ്യൂട്ട് ഫോം ഉപയോഗിക്കുക.',
+            policyIntro: 'വാങ്ങുന്നവരെ സംരക്ഷിക്കാൻ AgriWise ഗുണനിലവാര മാനദണ്ഡങ്ങൾ കർശനമായി നടപ്പിലാക്കുന്നു. ലാബ് റിപ്പോർട്ട് ഇനിപ്പറയുന്ന പരിധികൾ കവിയുന്നുവെങ്കിൽ, ഷിപ്മെന്റ് നിയമപരമായി നിരസിക്കാനും മുഴുവൻ എസ്ക്രോ റീഫണ്ട് ക്ലെയിം ചെയ്യാനും കഴിയും:',
+            policyMoistureTitle: 'ഈർപ്പ ശതമാനം (MC%)',
+            policyMoistureMax: 'പരമാവധി അനുവദനീയം:',
+            policyMoistureDesc: 'MC > 14% ആണെങ്കിൽ, ഓരോ 1% അധിക ഈർപ്പത്തിനും 1% വില കുറവ് പിഴ ബാധകമാണ്. MC > 18% ആണെങ്കിൽ, നിരസിക്കാനുള്ള പൂർണ്ണ അധികാരം.',
+            policyForeignTitle: 'വിദേശ വസ്തു (FM%)',
+            policyForeignMax: 'പരമാവധി അനുവദനീയം:',
+            policyForeignDesc: 'പൊടി, കല്ലുകൾ, കളവിത്തുകൾ, മറ്റ് വിള ഇനങ്ങൾ. FM > 2% ആണെങ്കിൽ, അനുപാത കിഴിവ്. FM > 5% ആണെങ്കിൽ, നിരസിക്കാനുള്ള പൂർണ്ണ അധികാരം.',
+            policyRefundTitle: 'എസ്ക്രോ റീഫണ്ട് എങ്ങനെ ക്ലെയിം ചെയ്യാം',
+            policyRefundStep1: 'ഡെലിവറി ആപ്പ് വഴി "ഗുണനിലവാരം ലഭിച്ചു" ഡിജിറ്റൽ സർട്ടിഫിക്കറ്റിൽ ഒപ്പിടാൻ വിസമ്മതിക്കുക.',
+            policyRefundStep2: 'ഈ ഡാഷ്ബോർഡിൽ ഉടൻ "ഒരു പ്രശ്നം റിപ്പോർട്ട് ചെയ്യുക" ക്ലിക്ക് ചെയ്യുക.',
+            policyRefundStep3: 'പേലോഡിന്റെയും ഡിജിറ്റൽ തൂക്കം/ലാബ് സ്ലിപ്പിന്റെയും ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുക.',
+            policyRefundStep4: 'AgriWise പരിശോധനാ ടീം 48 മണിക്കൂറിനുള്ളിൽ എസ്ക്രോ പേയ്മെന്റ് നിർത്തി ഫണ്ട് തിരികെ നൽകും.'
         },
         kn: {
             title: 'ಖರೀದಿದಾರ ಬೆಂಬಲ & ಸಹಾಯ',
@@ -393,7 +503,29 @@ const BuyerSupport = ({ user }) => {
             industrial: 'ಕೈಗಾರಿಕಾ',
             downloadGst: 'GST ಸಹಾಯಕ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
             walletSettings: 'ವಾಲೆಟ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು',
-            footerText: 'AgriWise Enterprise — ಪೂರೈಕೆ ಸರಪಳಿ ಸುರಕ್ಷಿತಗೊಳಿಸುವುದು'
+            footerText: 'AgriWise Enterprise — ಪೂರೈಕೆ ಸರಪಳಿ ಸುರಕ್ಷಿತಗೊಳಿಸುವುದು',
+            guideStep1Title: 'ಮಾರ್ಕೆಟ್‌ಪ್ಲೇಸ್ ಅನ್ವೇಷಿಸಿ',
+            guideStep1Desc: 'ನಿಮ್ಮ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ನಿಂದ ಮಾರ್ಕೆಟ್‌ಪ್ಲೇಸ್‌ಗೆ ಹೋಗಿ. ವರ್ಗ, ಬೆಲೆ, ಸ್ಥಳ ಅಥವಾ ಗುಣಮಟ್ಟದ ಶ್ರೇಣಿ ಪ್ರಕಾರ ಬೆಳೆಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ.',
+            guideStep2Title: 'ನಿಮ್ಮ ಆದೇಶ ನೀಡಿ',
+            guideStep2Desc: 'ನಿಮಗೆ ಬೇಕಾದ ಬೆಳೆ ಮತ್ತು ಪ್ರಮಾಣವನ್ನು ಆಯ್ಕೆಮಾಡಿ. "ಕಾರ್ಟ್‌ಗೆ ಸೇರಿಸಿ" ಕ್ಲಿಕ್ ಮಾಡಿ ಮತ್ತು ಚೆಕ್‌ಔಟ್ ಮಾಡಿ. ನಿಮ್ಮ ಆದೇಶ ತಕ್ಷಣ ರೈತರಿಗೆ ಕಳುಹಿಸಲಾಗುತ್ತದೆ.',
+            guideStep3Title: 'ಸುರಕ್ಷಿತ ಎಸ್ಕ್ರೋ ಪಾವತಿ',
+            guideStep3Desc: 'ನಿಮ್ಮ ಪಾವತಿ ಎಸ್ಕ್ರೋನಲ್ಲಿ ಇಡಲಾಗುತ್ತದೆ. ನೀವು ಬೆಳೆಗಳನ್ನು ಸ್ವೀಕರಿಸಿ ಪರಿಶೀಲಿಸುವವರೆಗೆ ಇದನ್ನು ರೈತರಿಗೆ ಬಿಡುಗಡೆ ಮಾಡಲಾಗುವುದಿಲ್ಲ.',
+            guideStep4Title: 'ಡೆಲಿವರಿ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ',
+            guideStep4Desc: 'ಸ್ಥಿತಿ ಕಾಣಲು ನಿಮ್ಮ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ನಲ್ಲಿ "ನನ್ನ ಆದೇಶಗಳು" ಗೆ ಹೋಗಿ: ಬಾಕಿ → ಪ್ರಕ್ರಿಯೆ → ರವಾನೆ → ತಲುಪಿದೆ.',
+            guideStep5Title: 'ಪರಿಶೀಲಿಸಿ & ವರದಿ ಮಾಡಿ',
+            guideStep5Desc: 'ಗುಣಮಟ್ಟ, ಪ್ರಮಾಣ ಅಥವಾ ಡೆಲಿವರಿಯಲ್ಲಿ ಯಾವುದೇ ಸಮಸ್ಯೆ ಇದ್ದರೆ — ಪಾವತಿ ನಿಲ್ಲಿಸಲು ಈ ಬೆಂಬಲ ಪುಟದಲ್ಲಿ ವಿವಾದ ಫಾರ್ಮ್ ಬಳಸಿ.',
+            policyIntro: 'ಖರೀದಿದಾರರನ್ನು ಸಂರಕ್ಷಿಸಲು AgriWise ಗುಣಮಟ್ಟದ ಮಾನದಂಡಗಳನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ಜಾರಿ ಮಾಡುತ್ತದೆ. ಲ್ಯಾಬ್ ವರದಿ ಕೆಳಗಿನ ಮಿತಿಗಳನ್ನು ಮೀರಿದರೆ, ಶಿಪ್‌ಮೆಂಟ್ ಅನ್ನು ಕಾನೂನುಬದ್ಧವಾಗಿ ತಿರಸ್ಕರಿಸಬಹುದು ಮತ್ತು ಪೂರ್ಣ ಎಸ್ಕ್ರೋ ಮರುಪಾವತಿ ಕ್ಲೈಮ್ ಮಾಡಬಹುದು:',
+            policyMoistureTitle: 'ತೇವಾಂಶ (MC%)',
+            policyMoistureMax: 'ಗರಿಷ್ಠ ಅನುಮತಿ:',
+            policyMoistureDesc: 'MC > 14% ಆಗಿದ್ದರೆ, ಪ್ರತಿ 1% ಹೆಚ್ಚುವರಿ ತೇವಾಂಶಕ್ಕೆ 1% ಬೆಲೆ ಕಡಿತ ದಂಡ ಅನ್ವಯ. MC > 18% ಆಗಿದ್ದರೆ, ತಿರಸ್ಕರಿಸುವ ಸಂಪೂರ್ಣ ಹಕ್ಕು.',
+            policyForeignTitle: 'ವಿದೇಶಿ ವಸ್ತು (FM%)',
+            policyForeignMax: 'ಗರಿಷ್ಠ ಅನುಮತಿ:',
+            policyForeignDesc: 'ಧೂಳು, ಕಲ್ಲುಗಳು, ಕಳೆ ಬೀಜಗಳು ಮತ್ತು ಇತರ ಬೆಳೆ ಪ್ರಕಾರಗಳು. FM > 2% ಆಗಿದ್ದರೆ, ಅನುಪಾತ ಕಡಿತ. FM > 5% ಆಗಿದ್ದರೆ, ತಿರಸ್ಕರಿಸುವ ಸಂಪೂರ್ಣ ಹಕ್ಕು.',
+            policyRefundTitle: 'ಎಸ್ಕ್ರೋ ಮರುಪಾವತಿ ಹೇಗೆ ಕ್ಲೈಮ್ ಮಾಡುವುದು',
+            policyRefundStep1: 'ಡೆಲಿವರಿ ಆಪ್ ಮೂಲಕ "ಗುಣಮಟ್ಟ ಸ್ವೀಕರಿಸಲಾಗಿದೆ" ಡಿಜಿಟಲ್ ಪ್ರಮಾಣಪತ್ರಕ್ಕೆ ಸಹಿ ಹಾಕಲು ನಿರಾಕರಿಸಿ.',
+            policyRefundStep2: 'ಈ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ನಲ್ಲಿ ತಕ್ಷಣ "ಸಮಸ್ಯೆ ವರದಿ ಮಾಡಿ" ಕ್ಲಿಕ್ ಮಾಡಿ.',
+            policyRefundStep3: 'ಪೇಲೋಡ್ ಮತ್ತು ಡಿಜಿಟಲ್ ತೂಕ/ಲ್ಯಾಬ್ ಸ್ಲಿಪ್ ಫೋಟೋಗಳನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.',
+            policyRefundStep4: 'AgriWise ಪರಿಶೀಲನಾ ತಂಡ 48 ಗಂಟೆಗಳಲ್ಲಿ ಎಸ್ಕ್ರೋ ಪಾವತಿಯನ್ನು ನಿಲ್ಲಿಸಿ ಹಣವನ್ನು ಹಿಂತಿರುಗಿಸುತ್ತದೆ.'
         },
         pa: {
             title: 'ਖਰੀਦਦਾਰ ਸਹਾਇਤਾ ਅਤੇ ਮਦਦ',
@@ -456,7 +588,29 @@ const BuyerSupport = ({ user }) => {
             industrial: 'ਉਦਯੋਗਿਕ',
             downloadGst: 'GST ਸਹਾਇਕ ਡਾਊਨਲੋਡ ਕਰੋ',
             walletSettings: 'ਵਾਲਿਟ ਸੈਟਿੰਗਾਂ',
-            footerText: 'AgriWise Enterprise — ਸਪਲਾਈ ਚੇਨ ਸੁਰੱਖਿਅਤ ਕਰਨਾ'
+            footerText: 'AgriWise Enterprise — ਸਪਲਾਈ ਚੇਨ ਸੁਰੱਖਿਅਤ ਕਰਨਾ',
+            guideStep1Title: 'ਮਾਰਕੀਟਪਲੇਸ ਖੋਜੋ',
+            guideStep1Desc: 'ਆਪਣੇ ਡੈਸ਼ਬੋਰਡ ਤੋਂ ਮਾਰਕੀਟਪਲੇਸ ਤੇ ਜਾਓ। ਸ਼੍ਰੇਣੀ, ਕੀਮਤ, ਸਥਾਨ ਜਾਂ ਗੁਣਵੱਤਾ ਗ੍ਰੇਡ ਅਨੁਸਾਰ ਫ਼ਸਲਾਂ ਬ੍ਰਾਊਜ਼ ਕਰੋ।',
+            guideStep2Title: 'ਆਪਣਾ ਆਰਡਰ ਦਿਓ',
+            guideStep2Desc: 'ਆਪਣੀ ਲੋੜੀਂਦੀ ਫ਼ਸਲ ਅਤੇ ਮਾਤਰਾ ਚੁਣੋ। "ਕਾਰਟ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ" ਤੇ ਕਲਿੱਕ ਕਰੋ ਅਤੇ ਚੈੱਕਆਊਟ ਕਰੋ। ਤੁਹਾਡਾ ਆਰਡਰ ਤੁਰੰਤ ਕਿਸਾਨ ਨੂੰ ਭੇਜਿਆ ਜਾਂਦਾ ਹੈ।',
+            guideStep3Title: 'ਸੁਰੱਖਿਅਤ ਐਸਕਰੋ ਭੁਗਤਾਨ',
+            guideStep3Desc: 'ਤੁਹਾਡਾ ਭੁਗਤਾਨ ਐਸਕਰੋ ਵਿੱਚ ਰੱਖਿਆ ਜਾਂਦਾ ਹੈ। ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਫ਼ਸਲ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰਦੇ ਅਤੇ ਤਸਦੀਕ ਨਹੀਂ ਕਰਦੇ, ਇਹ ਕਿਸਾਨ ਨੂੰ ਜਾਰੀ ਨਹੀਂ ਕੀਤਾ ਜਾਂਦਾ।',
+            guideStep4Title: 'ਡਿਲਿਵਰੀ ਟ੍ਰੈਕ ਕਰੋ',
+            guideStep4Desc: 'ਸਥਿਤੀ ਦੇਖਣ ਲਈ ਆਪਣੇ ਡੈਸ਼ਬੋਰਡ ਵਿੱਚ "ਮੇਰੇ ਆਰਡਰ" ਤੇ ਜਾਓ: ਲੰਬਿਤ → ਪ੍ਰੋਸੈਸਿੰਗ → ਭੇਜਿਆ ਗਿਆ → ਡਿਲੀਵਰ ਹੋਇਆ।',
+            guideStep5Title: 'ਤਸਦੀਕ ਕਰੋ ਅਤੇ ਰਿਪੋਰਟ ਕਰੋ',
+            guideStep5Desc: 'ਜੇਕਰ ਗੁਣਵੱਤਾ, ਮਾਤਰਾ ਜਾਂ ਡਿਲਿਵਰੀ ਵਿੱਚ ਕੋਈ ਸਮੱਸਿਆ ਹੈ — ਭੁਗਤਾਨ ਰੋਕਣ ਲਈ ਇਸ ਸਹਾਇਤਾ ਪੰਨੇ ਤੇ ਵਿਵਾਦ ਫਾਰਮ ਵਰਤੋ।',
+            policyIntro: 'AgriWise ਖਰੀਦਦਾਰਾਂ ਦੀ ਸੁਰੱਖਿਆ ਲਈ ਗੁਣਵੱਤਾ ਮਿਆਰਾਂ ਨੂੰ ਸਖ਼ਤੀ ਨਾਲ ਲਾਗੂ ਕਰਦਾ ਹੈ। ਜੇਕਰ ਲੈਬ ਰਿਪੋਰਟ ਹੇਠ ਲਿਖੀਆਂ ਸੀਮਾਵਾਂ ਤੋਂ ਵੱਧ ਹੈ, ਤਾਂ ਤੁਸੀਂ ਸ਼ਿਪਮੈਂਟ ਨੂੰ ਕਾਨੂੰਨੀ ਤੌਰ ਤੇ ਰੱਦ ਕਰ ਸਕਦੇ ਹੋ ਅਤੇ ਪੂਰੇ ਐਸਕਰੋ ਰਿਫੰਡ ਦਾ ਦਾਅਵਾ ਕਰ ਸਕਦੇ ਹੋ:',
+            policyMoistureTitle: 'ਨਮੀ ਸਮੱਗਰੀ (MC%)',
+            policyMoistureMax: 'ਵੱਧ ਤੋਂ ਵੱਧ ਮਨਜ਼ੂਰ:',
+            policyMoistureDesc: 'ਜੇਕਰ MC > 14%, ਤਾਂ ਪ੍ਰਤੀ 1% ਵਾਧੂ ਨਮੀ ਲਈ 1% ਕੀਮਤ ਕਟੌਤੀ ਜੁਰਮਾਨਾ ਲਾਗੂ। ਜੇਕਰ MC > 18%, ਤਾਂ ਰੱਦ ਕਰਨ ਦਾ ਪੂਰਾ ਅਧਿਕਾਰ।',
+            policyForeignTitle: 'ਵਿਦੇਸ਼ੀ ਪਦਾਰਥ (FM%)',
+            policyForeignMax: 'ਵੱਧ ਤੋਂ ਵੱਧ ਮਨਜ਼ੂਰ:',
+            policyForeignDesc: 'ਧੂੜ, ਪੱਥਰ, ਨਦੀਨ ਬੀਜ ਅਤੇ ਹੋਰ ਫ਼ਸਲ ਕਿਸਮਾਂ ਸ਼ਾਮਲ ਹਨ। ਜੇਕਰ FM > 2%, ਅਨੁਪਾਤਕ ਕਟੌਤੀ। ਜੇਕਰ FM > 5%, ਰੱਦ ਕਰਨ ਦਾ ਪੂਰਾ ਅਧਿਕਾਰ।',
+            policyRefundTitle: 'ਐਸਕਰੋ ਰਿਫੰਡ ਕਿਵੇਂ ਲੈਣਾ ਹੈ',
+            policyRefundStep1: 'ਡਿਲਿਵਰੀ ਐਪ ਰਾਹੀਂ "ਗੁਣਵੱਤਾ ਪ੍ਰਾਪਤ" ਡਿਜੀਟਲ ਸਰਟੀਫਿਕੇਟ ਤੇ ਦਸਤਖ਼ਤ ਕਰਨ ਤੋਂ ਇਨਕਾਰ ਕਰੋ।',
+            policyRefundStep2: 'ਇਸ ਡੈਸ਼ਬੋਰਡ ਤੇ ਤੁਰੰਤ "ਸਮੱਸਿਆ ਰਿਪੋਰਟ ਕਰੋ" ਕਲਿੱਕ ਕਰੋ।',
+            policyRefundStep3: 'ਪੇਲੋਡ ਅਤੇ ਡਿਜੀਟਲ ਤੋਲ/ਲੈਬ ਸਲਿੱਪ ਦੀਆਂ ਫੋਟੋਆਂ ਅੱਪਲੋਡ ਕਰੋ।',
+            policyRefundStep4: 'AgriWise ਤਸਦੀਕ ਟੀਮ 48 ਘੰਟਿਆਂ ਵਿੱਚ ਐਸਕਰੋ ਭੁਗਤਾਨ ਰੋਕ ਦੇਵੇਗੀ ਅਤੇ ਫੰਡ ਵਾਪਸ ਕਰੇਗੀ।'
         },
         mr: {
             title: 'खरेदीदार समर्थन आणि मदत',
@@ -519,7 +673,29 @@ const BuyerSupport = ({ user }) => {
             industrial: 'औद्योगिक',
             downloadGst: 'GST सहाय्यक डाउनलोड करा',
             walletSettings: 'वॉलेट सेटिंग्ज',
-            footerText: 'AgriWise Enterprise — पुरवठा साखळी सुरक्षित करणे'
+            footerText: 'AgriWise Enterprise — पुरवठा साखळी सुरक्षित करणे',
+            guideStep1Title: 'मार्केटप्लेस शोधा',
+            guideStep1Desc: 'तुमच्या डॅशबोर्डवरून मार्केटप्लेसवर जा. श्रेणी, किंमत, स्थान किंवा गुणवत्ता ग्रेडनुसार पिके ब्राउझ करा.',
+            guideStep2Title: 'तुमची ऑर्डर द्या',
+            guideStep2Desc: 'तुम्हाला हवे असलेले पीक आणि प्रमाण निवडा. "कार्टमध्ये जोडा" वर क्लिक करा आणि चेकआउट करा. तुमची ऑर्डर लगेच शेतकऱ्याला पाठवली जाते.',
+            guideStep3Title: 'सुरक्षित एस्क्रो पेमेंट',
+            guideStep3Desc: 'तुमचे पेमेंट एस्क्रोमध्ये ठेवले जाते. तुम्ही पिके प्राप्त करून पडताळणी करेपर्यंत ते शेतकऱ्याला सोडले जात नाही.',
+            guideStep4Title: 'डिलिव्हरी ट्रॅक करा',
+            guideStep4Desc: 'स्थिती पाहण्यासाठी तुमच्या डॅशबोर्डवरील "माझ्या ऑर्डर" वर जा: प्रलंबित → प्रक्रिया → पाठवले → डिलिव्हर केले.',
+            guideStep5Title: 'पडताळणी करा आणि अहवाल द्या',
+            guideStep5Desc: 'गुणवत्ता, प्रमाण किंवा डिलिव्हरीमध्ये कोणतीही समस्या असल्यास — पेमेंट थांबवण्यासाठी या समर्थन पानावरील वाद फॉर्म वापरा.',
+            policyIntro: 'AgriWise खरेदीदारांच्या संरक्षणासाठी गुणवत्ता मानके कडकपणे लागू करते. प्रयोगशाळा अहवाल खालील मर्यादा ओलांडल्यास, तुम्ही शिपमेंट कायदेशीररित्या नाकारू शकता आणि पूर्ण एस्क्रो परतावा मागू शकता:',
+            policyMoistureTitle: 'ओलावा प्रमाण (MC%)',
+            policyMoistureMax: 'जास्तीत जास्त परवानगी:',
+            policyMoistureDesc: 'MC > 14% असल्यास, प्रति 1% अतिरिक्त ओलावा 1% किंमत कपात दंड लागू. MC > 18% असल्यास, नाकारण्याचा पूर्ण अधिकार.',
+            policyForeignTitle: 'परकीय पदार्थ (FM%)',
+            policyForeignMax: 'जास्तीत जास्त परवानगी:',
+            policyForeignDesc: 'धूळ, दगड, तण बियाणे आणि इतर पीक प्रकार. FM > 2% असल्यास, प्रमाणात्मक कपात. FM > 5% असल्यास, नाकारण्याचा पूर्ण अधिकार.',
+            policyRefundTitle: 'एस्क्रो परतावा कसा मिळवायचा',
+            policyRefundStep1: 'डिलिव्हरी अॅपद्वारे "गुणवत्ता प्राप्त" डिजिटल प्रमाणपत्रावर स्वाक्षरी करण्यास नकार द्या.',
+            policyRefundStep2: 'या डॅशबोर्डवर लगेच "समस्या नोंदवा" वर क्लिक करा.',
+            policyRefundStep3: 'पेलोड आणि डिजिटल वजन/लॅब स्लिपचे फोटो अपलोड करा.',
+            policyRefundStep4: 'AgriWise पडताळणी टीम 48 तासांत एस्क्रो पेमेंट थांबवेल आणि निधी परत करेल.'
         }
     };
 
@@ -858,11 +1034,11 @@ return (
                         <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">📖 {tr.qualityTitle || 'How to Use AgriWise'}</h2>
                         <div className="space-y-6">
                             {[
-                                { step: '1', icon: '🔍', title: 'Explore the Marketplace', desc: 'Go to Marketplace from your dashboard. Browse crops by category, filter by price, location, or quality grade.' },
-                                { step: '2', icon: '🛒', title: 'Place Your Order', desc: 'Select the crop and quantity you want. Click "Add to Cart" and checkout. Your order is sent to the farmer immediately.' },
-                                { step: '3', icon: '💳', title: 'Secure Escrow Payment', desc: 'Your payment is Held in Escrow. It is NOT released to the farmer until you receive and verify the crops.' },
-                                { step: '4', icon: '📦', title: 'Track Delivery', desc: 'Go to "My Orders" in your dashboard to see the status: Pending → Processing → Shipped → Delivered.' },
-                                { step: '5', icon: '⚖️', title: 'Verify & Report', desc: 'If you have any issue with quality, quantity, or delivery — use the Dispute form on this Support page to pause payment.' },
+                                { step: '1', icon: '🔍', title: tr.guideStep1Title, desc: tr.guideStep1Desc },
+                                { step: '2', icon: '🛒', title: tr.guideStep2Title, desc: tr.guideStep2Desc },
+                                { step: '3', icon: '💳', title: tr.guideStep3Title, desc: tr.guideStep3Desc },
+                                { step: '4', icon: '📦', title: tr.guideStep4Title, desc: tr.guideStep4Desc },
+                                { step: '5', icon: '⚖️', title: tr.guideStep5Title, desc: tr.guideStep5Desc },
                             ].map((item) => (
                                 <div key={item.step} className="flex items-start gap-6 p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:shadow-md transition-all">
                                     <div className="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center font-black text-lg shrink-0">{item.step}</div>
@@ -884,29 +1060,29 @@ return (
                     <div className="bg-white rounded-[3.5rem] p-10 md:p-14 shadow-2xl border-2 border-slate-100 relative overflow-hidden">
                         <h2 className="text-4xl font-black text-slate-900 mb-8 tracking-tight">🛡️ {tr.paymentTitle || 'Quality & Refund Policy'}</h2>
                         <p className="text-slate-600 font-bold mb-8 text-lg">
-                            AgriWise strictly enforces quality standards to protect buyers. You can legally reject a shipment and claim a full escrow refund if the lab report exceeds the following limits:
+                            {tr.policyIntro}
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                             <div className="bg-rose-50 border-2 border-rose-100 rounded-[2rem] p-8 text-rose-900">
-                                <h3 className="font-black text-2xl mb-4">💧 Moisture Content (MC%)</h3>
-                                <p className="font-bold text-lg mb-2">Maximum allowed: <span className="bg-white px-3 py-1 rounded-lg shadow-sm">14.0%</span></p>
-                                <p className="opacity-80">If MC &gt; 14%, standard penalty of 1% price deduction per 1% extra moisture applies. If MC &gt; 18%, absolute right to reject.</p>
+                                <h3 className="font-black text-2xl mb-4">💧 {tr.policyMoistureTitle}</h3>
+                                <p className="font-bold text-lg mb-2">{tr.policyMoistureMax} <span className="bg-white px-3 py-1 rounded-lg shadow-sm">14.0%</span></p>
+                                <p className="opacity-80">{tr.policyMoistureDesc}</p>
                             </div>
                             <div className="bg-amber-50 border-2 border-amber-100 rounded-[2rem] p-8 text-amber-900">
-                                <h3 className="font-black text-2xl mb-4">🍂 Foreign Matter (FM%)</h3>
-                                <p className="font-bold text-lg mb-2">Maximum allowed: <span className="bg-white px-3 py-1 rounded-lg shadow-sm">2.0%</span></p>
-                                <p className="opacity-80">Includes dust, stones, weed seeds, and other crop types. If FM &gt; 2%, proportional deduction. If FM &gt; 5%, absolute right to reject.</p>
+                                <h3 className="font-black text-2xl mb-4">🍂 {tr.policyForeignTitle}</h3>
+                                <p className="font-bold text-lg mb-2">{tr.policyForeignMax} <span className="bg-white px-3 py-1 rounded-lg shadow-sm">2.0%</span></p>
+                                <p className="opacity-80">{tr.policyForeignDesc}</p>
                             </div>
                         </div>
 
                         <div className="bg-emerald-50 border-2 border-emerald-100 rounded-[2rem] p-8 text-emerald-900">
-                            <h3 className="font-black text-xl mb-4">How to Claim Escrow Refund</h3>
+                            <h3 className="font-black text-xl mb-4">{tr.policyRefundTitle}</h3>
                             <ol className="list-decimal ml-6 space-y-3 font-bold opacity-90">
-                                <li>Refuse to sign the "Quality Received" digital certificate via the Delivery App.</li>
-                                <li>Click <strong>Report an Issue</strong> on this dashboard immediately.</li>
-                                <li>Upload photos of the payload and the digital weighing/lab slip.</li>
-                                <li>AgriWise verification team will halt the escrow payout and reverse the funds within 48 hours.</li>
+                                <li>{tr.policyRefundStep1}</li>
+                                <li>{tr.policyRefundStep2}</li>
+                                <li>{tr.policyRefundStep3}</li>
+                                <li>{tr.policyRefundStep4}</li>
                             </ol>
                         </div>
                     </div>
