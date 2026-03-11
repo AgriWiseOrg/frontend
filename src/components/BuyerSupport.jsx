@@ -94,10 +94,8 @@ const BuyerSupport = ({ user }) => {
             policyForeignMax: 'Maximum allowed:',
             policyForeignDesc: 'Includes dust, stones, weed seeds, and other crop types. If FM > 2%, proportional deduction. If FM > 5%, absolute right to reject.',
             policyRefundTitle: 'How to Claim Escrow Refund',
-            policyRefundStep1: 'Refuse to sign the "Quality Received" digital certificate via the Delivery App.',
-            policyRefundStep2: 'Click Report an Issue on this dashboard immediately.',
-            policyRefundStep3: 'Upload photos of the payload and the digital weighing/lab slip.',
-            policyRefundStep4: 'AgriWise verification team will halt the escrow payout and reverse the funds within 48 hours.'
+            policyRefundStep1: 'Click Report an Issue on this dashboard immediately.',
+
         },
         hi: {
             title: 'खरीददार समर्थन & सहायता',
