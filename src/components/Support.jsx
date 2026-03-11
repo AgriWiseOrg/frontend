@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from './LanguageContext'; // Import hook
+import { DotSquare } from 'lucide-react';
 
 const MainView = ({ t, setActiveView, showDisputeForm, setShowDisputeForm, subsidyStep, setSubsidyStep, navigate, setFormType }) => (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -145,11 +146,10 @@ const DiagnosticView = ({ t, setActiveView, diagnosticStep, setDiagnosticStep, s
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             {diagnosticSymptoms.map(s => (
                                 <button key={s.id} onClick={() => toggleSymptom(s.id)}
-                                    className={`flex items-center gap-3 p-5 rounded-2xl border-2 font-bold transition-all text-left ${
-                                        symptoms.includes(s.id)
+                                    className={`flex items-center gap-3 p-5 rounded-2xl border-2 font-bold transition-all text-left ${symptoms.includes(s.id)
                                             ? 'bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-100'
                                             : 'bg-slate-50 border-slate-100 text-slate-700 hover:border-emerald-300 hover:bg-emerald-50'
-                                    }`}>
+                                        }`}>
                                     <span className="text-3xl">{s.icon}</span>
                                     <span>{s.label}</span>
                                 </button>
@@ -1320,7 +1320,7 @@ const Support = ({ user }) => {
             </div>
 
             <div className="max-w-5xl mx-auto p-6 md:p-10">
-                {activeView === 'main' && <MainView t={t} setActiveView={setActiveView} showDisputeForm={showDisputeForm} setShowDisputeForm={setShowDisputeForm} subsidyStep={subsidyStep} setSubsidyStep={setSubsidyStep} navigate={navigate} setFormType={setFormType}/>}
+                {activeView === 'main' && <MainView t={t} setActiveView={setActiveView} showDisputeForm={showDisputeForm} setShowDisputeForm={setShowDisputeForm} subsidyStep={subsidyStep} setSubsidyStep={setSubsidyStep} navigate={navigate} setFormType={setFormType} />}
                 {activeView === 'diagnostic' && <DiagnosticView t={t} setActiveView={setActiveView} diagnosticStep={diagnosticStep} setDiagnosticStep={setDiagnosticStep} symptoms={symptoms} setSymptoms={setSymptoms} getDiagnosis={getDiagnosis} />}
                 {activeView === 'schemes' && <SchemePortalView t={t} setActiveView={setActiveView} />}
                 {activeView === 'market' && <MarketView t={t} setActiveView={setActiveView} navigate={navigate} />}
@@ -1455,3 +1455,5 @@ const Support = ({ user }) => {
 };
 
 export default Support;
+
+
