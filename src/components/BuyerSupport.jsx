@@ -1078,9 +1078,6 @@ return (
                             <h3 className="font-black text-xl mb-4">{tr.policyRefundTitle}</h3>
                             <ol className="list-decimal ml-6 space-y-3 font-bold opacity-90">
                                 <li>{tr.policyRefundStep1}</li>
-                                <li>{tr.policyRefundStep2}</li>
-                                <li>{tr.policyRefundStep3}</li>
-                                <li>{tr.policyRefundStep4}</li>
                             </ol>
                         </div>
                     </div>
